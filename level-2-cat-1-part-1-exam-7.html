@@ -6,221 +6,130 @@
   <title>Deutsch mit Hayford</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@400;500&display=swap">
   <style>
-    :root {
-      --bg:        #F9F7F4;
-      --surface:   #FFFFFF;
-      --border:    #E6E2DB;
-      --text:      #1C1A18;
-      --muted:     #7A766F;
-      --accent:    #1A5738;
-      --done:      #1A5738;
-      --partial:   #C45D18;
-      --pending:   #B8B4AE;
-      --done-bg:   #EAF2EC;
-      --partial-bg:#FBF0E8;
-      --pending-bg:#F2F1EF;
+    :root{
+      --bg:#F9F7F4;--surface:#FFFFFF;--border:#E6E2DB;
+      --text:#1C1A18;--muted:#7A766F;--accent:#1A5738;
+      --done:#1A5738;--partial:#C45D18;--pending:#B0ABA4;
+      --notice-bg:#F3F1EC;--correct:#1A5738;--wrong:#B83232;
     }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --bg:        #161614;
-        --surface:   #1F1E1B;
-        --border:    #2E2C28;
-        --text:      #ECEAE5;
-        --muted:     #8A867F;
-        --accent:    #4DAA7A;
-        --done:      #4DAA7A;
-        --partial:   #E0834A;
-        --pending:   #4A4844;
-        --done-bg:   #1A2C22;
-        --partial-bg:#2C1E14;
-        --pending-bg:#232220;
+    @media(prefers-color-scheme:dark){
+      :root:not([data-theme=light]){
+        --bg:#161614;--surface:#1F1E1B;--border:#2E2C28;
+        --text:#ECEAE5;--muted:#8A867F;--accent:#4DAA7A;
+        --done:#4DAA7A;--partial:#E0834A;--pending:#4A4844;
+        --notice-bg:#27261F;--correct:#4DAA7A;--wrong:#E55A4E;
       }
     }
-
-    :root[data-theme="dark"] {
-      --bg:        #161614;
-      --surface:   #1F1E1B;
-      --border:    #2E2C28;
-      --text:      #ECEAE5;
-      --muted:     #8A867F;
-      --accent:    #4DAA7A;
-      --done:      #4DAA7A;
-      --partial:   #E0834A;
-      --pending:   #4A4844;
-      --done-bg:   #1A2C22;
-      --partial-bg:#2C1E14;
-      --pending-bg:#232220;
+    :root[data-theme=dark]{
+      --bg:#161614;--surface:#1F1E1B;--border:#2E2C28;
+      --text:#ECEAE5;--muted:#8A867F;--accent:#4DAA7A;
+      --done:#4DAA7A;--partial:#E0834A;--pending:#4A4844;
+      --notice-bg:#27261F;--correct:#4DAA7A;--wrong:#E55A4E;
     }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'DM Sans', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 48px 20px 64px;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:'DM Sans',system-ui,sans-serif;
+      background:var(--bg);color:var(--text);
+      min-height:100vh;display:flex;flex-direction:column;
+      align-items:center;padding:48px 20px 64px;
     }
+    .wrap{width:100%;max-width:700px;display:flex;flex-direction:column;gap:32px;}
 
-    .wrap {
-      width: 100%;
-      max-width: 660px;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
+    /* Brand */
+    .brand{padding-bottom:24px;border-bottom:1px solid var(--border);}
+    .brand-name{
+      font-family:'Fraunces',Georgia,serif;
+      font-size:clamp(1.8rem,5vw,2.6rem);font-weight:600;
+      line-height:1.1;letter-spacing:-0.02em;text-wrap:balance;
     }
-
-    /* Header */
-    .brand {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-      padding-bottom: 28px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand-name {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(2rem, 5vw, 2.8rem);
-      font-weight: 600;
-      line-height: 1.1;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      text-wrap: balance;
-    }
-
-    .brand-name em {
-      font-style: italic;
-      font-weight: 300;
-      color: var(--accent);
-    }
-
-    .brand-sub {
-      font-size: 0.82rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
+    .brand-name em{font-style:italic;font-weight:300;color:var(--accent);}
+    .brand-sub{font-size:.8rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-top:6px;}
 
     /* Legend */
-    .legend {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .dot.done    { background: var(--done); }
-    .dot.partial { background: var(--partial); }
-    .dot.pending { background: var(--pending); }
+    .legend{display:flex;gap:18px;flex-wrap:wrap;}
+    .leg{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase;}
+    .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .dot.done{background:var(--done);}
+    .dot.partial{background:var(--partial);}
+    .dot.pending{background:var(--pending);}
 
     /* Exercise list */
-    .list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    .list{display:flex;flex-direction:column;gap:5px;}
+    .ex{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface);}
+    .ex-hd{
+      display:grid;grid-template-columns:4px 1fr auto;
+      gap:0 14px;align-items:center;cursor:pointer;
+      user-select:none;
     }
+    .ex-hd:hover{background:rgba(26,87,56,.05);}
+    .stripe{min-height:52px;}
+    .stripe.done{background:var(--done);}
+    .stripe.partial{background:var(--partial);}
+    .stripe.pending{background:var(--pending);}
+    .ex-lbl{padding:13px 0;}
+    .ex-num{font-size:.72rem;color:var(--muted);font-weight:500;letter-spacing:.03em;margin-bottom:2px;}
+    .ex-title{font-size:.93rem;}
+    .ex-right{display:flex;align-items:center;gap:8px;padding-right:14px;flex-shrink:0;}
+    .badge{font-size:.78rem;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;}
+    .badge.done{color:var(--done);}
+    .badge.partial{color:var(--partial);}
+    .badge.pending{color:var(--pending);}
+    .chevron{color:var(--muted);transition:transform .2s;font-size:.75rem;line-height:1;}
+    .ex.open .chevron{transform:rotate(180deg);}
 
-    .item {
-      display: grid;
-      grid-template-columns: 4px 1fr auto;
-      gap: 0 14px;
-      align-items: center;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-      transition: border-color 0.15s;
+    /* Body */
+    .ex-body{display:none;padding:0 18px 20px;border-top:1px solid var(--border);}
+    .ex.open .ex-body{display:block;}
+    .notice{
+      background:var(--notice-bg);border-radius:6px;
+      padding:14px 16px;margin:16px 0 20px;
+      font-size:.875rem;line-height:1.7;white-space:pre-wrap;
+      border-left:3px solid var(--accent);
     }
+    .notice-label{font-size:.7rem;color:var(--accent);font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;margin-top:16px;}
 
-    .item:hover { border-color: var(--accent); }
-
-    .stripe {
-      height: 100%;
-      min-height: 48px;
-      flex-shrink: 0;
+    /* Questions */
+    .q-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+    .q{padding-bottom:10px;border-bottom:1px solid var(--border);}
+    .q:last-child{border-bottom:none;padding-bottom:0;}
+    .q-text{font-size:.9rem;margin-bottom:8px;line-height:1.4;}
+    .q-opts{display:flex;gap:8px;flex-wrap:wrap;}
+    .q-opts label{
+      display:flex;align-items:center;gap:5px;
+      font-size:.8rem;cursor:pointer;color:var(--muted);
+      padding:5px 11px;border-radius:5px;border:1px solid var(--border);
+      transition:all .15s;line-height:1;
     }
-    .stripe.done    { background: var(--done); }
-    .stripe.partial { background: var(--partial); }
-    .stripe.pending { background: var(--pending); }
-
-    .item-label {
-      padding: 13px 0;
-      font-size: 0.93rem;
-      font-weight: 400;
-      color: var(--text);
-      line-height: 1.3;
+    .q-opts label:has(input:checked){
+      border-color:var(--accent);color:var(--text);
+      background:rgba(26,87,56,.07);
     }
+    .q-opts input{accent-color:var(--accent);width:13px;height:13px;}
 
-    .item-num {
-      font-family: 'DM Sans', monospace;
-      font-size: 0.75rem;
-      color: var(--muted);
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      margin-bottom: 2px;
+    /* Feedback states */
+    .q.ok .q-text::before{content:"✓ ";color:var(--correct);font-weight:600;}
+    .q.err .q-text::before{content:"✗ ";color:var(--wrong);font-weight:600;}
+    .q.ok .q-opts label:has(input:checked){border-color:var(--correct);background:rgba(26,87,56,.1);color:var(--correct);}
+    .q.err .q-opts label:has(input:checked){border-color:var(--wrong);background:rgba(184,50,50,.1);color:var(--wrong);}
+    .answer-hint{font-size:.78rem;color:var(--correct);margin-top:5px;display:none;}
+    .q.err .answer-hint{display:block;}
+
+    /* Button & score */
+    .check-btn{
+      background:var(--accent);color:#fff;border:none;
+      padding:10px 22px;border-radius:6px;font-size:.875rem;
+      font-family:'DM Sans',system-ui,sans-serif;font-weight:500;
+      cursor:pointer;transition:opacity .15s;letter-spacing:.01em;
     }
+    .check-btn:hover{opacity:.85;}
+    .score{margin-top:12px;font-size:.875rem;font-weight:500;display:none;}
+    .score.show{display:block;}
+    .score .sc-val{color:var(--accent);}
 
-    .item-title { color: var(--text); }
-
-    .badge {
-      padding: 13px 16px 13px 0;
-      font-size: 0.78rem;
-      font-weight: 500;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-    .badge.done    { color: var(--done); }
-    .badge.partial { color: var(--partial); }
-    .badge.pending { color: var(--pending); }
-
-    /* Footer signature */
-    .sig {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .sig-mark {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 1rem;
-      font-weight: 300;
-      font-style: italic;
-      color: var(--accent);
-      letter-spacing: -0.01em;
-    }
-
-    .sig-copy {
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-    }
+    /* Footer */
+    .sig{display:flex;align-items:baseline;justify-content:space-between;padding-top:20px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+    .sig-mark{font-family:'Fraunces',Georgia,serif;font-size:1rem;font-weight:300;font-style:italic;color:var(--accent);}
+    .sig-copy{font-size:.75rem;color:var(--muted);letter-spacing:.04em;}
   </style>
 </head>
 <body>
@@ -232,275 +141,12 @@
   </header>
 
   <div class="legend">
-    <span class="legend-item"><span class="dot done"></span>Abgeschlossen</span>
-    <span class="legend-item"><span class="dot partial"></span>In Bearbeitung</span>
-    <span class="legend-item"><span class="dot pending"></span>Noch offen</span>
+    <span class="leg"><span class="dot done"></span>Abgeschlossen</span>
+    <span class="leg"><span class="dot partial"></span>In Bearbeitung</span>
+    <span class="leg"><span class="dot pending"></span>Noch offen</span>
   </div>
 
-  <div class="list">
-
-    <div class="item">
-      <div class="stripe done"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.1</div>
-        <div class="item-title">Im Schwimmbad</div>
-      </div>
-      <div class="badge done">100 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe done"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.2</div>
-        <div class="item-title">In der Postfiliale</div>
-      </div>
-      <div class="badge done">100 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe done"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.3</div>
-        <div class="item-title">Bei einer Radiostation</div>
-      </div>
-      <div class="badge done">100 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe done"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.4</div>
-        <div class="item-title">Im Krankenhaus</div>
-      </div>
-      <div class="badge done">100 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe done"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.5</div>
-        <div class="item-title">Am Flughafen</div>
-      </div>
-      <div class="badge done">100 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe partial"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.6</div>
-        <div class="item-title">Kaufhaus Hansemarkt</div>
-      </div>
-      <div class="badge partial">80 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.7</div>
-        <div class="item-title">Im Hotel</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.8</div>
-        <div class="item-title">In der Apotheke</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.9</div>
-        <div class="item-title">Im Sportverein</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.10</div>
-        <div class="item-title">Am Bahnhof</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.11</div>
-        <div class="item-title">Öffentliche Einrichtungen in der Stadtbibliothek</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.12</div>
-        <div class="item-title">Fitnessstudio-Services</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.13</div>
-        <div class="item-title">Bibliotheksdienste</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.14</div>
-        <div class="item-title">Kulturelle Veranstaltungen in der Stadt</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.15</div>
-        <div class="item-title">Freizeitaktivitäten im Park</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.16</div>
-        <div class="item-title">Einkaufen im Supermarkt</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.17</div>
-        <div class="item-title">Öffentlicher Nahverkehr</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.18</div>
-        <div class="item-title">Flughafenterminals</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.19</div>
-        <div class="item-title">Städtisches Krankenhaus</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.20</div>
-        <div class="item-title">Orientierung im Gebäude</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.21</div>
-        <div class="item-title">Universitätsgebäude</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.22</div>
-        <div class="item-title">Fitnessstudio</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.23</div>
-        <div class="item-title">Stadtbibliothek – Räume und Angebote</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.24</div>
-        <div class="item-title">Jobbörse</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.25</div>
-        <div class="item-title">Bürogebäude einer IT-Firma</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.26</div>
-        <div class="item-title">Bahnhof</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.27</div>
-        <div class="item-title">Stadtpark</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.28</div>
-        <div class="item-title">Die Bank</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-    <div class="item">
-      <div class="stripe pending"></div>
-      <div class="item-label">
-        <div class="item-num">Übung 1.29</div>
-        <div class="item-title">Ausländerbehörde</div>
-      </div>
-      <div class="badge pending">0 %</div>
-    </div>
-
-  </div><!-- /.list -->
+  <div class="list" id="list"></div>
 
   <footer class="sig">
     <span class="sig-mark">Deutsch mit Hayford</span>
@@ -508,5 +154,493 @@
   </footer>
 
 </div>
+<script>
+const EX=[
+{n:"1.1",t:"Im Schwimmbad",s:100,
+tx:`Schwimmbad Stadtmitte
+Öffnungszeiten: Mo–Fr 7:00–22:00 Uhr · Sa–So 8:00–20:00 Uhr
+Erwachsene: 5,50 € · Kinder (bis 14 Jahre): 3,00 €
+Familienkarte (2 Erwachsene + 2 Kinder): 14,00 €
+Sauna: Kinder unter 16 Jahren nicht erlaubt.
+Schließfächer: 1 € Pfand – Geld zurück beim Verlassen.`,
+q:[
+["Das Schwimmbad ist montags bis freitags bis 22 Uhr geöffnet.","R"],
+["Am Wochenende schließt das Schwimmbad um 22 Uhr.","F"],
+["Kinder zahlen den gleichen Eintritt wie Erwachsene.","F"],
+["Die Familienkarte gilt für zwei Erwachsene und zwei Kinder.","R"],
+["Man kann im Schwimmbad eine Massage buchen.","N"],
+]},
+{n:"1.2",t:"In der Postfiliale",s:100,
+tx:`Postfiliale Hauptstraße
+Öffnungszeiten: Mo–Fr 9:00–18:00 Uhr · Sa 9:00–13:00 Uhr
+Sonntags geschlossen.
+Pakete können auch an Paketstationen rund um die Uhr abgeholt werden.
+Für die Abholung bitte Personalausweis oder Reisepass mitbringen.
+Briefmarken erhalten Sie auch am Automaten draußen.`,
+q:[
+["Die Postfiliale ist samstags bis 18 Uhr geöffnet.","F"],
+["An Sonntagen kann man keine Pakete in der Filiale abholen.","R"],
+["Für die Abholung eines Pakets braucht man einen Ausweis.","R"],
+["Am Automaten draußen kann man Briefmarken kaufen.","R"],
+["Die Postfiliale bietet einen Kopierservice an.","N"],
+]},
+{n:"1.3",t:"Bei einer Radiostation",s:100,
+tx:`Radio Stadtklang – Praktikumsangebot
+Wir suchen ab sofort einen Praktikanten (m/w/d) für unsere Redaktion.
+Dauer: 3 Monate · Beginn: 1. Oktober
+Aufgaben: Texte schreiben, Interviews vorbereiten, Social Media pflegen.
+Voraussetzung: Gute Deutschkenntnisse (mind. B2) und Interesse an Medien.
+Bewerbungen bitte per E-Mail an: praktikum@radioklang.de`,
+q:[
+["Das Praktikum dauert drei Monate.","R"],
+["Man kann sich per Post bewerben.","F"],
+["Der Praktikant soll auch Social Media betreuen.","R"],
+["Das Praktikum beginnt im Oktober.","R"],
+["Das Praktikum ist vergütet.","N"],
+]},
+{n:"1.4",t:"Im Krankenhaus",s:100,
+tx:`Städtisches Krankenhaus – Besucherregeln
+Besuchszeiten: täglich 14:00–19:00 Uhr
+Pro Patient sind maximal 2 Besucher gleichzeitig erlaubt.
+Kinder unter 12 Jahren dürfen die Intensivstation nicht besuchen.
+Bitte bringen Sie keine Blumen auf die Intensivstation.
+Mobiltelefone sind im Operationsbereich auszuschalten.`,
+q:[
+["Man darf das Krankenhaus nur nachmittags besuchen.","R"],
+["Drei Besucher gleichzeitig pro Patient sind erlaubt.","F"],
+["Kinder unter 12 Jahren dürfen niemanden im Krankenhaus besuchen.","F"],
+["Auf der Intensivstation sind keine Blumen erlaubt.","R"],
+["Im Krankenhaus gibt es eine Cafeteria.","N"],
+]},
+{n:"1.5",t:"Am Flughafen",s:100,
+tx:`Flughafen Nordstadt – Terminal B
+Bitte kommen Sie mindestens 2 Stunden vor Ihrem Flug.
+Sicherheitskontrolle: Laptops und Flüssigkeiten über 100 ml aus dem Handgepäck nehmen.
+Flüssigkeiten müssen in einem transparenten Beutel (max. 1 Liter) verpackt sein.
+Kostenloses WLAN: Netzwerk „Airport_Free" – kein Passwort erforderlich.
+Gepäckaufbewahrung: Ebene 0, täglich 6:00–24:00 Uhr · 5 € pro Stück und Tag.`,
+q:[
+["Reisende sollen mindestens zwei Stunden vor dem Flug am Flughafen sein.","R"],
+["Laptops dürfen im Handgepäck bleiben.","F"],
+["Das WLAN am Flughafen kostet Geld.","F"],
+["Die Gepäckaufbewahrung ist rund um die Uhr geöffnet.","F"],
+["Der Flughafen hat drei Terminals.","N"],
+]},
+{n:"1.6",t:"Kaufhaus Hansemarkt",s:80,
+tx:`Kaufhaus Hansemarkt
+Öffnungszeiten: Mo–Sa 9:00–20:00 Uhr · Sonntags geschlossen.
+Diese Woche: 20 % Rabatt auf alle Elektronikartikel.
+Kundenkarte: Mit der Hansemarkt-Karte sammeln Sie Punkte bei jedem Einkauf.
+Kostenlose Lieferung ab einem Einkaufswert von 50 €.
+Kundenservice: Erdgeschoss, rechts neben dem Eingang · Tel. 040 123456.`,
+q:[
+["Das Kaufhaus ist auch sonntags geöffnet.","F"],
+["Elektronikprodukte sind diese Woche günstiger.","R"],
+["Mit der Kundenkarte kann man Punkte sammeln.","R"],
+["Die Lieferung ist ab 50 € kostenlos.","R"],
+["Im Kaufhaus gibt es ein Restaurant.","N"],
+]},
+{n:"1.7",t:"Im Hotel",s:0,
+tx:`Hotel Seeblick – Informationen für Gäste
+Check-in: ab 15:00 Uhr · Check-out: bis 11:00 Uhr
+Frühstück: Mo–Fr 7:00–10:00 Uhr · Sa–So 7:30–11:00 Uhr (12 €/Person)
+WLAN ist im gesamten Hotel kostenlos verfügbar. Passwort: Seeblick2024
+Parkplätze hinter dem Hotel: 8 € pro Nacht.
+Haustiere sind im Hotel nicht erlaubt.`,
+q:[
+["Gäste können ab 14 Uhr einchecken.","F"],
+["Das Frühstück ist im Zimmerpreis inbegriffen.","F"],
+["Das WLAN im Hotel ist kostenlos.","R"],
+["Für einen Parkplatz zahlt man 8 € pro Nacht.","R"],
+["Das Hotel hat einen Swimming Pool.","N"],
+]},
+{n:"1.8",t:"In der Apotheke",s:0,
+tx:`Apotheke Zum Löwen
+Öffnungszeiten: Mo–Fr 8:30–18:30 Uhr · Sa 9:00–14:00 Uhr
+Nachtdienst: Bei Notfällen wenden Sie sich an die Apotheke am Markt (Tel. 0800 555000).
+Wir beraten Sie gern kostenlos zu Ihren Medikamenten.
+Rezeptpflichtige Medikamente nur mit gültigem Rezept erhältlich.
+Blutdruckmessung kostenlos – kein Termin nötig.`,
+q:[
+["Die Apotheke ist samstags bis 18:30 Uhr geöffnet.","F"],
+["Für eine Blutdruckmessung braucht man einen Termin.","F"],
+["Für rezeptpflichtige Medikamente braucht man ein Rezept.","R"],
+["Im Notfall gibt es eine andere Apotheke, die man anrufen kann.","R"],
+["Die Apotheke liefert Medikamente nach Hause.","N"],
+]},
+{n:"1.9",t:"Im Sportverein",s:0,
+tx:`Sportverein TSV Grüntal – Mitgliedschaft
+Jahresbeitrag: Erwachsene 120 € · Jugendliche (bis 18 J.) 60 € · Familien 200 €
+Anmeldung: Online unter www.tsv-gruental.de oder persönlich im Büro.
+Probetraining: Das erste Training ist kostenlos und unverbindlich.
+Bürozeiten: Dienstag und Donnerstag, 17:00–19:00 Uhr.`,
+q:[
+["Ein Jahresbeitrag für Erwachsene kostet 120 €.","R"],
+["Jugendliche zahlen den gleichen Beitrag wie Erwachsene.","F"],
+["Das erste Training kann man kostenlos ausprobieren.","R"],
+["Man kann sich nur online anmelden.","F"],
+["Der Verein bietet Schwimmkurse an.","N"],
+]},
+{n:"1.10",t:"Am Bahnhof",s:0,
+tx:`Hauptbahnhof Weststadt – Information
+Reiseauskunft und Fahrkarten: Schalter 1–6, täglich 5:30–22:00 Uhr.
+Fahrkartenautomat: 24 Stunden verfügbar.
+Schließfächer: Ebene –1 · Kleine Fächer 3 €, große Fächer 5 € pro Tag.
+Fundbüro: Mo–Fr 8:00–18:00 Uhr · Raum 12, Ebene 0.
+Kostenloses WLAN in allen Bereichen des Bahnhofs.`,
+q:[
+["Die Fahrkartenschalter sind rund um die Uhr geöffnet.","F"],
+["Am Automaten kann man auch nachts Fahrkarten kaufen.","R"],
+["Große Schließfächer kosten mehr als kleine.","R"],
+["Das Fundbüro ist auch am Wochenende geöffnet.","F"],
+["Am Bahnhof gibt es einen Geldautomaten.","N"],
+]},
+{n:"1.11",t:"Öffentliche Einrichtungen in der Stadtbibliothek",s:0,
+tx:`Stadtbibliothek Mitte – Einrichtungen und Angebote
+Lesesaal: Ruhe erwünscht · Mobiltelefone bitte lautlos stellen.
+Computerarbeitsplätze: 20 Plätze frei verfügbar · Max. 2 Stunden pro Besuch.
+Kopiergerät und Drucker: Erdgeschoss · 0,10 € pro Seite (Schwarz-Weiß).
+Café: 1. Etage · Mo–Fr 9:00–17:00 Uhr.
+Kinder- und Jugendbereich: Untergeschoss · tägliche Vorlesestunde um 10:00 Uhr.`,
+q:[
+["Im Lesesaal darf man telefonieren.","F"],
+["Man darf die Computerarbeitsplätze unbegrenzt nutzen.","F"],
+["Das Drucken in der Bibliothek ist kostenlos.","F"],
+["In der Bibliothek gibt es ein Café.","R"],
+["Die Bibliothek hat 30 Computerarbeitsplätze.","F"],
+]},
+{n:"1.12",t:"Fitnessstudio-Services",s:0,
+tx:`FitCity Sportcenter – Unsere Services
+Mitgliedschaft: ab 29,90 €/Monat · Keine Mindestvertragslaufzeit.
+Probestunde: Kostenloses Einführungstraining mit einem Trainer.
+Öffnungszeiten: Mo–Fr 6:00–23:00 Uhr · Sa–So 8:00–21:00 Uhr.
+Kurse: Yoga, Zumba, Spinning und mehr – alle im Mitgliedsbeitrag inbegriffen.
+Parkplatz: kostenlos für Mitglieder · Einfahrt über die Rückseite des Gebäudes.`,
+q:[
+["Die Mitgliedschaft hat eine Mindestlaufzeit.","F"],
+["Das Einführungstraining mit einem Trainer ist kostenlos.","R"],
+["Kurse wie Yoga kosten extra.","F"],
+["Das Studio ist samstags bis 21 Uhr geöffnet.","R"],
+["Das Fitnessstudio hat einen Schwimmbereich.","N"],
+]},
+{n:"1.13",t:"Bibliotheksdienste",s:0,
+tx:`Stadtbibliothek – Ausleih- und Rückgaberegeln
+Ausleihdauer: Bücher 4 Wochen · DVDs und CDs 1 Woche.
+Verlängerung: Online, telefonisch (0800 123456) oder persönlich – max. 2-mal.
+Verspätungsgebühr: 0,50 € pro Medium und Woche.
+Fernleihe: Bücher aus anderen Bibliotheken können bestellt werden (ca. 2 Wochen, 1,50 €).
+Bibliotheksausweis: Einmalig 5 € (kostenlos für Personen unter 18 Jahren).`,
+q:[
+["DVDs kann man für vier Wochen ausleihen.","F"],
+["Man kann Bücher maximal zweimal verlängern.","R"],
+["Für zu spät zurückgegebene Medien zahlt man 0,50 € pro Woche.","R"],
+["Der Bibliotheksausweis ist für alle kostenlos.","F"],
+["Man kann Bücher auch digital ausleihen.","N"],
+]},
+{n:"1.14",t:"Kulturelle Veranstaltungen in der Stadt",s:0,
+tx:`Stadtkultur Westheim – Programm September
+Konzert: Philharmonisches Orchester · 12. September · 20:00 Uhr · Stadthalle
+Karten: 18–45 € · Studenten erhalten 30 % Ermäßigung mit gültigem Studentenausweis.
+Ausstellung: „Moderne Kunst aus Deutschland" · 1.–30. September · Kunstmuseum
+Eintritt Ausstellung: frei.
+Stadtführung: Jeden Samstag um 11:00 Uhr · Treffpunkt Marktplatz · 8 € p. P.`,
+q:[
+["Das Konzert findet im Kunstmuseum statt.","F"],
+["Studenten bekommen einen Rabatt auf Konzerttickets.","R"],
+["Der Eintritt in die Kunstausstellung ist kostenlos.","R"],
+["Die Stadtführung startet jeden Samstag um 11 Uhr.","R"],
+["Das Stadttheater zeigt im September ein Theaterstück.","N"],
+]},
+{n:"1.15",t:"Freizeitaktivitäten im Park",s:0,
+tx:`Stadtpark Grünau – Informationen
+Geöffnet: täglich von Sonnenaufgang bis Sonnenuntergang.
+Grillplätze: Kostenlos nutzbar · Keine Voranmeldung nötig · Max. 20 Personen pro Platz.
+Hunde: Leinenpflicht im gesamten Park. Ausnahme: eingezäunter Hundeauslaufbereich (Nordseite).
+Fahrräder: Nur auf ausgewiesenen Fahrradwegen erlaubt.
+Spielplatz: Für Kinder bis 12 Jahre · Eltern haften für ihre Kinder.`,
+q:[
+["Der Park schließt täglich um 22 Uhr.","N"],
+["Die Grillplätze müssen im Voraus reserviert werden.","F"],
+["Hunde dürfen im gesamten Park frei laufen.","F"],
+["Fahrradfahren ist überall im Park erlaubt.","F"],
+["Im Park gibt es ein Café.","N"],
+]},
+{n:"1.16",t:"Einkaufen im Supermarkt",s:0,
+tx:`Supermarkt Frischmarkt – Kundeninformation
+Öffnungszeiten: Mo–Sa 7:00–22:00 Uhr · Sonntags geschlossen.
+Pfand: Leere Flaschen und Dosen bitte an den Pfandautomaten (Eingang rechts).
+Treueprogramm: Mit jedem Einkauf Punkte sammeln – 100 Punkte = 1 € Rabatt.
+Bestellung und Lieferung: Online unter www.frischmarkt.de · Liefergebühr: 3,90 €.
+Kundenparkplatz: 90 Minuten gratis bei Einkauf · danach 1 € pro 30 Minuten.`,
+q:[
+["Der Supermarkt ist sonntags geöffnet.","F"],
+["Am Eingang gibt es einen Pfandautomaten.","R"],
+["100 Punkte entsprechen einem Rabatt von 1 €.","R"],
+["Die Lieferung nach Hause ist kostenlos.","F"],
+["Im Supermarkt gibt es eine Bäckerei.","N"],
+]},
+{n:"1.17",t:"Öffentlicher Nahverkehr",s:0,
+tx:`Stadtverkehr Nordheim – Fahrgastinformation
+Einzelticket: 2,80 € · Tageskarte: 7,50 € · Monatskarte: 65,00 €
+Kinder bis 6 Jahre fahren kostenlos. Kinder 6–14 Jahre zahlen 50 % Ermäßigung.
+Fahrräder dürfen kostenlos mitgenommen werden – außer in der Hauptverkehrszeit (7–9 und 16–18 Uhr).
+Ticket-App: Tickets können über die App „Nordheim Mobil" gekauft werden.
+Schwarzfahren: Erhöhtes Beförderungsentgelt von 60 €.`,
+q:[
+["Eine Tageskarte kostet 7,50 €.","R"],
+["Kinder bis 14 Jahre fahren kostenlos.","F"],
+["Fahrräder dürfen immer kostenlos mitgenommen werden.","F"],
+["Tickets können auch per Smartphone gekauft werden.","R"],
+["Es gibt eine vergünstigte Seniorenkarte.","N"],
+]},
+{n:"1.18",t:"Flughafenterminals",s:0,
+tx:`Flughafen Südstadt – Terminalübersicht
+Terminal 1: Inlandsflüge und Flüge innerhalb Europas.
+Terminal 2: Interkontinentalflüge.
+Shuttle-Bus: Kostenlose Verbindung zwischen den Terminals alle 10 Minuten.
+Check-in-Schalter: öffnen 3 Stunden vor Abflug · Online-Check-in wird empfohlen.
+Zoll (Terminal 2): Waren im Wert über 430 € müssen deklariert werden.`,
+q:[
+["Terminal 1 ist für Flüge nach Amerika.","F"],
+["Der Shuttle-Bus zwischen den Terminals ist kostenlos.","R"],
+["Die Check-in-Schalter öffnen 3 Stunden vor Abflug.","R"],
+["Waren bis 430 € müssen am Zoll deklariert werden.","F"],
+["Am Flughafen gibt es ein Hotel.","N"],
+]},
+{n:"1.19",t:"Städtisches Krankenhaus",s:0,
+tx:`Städtisches Krankenhaus Nord – Patienteninformation
+Aufnahme: Notaufnahme täglich 24 Stunden · Geplante Aufnahme nur nach Termin.
+Bitte mitbringen: Krankenversicherungskarte, Personalausweis, Medikamentenliste.
+Besuch: Täglich 13:00–19:00 Uhr · Maximal 2 Besucher gleichzeitig.
+Mahlzeiten: Frühstück 7:30 Uhr · Mittagessen 12:00 Uhr · Abendessen 18:00 Uhr.
+WLAN: Kostenlos verfügbar · Zugangscode an der Rezeption.`,
+q:[
+["Die Notaufnahme ist rund um die Uhr geöffnet.","R"],
+["Für eine geplante Aufnahme braucht man einen Termin.","R"],
+["Patienten dürfen 3 Besucher gleichzeitig empfangen.","F"],
+["Das Mittagessen wird um 12 Uhr serviert.","R"],
+["Im Krankenhaus gibt es eine Kapelle.","N"],
+]},
+{n:"1.20",t:"Orientierung im Gebäude",s:0,
+tx:`Bürgeramt Stadtmitte – Gebäudeinformation
+Erdgeschoss: Einwohnermeldung, Reisepassanträge, Führerscheinstelle.
+1. Etage: Standesamt, Sozialamt, Wohngeldstelle.
+2. Etage: Ausländerbehörde, Kfz-Zulassungsstelle.
+Aufzug: neben dem Eingang · barrierefrei zugänglich.
+Terminbuchung online: www.buergeramt-stadtmitte.de · Parkhaus 200 m entfernt, 2 €/Stunde.`,
+q:[
+["Die Ausländerbehörde befindet sich im Erdgeschoss.","F"],
+["Das Gebäude hat einen barrierefreien Aufzug.","R"],
+["Im Bürgeramt kann man online einen Termin buchen.","R"],
+["Das Parkhaus ist direkt neben dem Eingang.","F"],
+["Das Bürgeramt hat ein eigenes Café.","N"],
+]},
+{n:"1.21",t:"Universitätsgebäude",s:0,
+tx:`Universität Westheim – Hauptgebäude
+Erdgeschoss: Studentensekretariat (Mo–Fr 9:00–12:00 Uhr) · Internationales Büro · Cafeteria.
+1. OG: Hörsäle A1–A5 · Seminarräume 101–115.
+2. OG: Bibliothek (Mo–Fr 8:00–20:00 Uhr · Sa 10:00–16:00 Uhr).
+Kopierstudio: Untergeschoss · 0,05 € pro Seite.
+Hochschulsport: Anmeldung im Sekretariat · über 50 Sportarten verfügbar.`,
+q:[
+["Das Studentensekretariat ist nachmittags geöffnet.","F"],
+["Die Bibliothek ist am Samstag geöffnet.","R"],
+["Kopieren kostet 0,05 € pro Seite.","R"],
+["Es gibt mehr als 50 Sportarten im Hochschulsport.","R"],
+["Im Hauptgebäude gibt es eine Arztpraxis.","N"],
+]},
+{n:"1.22",t:"Fitnessstudio",s:0,
+tx:`Power Gym – Mitgliederinformation
+Check-in: Mit Mitgliedskarte oder Smartphone-App an der Eingangsdrehscheibe.
+Umkleideräume: Bitte eigenes Schloss mitbringen · Schränke nach dem Training leeren.
+Handtücher: An der Rezeption für 1 € erhältlich.
+Geräteeinführung: Kostenlos für neue Mitglieder · Anmeldung an der Rezeption.
+Studioregeln: Geräte nach dem Training abwischen · Keine Schuhe mit schwarzen Sohlen.`,
+q:[
+["Man kann das Studio mit einer Smartphone-App öffnen.","R"],
+["Schließfachschlösser werden vom Studio gestellt.","F"],
+["Handtücher kann man für 1 € mieten.","R"],
+["Neue Mitglieder bekommen eine kostenlose Geräteeinführung.","R"],
+["Im Studio gibt es eine Sauna.","N"],
+]},
+{n:"1.23",t:"Stadtbibliothek – Räume und Angebote",s:0,
+tx:`Stadtbibliothek Westheim – Raumübersicht
+Erdgeschoss: Empfang und Ausleihe · Neuerscheinungen und Bestseller.
+1. OG: Sachliteratur und Nachschlagewerke · 15 Lesearbeitsplätze.
+2. OG: Medienbereich (CDs, DVDs, E-Reader-Ausleihe) · PC-Arbeitsplätze (max. 1 Stunde).
+Veranstaltungsraum: Untergeschoss · Buchvorstellungen, Lesungen, Sprachkurse.
+Kinder- und Jugendbibliothek: Separater Eingang · Nebengebäude.`,
+q:[
+["Neue Bücher findet man im Erdgeschoss.","R"],
+["Im 2. OG kann man E-Reader ausleihen.","R"],
+["PC-Arbeitsplätze können unbegrenzt genutzt werden.","F"],
+["Die Kinderbibliothek befindet sich im Untergeschoss.","F"],
+["In der Bibliothek werden Sprachkurse angeboten.","R"],
+]},
+{n:"1.24",t:"Jobbörse",s:0,
+tx:`Jobbörse Stadtmitte – Informationen für Besucher
+Öffnungszeiten: Mo–Fr 9:00–17:00 Uhr · Do bis 19:00 Uhr.
+Angebote: Jobvermittlung, Bewerbungstraining, Lebenslauf-Check (kostenlos).
+Online-Stellenportal: www.jobboerse-stadtmitte.de (rund um die Uhr erreichbar).
+Beratungsgespräch: Termin unter Tel. 0800 999000 vereinbaren.
+Über 200 Unternehmen aus der Region sind bei uns registriert.`,
+q:[
+["Die Jobbörse ist donnerstags länger geöffnet.","R"],
+["Der Lebenslauf-Check kostet eine Gebühr.","F"],
+["Man kann sich nur persönlich beraten lassen.","F"],
+["Mehr als 200 Unternehmen sind bei der Jobbörse registriert.","R"],
+["Die Jobbörse bietet Deutschkurse an.","N"],
+]},
+{n:"1.25",t:"Bürogebäude einer IT-Firma",s:0,
+tx:`TechHub GmbH – Besucherinformation
+Empfang: Bitte beim Empfang anmelden · Besucherausweis erforderlich.
+Zugangskontrolle: Bestimmte Bereiche sind nur für Mitarbeiter zugänglich.
+Besprechungsräume: Buchung über das interne System oder direkt am Empfang.
+Kantine: Erdgeschoss · Mo–Fr 11:30–14:00 Uhr · auch für externe Besucher geöffnet.
+Gäste-WLAN: Netzwerk „TechHub_Guest" · Passwort am Empfang erfragen.`,
+q:[
+["Besucher brauchen einen Ausweis, um das Gebäude zu betreten.","R"],
+["Alle Bereiche des Gebäudes sind für Besucher zugänglich.","F"],
+["Die Kantine ist nur für Mitarbeiter.","F"],
+["Das Gäste-WLAN-Passwort bekommt man am Empfang.","R"],
+["Das Unternehmen bietet Praktikumsplätze an.","N"],
+]},
+{n:"1.26",t:"Bahnhof",s:0,
+tx:`Bahnhof Südheim – Reisendeinformation
+Gleis 1–4: Regionalzüge · Gleis 5–8: Fernzüge (ICE, IC).
+Fahrplan: An allen Anzeigetafeln und unter www.bahn.de.
+Warteraum: Gleis 3 · beheizter Warteraum täglich 5:00–24:00 Uhr.
+Taxi: Taxistand vor dem Haupteingang · 24 Stunden verfügbar.
+Bahnhofsrestaurant: Erdgeschoss · täglich 6:00–22:00 Uhr.`,
+q:[
+["Fernzüge fahren von Gleis 1 bis 4 ab.","F"],
+["Den Fahrplan kann man auch im Internet finden.","R"],
+["Der Warteraum ist rund um die Uhr geöffnet.","F"],
+["Vor dem Bahnhof stehen jederzeit Taxis bereit.","R"],
+["Im Bahnhof gibt es eine Touristeninformation.","N"],
+]},
+{n:"1.27",t:"Stadtpark",s:0,
+tx:`Stadtpark Nordhausen – Parkordnung
+Müll bitte in die Abfalleimer entsorgen. Grillen nur an gekennzeichneten Stellen erlaubt.
+Lärm: Musik und Partys sind ab 22:00 Uhr nicht erlaubt.
+Hunde: Leinenpflicht im gesamten Park · Hundetoiletten an 8 Stationen.
+Fahrräder: Nur auf Fahrradwegen erlaubt.
+Parkverwaltung: Bei Problemen Tel. 040 888000 · täglich 8:00–18:00 Uhr.`,
+q:[
+["Man darf überall im Park grillen.","F"],
+["Ab 22 Uhr sind Musik und Partys verboten.","R"],
+["Hunde dürfen im Park ohne Leine laufen.","F"],
+["Fahrräder dürfen auf allen Wegen gefahren werden.","F"],
+["Im Park gibt es einen Spielplatz.","N"],
+]},
+{n:"1.28",t:"Die Bank",s:0,
+tx:`Sparkasse Weststadt – Filialinformation
+Öffnungszeiten: Mo, Di, Do 9:00–16:00 Uhr · Mi 9:00–13:00 Uhr · Fr 9:00–17:00 Uhr.
+Geldautomaten: 24 Stunden verfügbar.
+Beratungstermin: Tel. 040 777000 oder online vereinbaren.
+Onlinebanking: www.sparkasse-weststadt.de · rund um die Uhr verfügbar.
+Bei Verlust Ihrer Bankkarte sofort sperren: Tel. 116 116 (kostenlos).`,
+q:[
+["Die Bank ist mittwochs den ganzen Tag geöffnet.","F"],
+["Der Geldautomat ist auch nachts verfügbar.","R"],
+["Beratungstermine können nur telefonisch vereinbart werden.","F"],
+["Das Sperren einer Bankkarte ist kostenlos.","R"],
+["Die Bank bietet Immobilienberatung an.","N"],
+]},
+{n:"1.29",t:"Ausländerbehörde",s:0,
+tx:`Ausländerbehörde Stadtmitte – Wichtige Hinweise
+Termine: Nur nach vorheriger Anmeldung · Online unter www.auslaenderbehoerde-stadtmitte.de.
+Bitte mitbringen: aktueller Reisepass, Passfoto, Meldebescheinigung, alle relevanten Dokumente.
+Fremdsprachige Dokumente müssen von einem beeidigten Übersetzer übersetzt sein.
+Wartezeiten: Durchschnittlich 4–6 Wochen bis zum Termin.
+Gebühren: Je nach Aufenthaltserlaubnis · Bezahlung nur per EC-Karte oder Überweisung.`,
+q:[
+["Man kann ohne Termin zur Ausländerbehörde gehen.","F"],
+["Für einen Termin braucht man ein Passfoto.","R"],
+["Ausländische Dokumente müssen übersetzt werden.","R"],
+["Die Wartezeit beträgt durchschnittlich 4–6 Wochen.","R"],
+["Gebühren können auch bar bezahlt werden.","F"],
+]},
+];
+
+function cls(s){return s===100?"done":s>0?"partial":"pending";}
+function pct(s){return s===0?"–":s+" %";}
+
+const list=document.getElementById("list");
+EX.forEach((ex,i)=>{
+  const c=cls(ex.s);
+  const div=document.createElement("div");
+  div.className="ex";
+  div.innerHTML=`
+<div class="ex-hd" tabindex="0" role="button" aria-expanded="false">
+  <div class="stripe ${c}"></div>
+  <div class="ex-lbl">
+    <div class="ex-num">Übung ${ex.n}</div>
+    <div class="ex-title">${ex.t}</div>
+  </div>
+  <div class="ex-right">
+    <span class="badge ${c}">${pct(ex.s)}</span>
+    <span class="chevron">▾</span>
+  </div>
+</div>
+<div class="ex-body">
+  <p class="notice-label">Lesen Sie den Text</p>
+  <div class="notice">${ex.tx}</div>
+  <p class="notice-label">Richtig, Falsch oder Steht nicht im Text?</p>
+  <div class="q-list">
+    ${ex.q.map(([qtext],qi)=>`
+    <div class="q" data-ans="${ex.q[qi][1]}" id="q_${i}_${qi}">
+      <p class="q-text">${qi+1}. ${qtext}</p>
+      <div class="q-opts">
+        <label><input type="radio" name="q_${i}_${qi}" value="R"> Richtig</label>
+        <label><input type="radio" name="q_${i}_${qi}" value="F"> Falsch</label>
+        <label><input type="radio" name="q_${i}_${qi}" value="N"> Steht nicht im Text</label>
+      </div>
+      <p class="answer-hint"></p>
+    </div>`).join("")}
+  </div>
+  <button class="check-btn">Antworten prüfen</button>
+  <p class="score"></p>
+</div>`;
+
+  // Toggle
+  const hd=div.querySelector(".ex-hd");
+  const body=div.querySelector(".ex-body");
+  function toggle(){
+    div.classList.toggle("open");
+    hd.setAttribute("aria-expanded",div.classList.contains("open"));
+  }
+  hd.addEventListener("click",toggle);
+  hd.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle();}});
+
+  // Check
+  div.querySelector(".check-btn").addEventListener("click",()=>{
+    let correct=0;
+    ex.q.forEach(([_,ans],qi)=>{
+      const qDiv=div.querySelector(`#q_${i}_${qi}`);
+      const sel=div.querySelector(`input[name="q_${i}_${qi}"]:checked`);
+      const hint=qDiv.querySelector(".answer-hint");
+      qDiv.classList.remove("ok","err");
+      if(!sel){
+        qDiv.classList.add("err");
+        const labels={"R":"Richtig","F":"Falsch","N":"Steht nicht im Text"};
+        hint.textContent="Richtige Antwort: "+labels[ans];
+        return;
+      }
+      if(sel.value===ans){qDiv.classList.add("ok");correct++;hint.textContent="";}
+      else{
+        qDiv.classList.add("err");
+        const labels={"R":"Richtig","F":"Falsch","N":"Steht nicht im Text"};
+        hint.textContent="Richtige Antwort: "+labels[ans];
+      }
+    });
+    const sc=div.querySelector(".score");
+    sc.className="score show";
+    sc.innerHTML=`Ergebnis: <span class="sc-val">${correct} von 5</span> richtig`;
+  });
+
+  list.appendChild(div);
+});
+</script>
 </body>
 </html>
