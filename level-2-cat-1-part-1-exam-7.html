@@ -7,80 +7,121 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@400;500&display=swap">
   <style>
     :root{
-      --bg:#F9F7F4;--surface:#FFF;--border:#E6E2DB;
-      --text:#1C1A18;--muted:#7A766F;--accent:#1A5738;
-      --done:#1A5738;--partial:#C45D18;--pending:#B0ABA4;
-      --notice-bg:#F3F1EC;--notice-border:#D4CFC7;
-      --correct:#1A5738;--wrong:#B83232;
+      --bg:#F7F5F0;--surface:#FFFFFF;--border:#E5DDD4;
+      --text:#1C1A17;--muted:#7A736B;
+      --accent:#1A5738;--accent-dark:#13402A;
+      --done:#1A5738;--partial:#B84E18;--pending:#A8A29A;
+      --notice-bg:#EBF4EE;--notice-border:#BDD9C9;--notice-hd-bg:#1A5738;
+      --correct:#1A5738;--wrong:#AE2D2D;
+      --correct-bg:rgba(26,87,56,.09);--wrong-bg:rgba(174,45,45,.08);
     }
     @media(prefers-color-scheme:dark){:root:not([data-theme=light]){
-      --bg:#161614;--surface:#1F1E1B;--border:#2E2C28;
-      --text:#ECEAE5;--muted:#8A867F;--accent:#4DAA7A;
-      --done:#4DAA7A;--partial:#E0834A;--pending:#4A4844;
-      --notice-bg:#27261F;--notice-border:#3A3830;
-      --correct:#4DAA7A;--wrong:#E55A4E;
+      --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
+      --text:#EAE8E2;--muted:#857F77;
+      --accent:#4DAA7A;--accent-dark:#5EC28A;
+      --done:#4DAA7A;--partial:#E07840;--pending:#47433C;
+      --notice-bg:#1C271E;--notice-border:#2E4835;--notice-hd-bg:#1E4C30;
+      --correct:#4DAA7A;--wrong:#E05252;
+      --correct-bg:rgba(77,170,122,.11);--wrong-bg:rgba(224,82,82,.1);
     }}
     :root[data-theme=dark]{
-      --bg:#161614;--surface:#1F1E1B;--border:#2E2C28;
-      --text:#ECEAE5;--muted:#8A867F;--accent:#4DAA7A;
-      --done:#4DAA7A;--partial:#E0834A;--pending:#4A4844;
-      --notice-bg:#27261F;--notice-border:#3A3830;
-      --correct:#4DAA7A;--wrong:#E55A4E;
+      --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
+      --text:#EAE8E2;--muted:#857F77;
+      --accent:#4DAA7A;--accent-dark:#5EC28A;
+      --done:#4DAA7A;--partial:#E07840;--pending:#47433C;
+      --notice-bg:#1C271E;--notice-border:#2E4835;--notice-hd-bg:#1E4C30;
+      --correct:#4DAA7A;--wrong:#E05252;
+      --correct-bg:rgba(77,170,122,.11);--wrong-bg:rgba(224,82,82,.1);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px 64px;}
-    .wrap{width:100%;max-width:700px;display:flex;flex-direction:column;gap:32px;}
-    .brand{padding-bottom:24px;border-bottom:1px solid var(--border);}
-    .brand-name{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,5vw,2.6rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em;text-wrap:balance;}
+    body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px 80px;}
+    .wrap{width:100%;max-width:720px;display:flex;flex-direction:column;gap:32px;}
+
+    /* Brand header */
+    .brand{padding-bottom:28px;border-bottom:2px solid var(--accent);}
+    .brand-name{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,5vw,2.8rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em;text-wrap:balance;}
     .brand-name em{font-style:italic;font-weight:300;color:var(--accent);}
-    .brand-sub{font-size:.8rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-top:6px;}
-    .legend{display:flex;gap:18px;flex-wrap:wrap;}
-    .leg{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase;}
-    .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .brand-sub{font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-top:8px;}
+
+    /* Legend */
+    .legend{display:flex;gap:20px;flex-wrap:wrap;}
+    .leg{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase;}
+    .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
     .dot.done{background:var(--done);}.dot.partial{background:var(--partial);}.dot.pending{background:var(--pending);}
-    .list{display:flex;flex-direction:column;gap:5px;}
-    .ex{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface);}
-    .ex-hd{display:grid;grid-template-columns:4px 1fr auto;gap:0 14px;align-items:center;cursor:pointer;user-select:none;}
-    .ex-hd:hover{background:rgba(26,87,56,.05);}
-    .stripe{min-height:52px;}.stripe.done{background:var(--done);}.stripe.partial{background:var(--partial);}.stripe.pending{background:var(--pending);}
-    .ex-lbl{padding:13px 0;}.ex-num{font-size:.72rem;color:var(--muted);font-weight:500;letter-spacing:.03em;margin-bottom:2px;}.ex-title{font-size:.93rem;}
-    .ex-right{display:flex;align-items:center;gap:8px;padding-right:14px;flex-shrink:0;}
-    .badge{font-size:.78rem;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;}
-    .badge.done{color:var(--done);}.badge.partial{color:var(--partial);}.badge.pending{color:var(--pending);}
-    .chevron{color:var(--muted);transition:transform .2s;font-size:.75rem;}
+
+    /* Exercise list */
+    .list{display:flex;flex-direction:column;gap:6px;}
+    .ex{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);transition:box-shadow .18s;}
+    .ex.open{box-shadow:0 4px 22px rgba(0,0,0,.09);}
+    .ex-hd{display:grid;grid-template-columns:5px 1fr auto;gap:0 16px;align-items:center;cursor:pointer;user-select:none;transition:background .12s;}
+    .ex-hd:hover{background:rgba(26,87,56,.04);}
+    .stripe{min-height:56px;}.stripe.done{background:var(--done);}.stripe.partial{background:var(--partial);}.stripe.pending{background:var(--pending);}
+    .ex-lbl{padding:14px 0;}.ex-num{font-size:.7rem;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;}.ex-title{font-size:.95rem;font-weight:500;}
+    .ex-right{display:flex;align-items:center;gap:10px;padding-right:16px;flex-shrink:0;}
+    .badge{font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;padding:3px 9px;border-radius:4px;}
+    .badge.done{color:var(--done);background:rgba(26,87,56,.1);}.badge.partial{color:var(--partial);background:rgba(184,78,24,.1);}.badge.pending{color:var(--muted);}
+    .chevron{color:var(--muted);transition:transform .22s;font-size:.7rem;}
     .ex.open .chevron{transform:rotate(180deg);}
-    .ex-body{display:none;padding:0 18px 22px;border-top:1px solid var(--border);}
+    .ex-body{display:none;padding:0 20px 26px;border-top:1px solid var(--border);}
     .ex.open .ex-body{display:block;}
-    .instr{font-size:.82rem;color:var(--muted);margin-top:14px;margin-bottom:12px;font-style:italic;}
+
+    /* Instruction */
+    .instr{font-size:.82rem;color:var(--muted);margin-top:18px;margin-bottom:16px;font-style:italic;line-height:1.55;}
+
     /* Notice board */
-    .notice{background:var(--notice-bg);border:1px solid var(--notice-border);border-radius:6px;padding:14px 16px;margin-bottom:20px;}
-    .notice-row{padding:6px 0;border-bottom:1px solid var(--notice-border);font-size:.875rem;line-height:1.5;}
-    .notice-row:last-child{border-bottom:none;padding-bottom:0;}
-    .notice-row strong{display:inline-block;min-width:130px;color:var(--text);font-weight:500;}
+    .notice{border:1px solid var(--notice-border);border-radius:9px;margin-bottom:24px;overflow:hidden;}
+    .notice-header{background:var(--notice-hd-bg);color:#fff;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:9px 16px;}
+    .notice-grid{background:var(--notice-bg);}
+    .notice-row{display:grid;grid-template-columns:148px 1fr;border-bottom:1px solid var(--notice-border);}
+    .notice-row:last-child{border-bottom:none;}
+    .notice-row-name{padding:10px 14px;font-weight:600;font-size:.82rem;color:var(--accent);border-right:1px solid var(--notice-border);display:flex;align-items:center;}
+    .notice-row-desc{padding:10px 14px;font-size:.82rem;line-height:1.55;color:var(--text);}
+    @media(max-width:480px){
+      .notice-row{grid-template-columns:1fr;}
+      .notice-row-name{border-right:none;border-bottom:1px solid var(--notice-border);padding-bottom:5px;}
+      .notice-row-desc{padding-top:6px;}
+    }
+
     /* Questions */
-    .q-list{display:flex;flex-direction:column;gap:12px;margin-bottom:18px;}
-    .q{border-bottom:1px solid var(--border);padding-bottom:12px;}
-    .q:last-child{border-bottom:none;padding-bottom:0;}
-    .q-text{font-size:.9rem;margin-bottom:8px;line-height:1.4;}
-    .q-num{font-weight:600;color:var(--accent);margin-right:4px;}
-    .q-opts{display:flex;flex-direction:column;gap:5px;}
-    .q-opts label{display:flex;align-items:center;gap:8px;font-size:.875rem;cursor:pointer;padding:6px 10px;border-radius:5px;border:1px solid var(--border);transition:all .15s;color:var(--muted);}
-    .q-opts label:has(input:checked){border-color:var(--accent);color:var(--text);background:rgba(26,87,56,.07);}
-    .q-opts input{accent-color:var(--accent);width:14px;height:14px;flex-shrink:0;}
-    .opt-lbl{font-weight:600;min-width:18px;color:var(--accent);}
-    .q.ok .q-opts label:has(input:checked){border-color:var(--correct);background:rgba(26,87,56,.1);color:var(--correct);}
-    .q.err .q-opts label:has(input:checked){border-color:var(--wrong);background:rgba(184,50,50,.1);color:var(--wrong);}
-    .q.ok .q-text .q-num::before{content:"✓ ";color:var(--correct);}
-    .q.err .q-text .q-num::before{content:"✗ ";color:var(--wrong);}
-    .hint{font-size:.78rem;color:var(--correct);margin-top:5px;display:none;padding-left:10px;}
-    .q.err .hint{display:block;}
-    .check-btn{background:var(--accent);color:#fff;border:none;padding:10px 22px;border-radius:6px;font-size:.875rem;font-family:'DM Sans',system-ui,sans-serif;font-weight:500;cursor:pointer;transition:opacity .15s;}
-    .check-btn:hover{opacity:.85;}
-    .score{margin-top:12px;font-size:.875rem;font-weight:500;display:none;}
-    .score.show{display:block;}.score .sc-val{color:var(--accent);}
-    .sig{display:flex;align-items:baseline;justify-content:space-between;padding-top:20px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
-    .sig-mark{font-family:'Fraunces',Georgia,serif;font-size:1rem;font-weight:300;font-style:italic;color:var(--accent);}
-    .sig-copy{font-size:.75rem;color:var(--muted);letter-spacing:.04em;}
+    .q-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+    .q{padding:13px 15px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);transition:border-color .15s;}
+    .q.ok{border-color:var(--correct);}
+    .q.err{border-color:var(--wrong);}
+    .q-text{font-size:.9rem;margin-bottom:10px;line-height:1.45;}
+    .q-num{font-weight:700;color:var(--accent);margin-right:5px;font-variant-numeric:tabular-nums;}
+    .q-opts{display:flex;flex-direction:column;gap:6px;}
+    .q-opts label{display:flex;align-items:center;gap:10px;font-size:.875rem;cursor:pointer;padding:7px 12px;border-radius:6px;border:1px solid var(--border);transition:all .15s;background:var(--surface);color:var(--muted);}
+    .q-opts label:hover{border-color:var(--accent);color:var(--text);}
+    .q-opts label:has(input:checked){border-color:var(--accent);color:var(--text);background:rgba(26,87,56,.06);}
+    .q-opts input{accent-color:var(--accent);width:15px;height:15px;flex-shrink:0;}
+    .opt-lbl{font-weight:700;min-width:20px;color:var(--accent);}
+    .opt-text{flex:1;}
+    .q.ok .q-opts label:has(input:checked){border-color:var(--correct);background:var(--correct-bg);color:var(--correct);}
+    .q.err .q-opts label:has(input:checked){border-color:var(--wrong);background:var(--wrong-bg);color:var(--wrong);}
+
+    /* Explanation block */
+    .hint{display:none;margin-top:10px;padding:9px 13px;border-radius:6px;font-size:.82rem;line-height:1.5;}
+    .q.ok .hint{display:block;background:var(--correct-bg);color:var(--correct);}
+    .q.err .hint{display:block;background:var(--wrong-bg);color:var(--wrong);}
+    .hint strong{font-weight:600;}
+    .hint-sep{opacity:.5;margin:0 4px;}
+    .hint-desc{opacity:.8;font-size:.8rem;}
+
+    /* Check & Score */
+    .check-btn{background:var(--accent);color:#fff;border:none;padding:11px 26px;border-radius:7px;font-size:.9rem;font-family:'DM Sans',system-ui,sans-serif;font-weight:500;cursor:pointer;transition:background .15s,transform .1s;letter-spacing:.02em;}
+    .check-btn:hover{background:var(--accent-dark);}
+    .check-btn:active{transform:scale(.98);}
+    .score{display:none;margin-top:16px;}
+    .score.show{display:block;}
+    .score-bar{height:5px;background:var(--border);border-radius:3px;margin-bottom:9px;overflow:hidden;}
+    .score-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .55s cubic-bezier(.4,0,.2,1);}
+    .score-text{font-size:.875rem;color:var(--muted);}
+    .sc-val{color:var(--accent);font-weight:600;}
+
+    /* Footer */
+    .sig{display:flex;align-items:baseline;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+    .sig-mark{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:300;font-style:italic;color:var(--accent);}
+    .sig-copy{font-size:.74rem;color:var(--muted);letter-spacing:.04em;}
   </style>
 </head>
 <body>
@@ -227,21 +268,19 @@ EX.forEach((ex,i)=>{
   const div=document.createElement("div");
   div.className="ex";
 
-  // Build section HTML
   const secHtml=ex.sec.map(([name,desc])=>
-    `<div class="notice-row"><strong>${name}</strong>${desc}</div>`
+    `<div class="notice-row"><div class="notice-row-name">${name}</div><div class="notice-row-desc">${desc}</div></div>`
   ).join("");
 
-  // Build question HTML
   const qHtml=ex.q.map(([qt,opts,],qi)=>{
     const labels=["a","b","c"];
     const optHtml=opts.map((o,j)=>
-      `<label><input type="radio" name="q_${i}_${qi}" value="${o}"><span class="opt-lbl">${labels[j]})</span>${o}</label>`
+      `<label><input type="radio" name="q_${i}_${qi}" value="${o}"><span class="opt-lbl">${labels[j]})</span><span class="opt-text">${o}</span></label>`
     ).join("");
-    return `<div class="q" id="q_${i}_${qi}" data-ans="${ex.q[qi][2]}">
+    return `<div class="q" id="q_${i}_${qi}">
       <p class="q-text"><span class="q-num">${qi+1}.</span> ${qt}</p>
       <div class="q-opts">${optHtml}</div>
-      <p class="hint"></p>
+      <div class="hint"></div>
     </div>`;
   }).join("");
 
@@ -253,10 +292,13 @@ EX.forEach((ex,i)=>{
 </div>
 <div class="ex-body">
   <p class="instr">Lesen Sie die Aufgaben 1–5 und die Information. Kreuzen Sie an: a, b oder c.</p>
-  <div class="notice">${secHtml}</div>
+  <div class="notice">
+    <div class="notice-header">Information</div>
+    <div class="notice-grid">${secHtml}</div>
+  </div>
   <div class="q-list">${qHtml}</div>
   <button class="check-btn">Antworten prüfen</button>
-  <p class="score"></p>
+  <div class="score"></div>
 </div>`;
 
   const hd=div.querySelector(".ex-hd");
@@ -270,13 +312,21 @@ EX.forEach((ex,i)=>{
       const qEl=div.querySelector(`#q_${i}_${qi}`);
       const sel=div.querySelector(`input[name="q_${i}_${qi}"]:checked`);
       const hint=qEl.querySelector(".hint");
+      const secInfo=ex.sec.find(([name])=>name===ans);
+      const desc=secInfo?secInfo[1]:"";
       qEl.classList.remove("ok","err");
-      if(sel&&sel.value===ans){qEl.classList.add("ok");ok++;hint.textContent="";}
-      else{qEl.classList.add("err");hint.textContent="Richtige Antwort: "+ans;}
+      if(sel&&sel.value===ans){
+        qEl.classList.add("ok");ok++;
+        hint.innerHTML=`✓ <strong>${ans}</strong><span class="hint-sep">·</span><span class="hint-desc">${desc}</span>`;
+      } else {
+        qEl.classList.add("err");
+        hint.innerHTML=`✗ Richtige Antwort: <strong>${ans}</strong><span class="hint-sep">·</span><span class="hint-desc">${desc}</span>`;
+      }
     });
     const sc=div.querySelector(".score");
+    const pct=Math.round(ok/5*100);
     sc.className="score show";
-    sc.innerHTML=`Ergebnis: <span class="sc-val">${ok} von 5</span> richtig`;
+    sc.innerHTML=`<div class="score-bar"><div class="score-fill" style="width:${pct}%"></div></div><p class="score-text">Ergebnis: <span class="sc-val">${ok} von 5</span> richtig &thinsp;·&thinsp; ${pct}&thinsp;%</p>`;
   });
 
   list.appendChild(div);
