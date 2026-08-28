@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesen Teil 2 · Deutsch mit Hayford</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@400;500&display=swap">
+  <style>
+    :root{
+      --bg:#F7F5F0;--surface:#FFFFFF;--border:#E5DDD4;
+      --text:#1C1A17;--muted:#7A736B;
+      --accent:#1A5738;--accent-dark:#13402A;
+      --done:#1A5738;--partial:#B84E18;--pending:#A8A29A;
+      --article-bg:#EBF4EE;--article-border:#BDD9C9;--article-hd:#1A5738;
+      --correct:#1A5738;--wrong:#AE2D2D;
+      --correct-bg:rgba(26,87,56,.09);--wrong-bg:rgba(174,45,45,.08);
+    }
+    @media(prefers-color-scheme:dark){:root:not([data-theme=light]){
+      --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
+      --text:#EAE8E2;--muted:#857F77;
+      --accent:#4DAA7A;--accent-dark:#5EC28A;
+      --done:#4DAA7A;--partial:#E07840;--pending:#47433C;
+      --article-bg:#1C271E;--article-border:#2E4835;--article-hd:#1E4C30;
+      --correct:#4DAA7A;--wrong:#E05252;
+      --correct-bg:rgba(77,170,122,.11);--wrong-bg:rgba(224,82,82,.1);
+    }}
+    :root[data-theme=dark]{
+      --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
+      --text:#EAE8E2;--muted:#857F77;
+      --accent:#4DAA7A;--accent-dark:#5EC28A;
+      --done:#4DAA7A;--partial:#E07840;--pending:#47433C;
+      --article-bg:#1C271E;--article-border:#2E4835;--article-hd:#1E4C30;
+      --correct:#4DAA7A;--wrong:#E05252;
+      --correct-bg:rgba(77,170,122,.11);--wrong-bg:rgba(224,82,82,.1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px 80px;}
+    .wrap{width:100%;max-width:720px;display:flex;flex-direction:column;gap:32px;}
+    .brand{padding-bottom:28px;border-bottom:2px solid var(--accent);}
+    .brand-name{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,5vw,2.8rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em;text-wrap:balance;}
+    .brand-name em{font-style:italic;font-weight:300;color:var(--accent);}
+    .brand-sub{font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-top:8px;}
+    .legend{display:flex;gap:20px;flex-wrap:wrap;}
+    .leg{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase;}
+    .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+    .dot.done{background:var(--done);}.dot.partial{background:var(--partial);}.dot.pending{background:var(--pending);}
+    .list{display:flex;flex-direction:column;gap:6px;}
+    .ex{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);transition:box-shadow .18s;}
+    .ex.open{box-shadow:0 4px 22px rgba(0,0,0,.09);}
+    .ex-hd{display:grid;grid-template-columns:5px 1fr auto;gap:0 16px;align-items:center;cursor:pointer;user-select:none;transition:background .12s;}
+    .ex-hd:hover{background:rgba(26,87,56,.04);}
+    .stripe{min-height:56px;}.stripe.done{background:var(--done);}.stripe.partial{background:var(--partial);}.stripe.pending{background:var(--pending);}
+    .ex-lbl{padding:14px 0;}.ex-num{font-size:.7rem;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;}.ex-title{font-size:.95rem;font-weight:500;}
+    .ex-right{display:flex;align-items:center;gap:10px;padding-right:16px;flex-shrink:0;}
+    .badge{font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;padding:3px 9px;border-radius:4px;}
+    .badge.done{color:var(--done);background:rgba(26,87,56,.1);}.badge.partial{color:var(--partial);background:rgba(184,78,24,.1);}.badge.pending{color:var(--muted);}
+    .chevron{color:var(--muted);transition:transform .22s;font-size:.7rem;}
+    .ex.open .chevron{transform:rotate(180deg);}
+    .ex-body{display:none;padding:0 20px 26px;border-top:1px solid var(--border);}
+    .ex.open .ex-body{display:block;}
+    .instr{font-size:.82rem;color:var(--muted);margin-top:18px;margin-bottom:16px;font-style:italic;line-height:1.55;}
+    .article{border:1px solid var(--article-border);border-radius:9px;margin-bottom:24px;overflow:hidden;}
+    .article-header{background:var(--article-hd);color:#fff;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:9px 16px;}
+    .article-body{background:var(--article-bg);padding:16px 18px;font-size:.9rem;line-height:1.75;color:var(--text);}
+    .q-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+    .q{padding:13px 15px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);transition:border-color .15s;}
+    .q.ok{border-color:var(--correct);}.q.err{border-color:var(--wrong);}
+    .q-text{font-size:.9rem;margin-bottom:10px;line-height:1.45;}
+    .q-num{font-weight:700;color:var(--accent);margin-right:5px;}
+    .q-opts{display:flex;gap:6px;flex-wrap:wrap;}
+    .q-opts label{display:flex;align-items:center;gap:8px;font-size:.84rem;cursor:pointer;padding:7px 14px;border-radius:6px;border:1.5px solid var(--border);transition:all .15s;background:var(--surface);color:var(--muted);white-space:nowrap;}
+    .q-opts label:hover{border-color:var(--accent);color:var(--text);}
+    .q-opts label:has(input:checked){border-color:var(--accent);color:var(--text);background:rgba(26,87,56,.06);}
+    .q-opts input{accent-color:var(--accent);width:14px;height:14px;flex-shrink:0;}
+    .rfn-lbl{font-weight:700;font-size:.78rem;color:var(--accent);}
+    .q.ok .q-opts label:has(input:checked){border-color:var(--correct);background:var(--correct-bg);color:var(--correct);}
+    .q.err .q-opts label:has(input:checked){border-color:var(--wrong);background:var(--wrong-bg);color:var(--wrong);}
+    .hint{display:none;margin-top:10px;padding:9px 13px;border-radius:6px;font-size:.82rem;line-height:1.5;}
+    .q.ok .hint{display:block;background:var(--correct-bg);color:var(--correct);}
+    .q.err .hint{display:block;background:var(--wrong-bg);color:var(--wrong);}
+    .hint strong{font-weight:600;}
+    .hint-sep{opacity:.5;margin:0 4px;}
+    .hint-desc{opacity:.8;font-size:.8rem;}
+    .check-btn{background:var(--accent);color:#fff;border:none;padding:11px 26px;border-radius:7px;font-size:.9rem;font-family:'DM Sans',system-ui,sans-serif;font-weight:500;cursor:pointer;transition:background .15s,transform .1s;letter-spacing:.02em;}
+    .check-btn:hover{background:var(--accent-dark);}
+    .check-btn:active{transform:scale(.98);}
+    .score{display:none;margin-top:16px;}
+    .score.show{display:block;}
+    .score-bar{height:5px;background:var(--border);border-radius:3px;margin-bottom:9px;overflow:hidden;}
+    .score-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .55s cubic-bezier(.4,0,.2,1);}
+    .score-text{font-size:.875rem;color:var(--muted);}
+    .sc-val{color:var(--accent);font-weight:600;}
+    .sig{display:flex;align-items:baseline;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+    .sig-mark{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:300;font-style:italic;color:var(--accent);}
+    .sig-copy{font-size:.74rem;color:var(--muted);letter-spacing:.04em;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="brand">
+    <div class="brand-name">Deutsch <em>mit</em> Hayford</div>
+    <div class="brand-sub">telc A2 · Lesen Teil 2 · Übungen</div>
+  </header>
+  <div class="legend">
+    <span class="leg"><span class="dot done"></span>Abgeschlossen</span>
+    <span class="leg"><span class="dot partial"></span>In Bearbeitung</span>
+    <span class="leg"><span class="dot pending"></span>Noch offen</span>
+  </div>
+  <div class="list" id="list"></div>
+  <footer class="sig">
+    <span class="sig-mark">Deutsch mit Hayford</span>
+    <span class="sig-copy">© 2024–2026 · All rights reserved</span>
+  </footer>
+</div>
+<script>
+const EX=[
+{n:"1.1",t:"Ausbildung zum E-Mobilitäts-Mechaniker",s:0,
+text:"Die Handwerkskammer München bietet seit diesem Herbst eine neue Ausbildung an: E-Mobilitäts-Mechaniker. Man lernt drei Jahre lang, Elektroautos und E-Bikes zu reparieren. Die Ausbildung ist kostenlos. Interessierte Schüler ab 16 Jahren können sich bis zum 15. Juli online bewerben. Der Ausbildungsbeginn ist immer im September. Im dritten Ausbildungsjahr arbeiten die Azubis sechs Monate in einem Betrieb.",
+q:[["Die Ausbildung kostet Geld.","F","Im Text steht: Die Ausbildung ist kostenlos."],["Man kann auch E-Bikes reparieren lernen.","R","Im Text steht: Man lernt, Elektroautos und E-Bikes zu reparieren."],["Der Ausbildungsbeginn ist im September.","R","Im Text steht: Der Ausbildungsbeginn ist immer im September."],["Schüler müssen mindestens 18 Jahre alt sein.","F","Im Text steht: Schüler ab 16 Jahren können sich bewerben."],["Die Ausbildung gibt es auch in anderen Städten.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.2",t:"Sommerfestival in Hamburg gestartet",s:0,
+text:"Das Internationale Sommerfestival in Hamburg hat am Freitag begonnen. Bis zum 20. August gibt es täglich Konzerte, Theatervorstellungen und Tanzshows. Der Eintritt für Kinder unter 12 Jahren ist frei. Erwachsene zahlen 15 Euro pro Tag oder 50 Euro für alle Veranstaltungen. Das Festival findet auf der Insel Wilhelmsburg statt. Dieses Jahr kommen Künstlerinnen und Künstler aus über 30 Ländern.",
+q:[["Kinder unter 12 Jahren bezahlen nichts.","R","Im Text steht: Der Eintritt für Kinder unter 12 Jahren ist frei."],["Ein Tagesticket für Erwachsene kostet 50 Euro.","F","Im Text steht: Erwachsene zahlen 15 Euro pro Tag. 50 Euro gilt für alle Veranstaltungen zusammen."],["Das Festival findet im Stadtpark statt.","F","Im Text steht: Das Festival findet auf der Insel Wilhelmsburg statt."],["Es kommen Künstler aus mehr als 30 Ländern.","R","Im Text steht: Künstlerinnen und Künstler aus über 30 Ländern."],["Das Festival gibt es seit 10 Jahren.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.3",t:"Digitale Tafeln an Berliner Schulen",s:0,
+text:"An 200 Berliner Schulen werden in diesem Jahr interaktive digitale Tafeln installiert. Die Stadt Berlin investiert dafür 15 Millionen Euro. Die digitalen Tafeln können mit dem Internet verbunden werden. Lehrer können damit Videos zeigen und Aufgaben direkt auf der Tafel bearbeiten. Die Schüler können die Inhalte auch auf ihren Tablets sehen. Das Projekt soll bis Ende des Jahres abgeschlossen sein.",
+q:[["Die Stadt Berlin finanziert das Projekt.","R","Im Text steht: Die Stadt Berlin investiert dafür 15 Millionen Euro."],["Die digitalen Tafeln haben keine Internetverbindung.","F","Im Text steht: Die Tafeln können mit dem Internet verbunden werden."],["Das Projekt ist für alle Schulen in Deutschland.","F","Im Text steht: An 200 Berliner Schulen – nicht für ganz Deutschland."],["Schüler können Inhalte auf Tablets sehen.","R","Im Text steht: Die Schüler können die Inhalte auch auf ihren Tablets sehen."],["Die Lehrer wurden speziell für die Tafeln geschult.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.4",t:"Wandern im Schwarzwald immer gefragter",s:0,
+text:"Immer mehr Touristen kommen in den Schwarzwald zum Wandern. Im letzten Jahr besuchten 3,5 Millionen Menschen die Region. Das Schwarzwald Tourismus Büro hat 10 neue Wanderwege markiert. Die Wege sind zwischen 5 und 25 Kilometer lang und für Anfänger geeignet. Auf jedem Weg gibt es Schilder mit Informationen über die Natur. Wanderer können kostenlose Karten am Tourismusbüro abholen.",
+q:[["Im letzten Jahr kamen mehr als 3 Millionen Touristen.","R","Im Text steht: 3,5 Millionen Menschen besuchten die Region."],["Die neuen Wanderwege sind nur für erfahrene Wanderer.","F","Im Text steht: Die Wege sind für Anfänger geeignet."],["Die kürzesten neuen Wege sind 5 Kilometer lang.","R","Im Text steht: Die Wege sind zwischen 5 und 25 Kilometer lang."],["Karten für die Wanderwege sind kostenlos.","R","Im Text steht: Wanderer können kostenlose Karten am Tourismusbüro abholen."],["Es gibt auch spezielle Kinderwanderwege.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.5",t:"Yoga im Park immer beliebter",s:0,
+text:"In vielen deutschen Städten bieten Vereine im Sommer Yoga-Kurse im Park an. In Berlin nehmen jeden Samstag mehr als 500 Menschen an kostenlosen Yoga-Stunden teil. Die Kurse beginnen um 9 Uhr und dauern 60 Minuten. Anfänger sind willkommen – Vorkenntnisse sind nicht nötig. Die Teilnehmer müssen ihre eigene Matte mitbringen. Der Kursleiter ist zertifizierter Yoga-Trainer.",
+q:[["Die Yoga-Kurse im Park sind kostenlos.","R","Im Text steht: mehr als 500 Menschen an kostenlosen Yoga-Stunden."],["Die Kurse finden täglich statt.","F","Im Text steht: jeden Samstag – nicht täglich."],["Anfänger können nicht mitmachen.","F","Im Text steht: Anfänger sind willkommen."],["Die Teilnehmer müssen ihre eigene Matte mitbringen.","R","Im Text steht: Die Teilnehmer müssen ihre eigene Matte mitbringen."],["Man kann die Matte auch ausleihen.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.6",t:"Neues Stipendienprogramm für Studierende",s:0,
+text:"Das Bundesministerium für Bildung hat ein neues Stipendienprogramm gestartet. Jedes Jahr werden 5.000 Studierenden 300 Euro pro Monat ausgezahlt. Das Stipendium ist für Studierende an deutschen Universitäten und Hochschulen. Bewerben können sich Studenten im zweiten Semester oder höher. Wichtig ist ein guter Notendurchschnitt. Die Bewerbungsfrist endet am 31. März.",
+q:[["Das Programm wird vom Bundesministerium für Bildung finanziert.","R","Im Text steht: Das Bundesministerium für Bildung hat das Programm gestartet."],["Jeder Studierende bekommt 500 Euro pro Monat.","F","Im Text steht: 300 Euro pro Monat – nicht 500 Euro."],["Auch Studenten im ersten Semester können sich bewerben.","F","Im Text steht: im zweiten Semester oder höher."],["Man braucht gute Noten für das Stipendium.","R","Im Text steht: Wichtig ist ein guter Notendurchschnitt."],["Das Stipendium kann auch im Ausland genutzt werden.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.7",t:"Freiwillige helfen im Tierheim",s:0,
+text:"Das Tierheim Frankfurt sucht Freiwillige, die regelmäßig helfen möchten. Die Aufgaben sind vielfältig: Hunde spazieren führen, Katzen streicheln oder bei der Reinigung helfen. Freiwillige müssen mindestens 18 Jahre alt sein. Eine Voranmeldung per E-Mail oder Telefon ist erforderlich. Die Arbeit ist unbezahlt, aber man bekommt einen kostenlosen Erste-Hilfe-Kurs. Das Tierheim hat zurzeit über 200 Tiere.",
+q:[["Das Tierheim sucht bezahlte Mitarbeiter.","F","Im Text steht: Die Arbeit ist unbezahlt."],["Man muss mindestens 18 Jahre alt sein.","R","Im Text steht: Freiwillige müssen mindestens 18 Jahre alt sein."],["Eine Anmeldung per Brief ist möglich.","N","Im Text steht: per E-Mail oder Telefon – ein Brief wird nicht erwähnt."],["Freiwillige bekommen einen kostenlosen Erste-Hilfe-Kurs.","R","Im Text steht: man bekommt einen kostenlosen Erste-Hilfe-Kurs."],["Das Tierheim hat mehr als 200 Tiere.","R","Im Text steht: Das Tierheim hat zurzeit über 200 Tiere."]]},
+
+{n:"1.8",t:"Neuer Kletterpark eröffnet in Stuttgart",s:0,
+text:"In Stuttgart hat ein neuer Hochseilgarten eröffnet. Der Kletterpark liegt direkt am Stadtrand im Wald. Es gibt 15 verschiedene Parcours für alle Altersgruppen – von leicht bis sehr schwer. Kinder ab 6 Jahren können mitmachen. Der Eintritt kostet 18 Euro für Erwachsene und 12 Euro für Kinder. Geöffnet ist der Park täglich von 9 bis 18 Uhr. Eine Voranmeldung ist online möglich, aber nicht nötig.",
+q:[["Der Kletterpark ist nur für Erwachsene.","F","Im Text steht: für alle Altersgruppen – Kinder ab 6 Jahren können mitmachen."],["Der Eintritt für Kinder kostet 12 Euro.","R","Im Text steht: 12 Euro für Kinder."],["Der Park schließt um 19 Uhr.","F","Im Text steht: täglich von 9 bis 18 Uhr."],["Man muss sich nicht vorher anmelden.","R","Im Text steht: Eine Voranmeldung ist möglich, aber nicht nötig."],["Es gibt ein Restaurant im Park.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.9",t:"Neues Start-up in München entwickelt Recycling-App",s:0,
+text:"Ein junges Team aus München hat eine neue App entwickelt: RecycleEasy. Mit der App kann man herausfinden, wo man Elektroschrott, Batterien oder alte Kleidung in der Nähe abgeben kann. Die App ist kostenlos und funktioniert ohne Registrierung. Über 500 Sammelstellen sind bereits eingetragen. Die App ist nur auf Deutsch verfügbar, aber eine englische Version kommt im Frühjahr.",
+q:[["Die App hilft beim Finden von Recycling-Stationen.","R","Im Text steht: man kann herausfinden, wo man Elektroschrott oder alte Kleidung abgeben kann."],["Die App kostet Geld.","F","Im Text steht: Die App ist kostenlos."],["Man muss sich registrieren, um die App zu nutzen.","F","Im Text steht: funktioniert ohne Registrierung."],["Die App ist bereits auf Englisch verfügbar.","F","Im Text steht: nur auf Deutsch verfügbar – eine englische Version kommt erst im Frühjahr."],["Das Team hat auch eine App für Lebensmittel entwickelt.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.10",t:"750 Jahre Stadtjubiläum in Erfurt",s:0,
+text:"Die Stadt Erfurt feiert in diesem Jahr ihr 750-jähriges Stadtjubiläum. Das ganze Jahr über finden besondere Veranstaltungen statt: Konzerte, Ausstellungen und Stadtführungen. Im August gibt es ein großes Fest, das kostenlos und für alle offen ist. Die Stadt hat auch ein neues Stadtmuseum eröffnet. Der Eintritt kostet 6 Euro, aber Kinder unter 14 Jahren zahlen nichts. Das Museum ist täglich außer montags geöffnet.",
+q:[["Erfurt wird in diesem Jahr 750 Jahre alt.","R","Im Text steht: 750-jähriges Stadtjubiläum."],["Das Fest im August kostet Eintritt.","F","Im Text steht: Das Fest ist kostenlos und für alle offen."],["Kinder unter 14 Jahren zahlen keinen Eintritt im Museum.","R","Im Text steht: Kinder unter 14 Jahren zahlen nichts."],["Das Museum ist auch montags geöffnet.","F","Im Text steht: täglich außer montags."],["Das Jubiläum wird mit einem großen Feuerwerk beendet.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.11",t:"Immer mehr Menschen nutzen Smart-Home-Geräte",s:0,
+text:"Eine neue Studie zeigt: Immer mehr Deutsche kaufen Smart-Home-Geräte. Besonders beliebt sind intelligente Lautsprecher, automatische Rollläden und smarte Heizungsthermostate. Der durchschnittliche Haushalt gibt pro Jahr 350 Euro für Smart-Home-Produkte aus. Viele Menschen kaufen diese Geräte, weil sie Energie sparen wollen. Experten sagen, dass der Markt bis 2027 stark wachsen wird.",
+q:[["Immer weniger Deutsche kaufen Smart-Home-Geräte.","F","Im Text steht: Immer mehr Deutsche kaufen Smart-Home-Geräte."],["Intelligente Lautsprecher sind besonders beliebt.","R","Im Text steht: Besonders beliebt sind intelligente Lautsprecher."],["Ein Haushalt gibt durchschnittlich 350 Euro pro Jahr aus.","R","Im Text steht: Der durchschnittliche Haushalt gibt pro Jahr 350 Euro aus."],["Viele kaufen Smart-Home-Geräte, um Energie zu sparen.","R","Im Text steht: weil sie Energie sparen wollen."],["Die beliebtesten Geräte werden in Deutschland hergestellt.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.12",t:"Schutzprojekt für Störche in Brandenburg",s:0,
+text:"In Brandenburg startet ein neues Projekt zum Schutz der Weißstörche. Der Storchbestand ist in den letzten 20 Jahren um 30 Prozent gesunken. Das Projekt wird vom Land Brandenburg und dem WWF finanziert. Freiwillige Helfer bauen neue Nistplattformen für die Störche. Die Arbeit beginnt im März, bevor die Störche aus Afrika zurückkehren. Schulklassen können das Projekt besuchen und mehr über Störche lernen.",
+q:[["Der Storchbestand ist in den letzten Jahren gestiegen.","F","Im Text steht: Der Storchbestand ist um 30 Prozent gesunken."],["Das Projekt wird vom Land Brandenburg und dem WWF finanziert.","R","Im Text steht: vom Land Brandenburg und dem WWF finanziert."],["Die Arbeit beginnt im März.","R","Im Text steht: Die Arbeit beginnt im März."],["Schulklassen dürfen das Projekt nicht besuchen.","F","Im Text steht: Schulklassen können das Projekt besuchen."],["Das Projekt kostet 500.000 Euro.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.13",t:"Neues Nachbarschaftszentrum in Berlin eröffnet",s:0,
+text:"In Berlin-Neukölln hat ein neues Nachbarschaftszentrum eröffnet. Das Zentrum bietet viele Angebote für alle Altersgruppen: Sprachkurse, Kochkurse, Beratung und Spielgruppen für Kinder. Die meisten Kurse sind kostenlos oder sehr günstig. Das Zentrum ist montags bis samstags von 9 bis 20 Uhr geöffnet. Finanziert wird das Zentrum von der Stadt Berlin und Spendern. Man kann sich online oder persönlich für Kurse anmelden.",
+q:[["Das Nachbarschaftszentrum ist nur für Kinder.","F","Im Text steht: für alle Altersgruppen."],["Das Zentrum ist auch sonntags geöffnet.","F","Im Text steht: montags bis samstags."],["Die meisten Kurse sind kostenlos oder günstig.","R","Im Text steht: kostenlos oder sehr günstig."],["Das Zentrum wird nur von der Stadt Berlin finanziert.","F","Im Text steht: von der Stadt Berlin und Spendern."],["Das Zentrum bietet Sprachkurse an.","R","Im Text steht: Sprachkurse."]]},
+
+{n:"1.14",t:"Deutsche Forscher entwickeln neues Medikament",s:0,
+text:"Wissenschaftler der Universität Heidelberg haben ein neues Medikament gegen Diabetes entwickelt. Das Medikament muss nur einmal pro Woche eingenommen werden. In klinischen Studien hat das Medikament gut gewirkt. Die Forscher haben fünf Jahre daran gearbeitet. Das Medikament ist noch nicht auf dem Markt – es muss zuerst von der Europäischen Arzneimittelbehörde genehmigt werden. Man rechnet damit, dass es in zwei Jahren erhältlich sein wird.",
+q:[["Das Medikament ist gegen Diabetes.","R","Im Text steht: ein neues Medikament gegen Diabetes."],["Das Medikament muss täglich eingenommen werden.","F","Im Text steht: nur einmal pro Woche."],["Das Medikament ist bereits auf dem Markt.","F","Im Text steht: Das Medikament ist noch nicht auf dem Markt."],["Die Forscher haben fünf Jahre an dem Medikament gearbeitet.","R","Im Text steht: Die Forscher haben fünf Jahre daran gearbeitet."],["Das Medikament kostet 200 Euro pro Monat.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.15",t:"Neue Elektrobusse in Hannover",s:0,
+text:"Die Stadt Hannover kauft 50 neue Elektrobusse für den öffentlichen Nahverkehr. Die Busse werden ab Januar im Stadtgebiet fahren. Ein Elektrobus kostet etwa 500.000 Euro. Die Busse laden über Nacht an speziellen Ladestationen im Busbahnhof. Im Vergleich zu normalen Dieselbussen verbrauchen sie 40% weniger Energie. Die Stadt Hannover möchte bis 2035 alle Busse auf Elektroantrieb umstellen.",
+q:[["Hannover kauft 50 neue Elektrobusse.","R","Im Text steht: Die Stadt Hannover kauft 50 neue Elektrobusse."],["Die Busse laden tagsüber an Haltestellen.","F","Im Text steht: Die Busse laden über Nacht im Busbahnhof."],["Elektrobusse verbrauchen weniger Energie als Dieselbusse.","R","Im Text steht: 40% weniger Energie als Dieselbusse."],["Bis 2035 sollen alle Busse in Hannover elektrisch sein.","R","Im Text steht: bis 2035 alle Busse auf Elektroantrieb umstellen."],["Die Elektrobusse sind leiser als Dieselbusse.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.16",t:"Baumpflanzaktion in Freiburg",s:0,
+text:"Die Stadt Freiburg hat eine große Baumpflanzaktion gestartet. Bis Ende des Jahres sollen 10.000 neue Bäume gepflanzt werden. Bürger können mitmachen und selbst einen Baum pflanzen. Schulen und Vereine können ganze Baumgruppen adoptieren. Für jeden gespendeten Euro pflanzt die Stadt einen weiteren Baum. Die Aktion soll die Luft in der Stadt verbessern und der Sommerhitze entgegenwirken.",
+q:[["Es sollen 10.000 neue Bäume gepflanzt werden.","R","Im Text steht: 10.000 neue Bäume sollen gepflanzt werden."],["Nur Schulen dürfen an der Aktion teilnehmen.","F","Im Text steht: Bürger, Schulen und Vereine können mitmachen."],["Für jeden gespendeten Euro pflanzt die Stadt zwei Bäume.","F","Im Text steht: Für jeden gespendeten Euro pflanzt die Stadt einen weiteren Baum."],["Die Aktion soll die Luft in der Stadt verbessern.","R","Im Text steht: Die Aktion soll die Luft in der Stadt verbessern."],["Die Stadt gibt Bürgern Geld für das Pflanzen.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.17",t:"Neue Ausstellung im Kunstmuseum Bonn",s:0,
+text:"Das Kunstmuseum Bonn zeigt ab dem 15. September eine neue Ausstellung über moderne deutsche Kunst. Über 150 Werke von 30 Künstlerinnen und Künstlern werden gezeigt. Die Ausstellung ist bis zum 28. Februar geöffnet. Der Eintritt kostet 12 Euro. Jeden ersten Sonntag im Monat ist der Eintritt frei. Führungen auf Deutsch und Englisch finden jeden Samstag um 15 Uhr statt.",
+q:[["Die Ausstellung beginnt im Oktober.","F","Im Text steht: ab dem 15. September."],["An bestimmten Sonntagen ist der Eintritt frei.","R","Im Text steht: Jeden ersten Sonntag im Monat ist der Eintritt frei."],["Es werden Werke von 30 Künstlerinnen und Künstlern gezeigt.","R","Im Text steht: von 30 Künstlerinnen und Künstlern."],["Führungen gibt es nur auf Deutsch.","F","Im Text steht: Führungen auf Deutsch und Englisch."],["Die Ausstellung kann online besucht werden.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.18",t:"Roboter im Lagerhaus",s:0,
+text:"Der Online-Händler ShopFast hat in seinem Lagerhaus in Dortmund Roboter eingeführt. Die Roboter sortieren Pakete und bringen sie zum richtigen Versandbereich. Das Lagerhaus arbeitet dadurch 20% schneller als vorher. Das Unternehmen hat 150 Roboter angeschafft. Die menschlichen Mitarbeiter wurden nicht entlassen – sie haben neue Aufgaben bekommen. ShopFast plant, die Robotertechnologie auch in anderen Lagerhäusern einzusetzen.",
+q:[["Die menschlichen Mitarbeiter haben ihre Stellen verloren.","F","Im Text steht: Die Mitarbeiter wurden nicht entlassen – sie haben neue Aufgaben bekommen."],["Das Lagerhaus liegt in Dortmund.","R","Im Text steht: in seinem Lagerhaus in Dortmund."],["Das Lagerhaus arbeitet 20% schneller als vorher.","R","Im Text steht: Das Lagerhaus arbeitet dadurch 20% schneller."],["ShopFast hat 150 Roboter angeschafft.","R","Im Text steht: Das Unternehmen hat 150 Roboter angeschafft."],["Die Roboter können Pakete auch an Kunden ausliefern.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.19",t:"Neuer Freizeitpark eröffnet in Bayern",s:0,
+text:"In Bayern hat ein neuer Freizeitpark eröffnet: der 'WildWald Park'. Der Park liegt in einem echten Wald und bietet Aktivitäten wie Klettern, Bogenschießen und Naturpfade. Die Tageskarte kostet 25 Euro für Erwachsene und 15 Euro für Kinder. Kinder unter 4 Jahren haben freien Eintritt. Der Park ist von April bis Oktober täglich geöffnet. Im Winter bleibt er geschlossen.",
+q:[["Der Park liegt in einem Stadtpark.","F","Im Text steht: in einem echten Wald."],["Kinder unter 4 Jahren zahlen keinen Eintritt.","R","Im Text steht: Kinder unter 4 Jahren haben freien Eintritt."],["Der Park ist das ganze Jahr geöffnet.","F","Im Text steht: von April bis Oktober – im Winter bleibt er geschlossen."],["Im Park kann man Bogenschießen.","R","Im Text steht: Aktivitäten wie Klettern, Bogenschießen und Naturpfade."],["Es gibt auch ein Hotel im Park.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.20",t:"Neue Gemeinschaftspraxis in Leipzig eröffnet",s:0,
+text:"In Leipzig hat eine neue Gemeinschaftspraxis eröffnet, die von vier Ärzten geführt wird. Die Praxis ist montags bis freitags von 8 bis 18 Uhr geöffnet. Patienten können sich online oder telefonisch anmelden. Die Praxis hat auch einen Hausbesuchsdienst für ältere Patienten. Alle Krankenkassen werden akzeptiert. Ein Kinderarzt arbeitet jeden Mittwoch in der Praxis.",
+q:[["Die Praxis wird von vier Ärzten geführt.","R","Im Text steht: von vier Ärzten geführt wird."],["Die Praxis ist auch am Wochenende geöffnet.","F","Im Text steht: montags bis freitags."],["Ältere Patienten können zu Hause besucht werden.","R","Im Text steht: einen Hausbesuchsdienst für ältere Patienten."],["Nur bestimmte Krankenkassen werden akzeptiert.","F","Im Text steht: Alle Krankenkassen werden akzeptiert."],["Die Praxis hat auch eine eigene Apotheke.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.21",t:"Neues Ganztagsangebot an der Realschule Süd",s:0,
+text:"Die Realschule Süd in Nürnberg bietet ab dem neuen Schuljahr Ganztagsbetreuung an. Schüler können von 7 Uhr bis 17 Uhr in der Schule bleiben. Es gibt Mittagessen in der Schulkantine, Hausaufgabenhilfe und AGs wie Sport, Musik und Kochen. Die Teilnahme ist freiwillig. Die Eltern zahlen 50 Euro pro Monat für das Mittagessen. Die Betreuung selbst ist kostenlos.",
+q:[["Die Schüler müssen am Ganztagsangebot teilnehmen.","F","Im Text steht: Die Teilnahme ist freiwillig."],["Das Mittagessen kostet 50 Euro pro Monat.","R","Im Text steht: Die Eltern zahlen 50 Euro pro Monat für das Mittagessen."],["Die Schüler können bis 18 Uhr in der Schule bleiben.","F","Im Text steht: bis 17 Uhr."],["Es gibt eine Musik-AG.","R","Im Text steht: AGs wie Sport, Musik und Kochen."],["Die Schule hat ein Schwimmbad.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.22",t:"Open-Air-Konzert in Köln",s:0,
+text:"Am 3. August findet in Köln ein großes Open-Air-Konzert statt. Das Konzert beginnt um 19 Uhr und endet um Mitternacht. Es treten zehn verschiedene Bands auf. Der Eintritt ist kostenlos. Das Konzert findet auf dem Rheinboulevard statt. Bei schlechtem Wetter wird das Konzert nicht abgesagt – es gibt überdachte Bereiche. Getränke und Essen können auf dem Gelände gekauft werden.",
+q:[["Das Konzert kostet Eintritt.","F","Im Text steht: Der Eintritt ist kostenlos."],["Bei Regen wird das Konzert abgesagt.","F","Im Text steht: das Konzert wird nicht abgesagt – es gibt überdachte Bereiche."],["Es treten zehn Bands auf.","R","Im Text steht: zehn verschiedene Bands."],["Das Konzert findet am Rhein statt.","R","Im Text steht: auf dem Rheinboulevard."],["Das Konzert wird im Fernsehen übertragen.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.23",t:"Mehr Fahrräder in deutschen Städten",s:0,
+text:"Eine neue Studie zeigt, dass immer mehr Deutsche das Fahrrad als Transportmittel nutzen. In Städten wie Berlin, Hamburg und München ist die Zahl der Fahrradfahrer in den letzten fünf Jahren um 35 Prozent gestiegen. Viele Städte bauen neue Fahrradwege. Die meisten Fahrradfahrer nutzen das Rad für den Weg zur Arbeit. Experten empfehlen, mehr in die Fahrradinfrastruktur zu investieren.",
+q:[["Die Zahl der Fahrradfahrer ist in den letzten Jahren gesunken.","F","Im Text steht: um 35 Prozent gestiegen."],["Viele Städte bauen neue Fahrradwege.","R","Im Text steht: Viele Städte bauen neue Fahrradwege."],["Die meisten Fahrradfahrer nutzen das Rad zum Einkaufen.","F","Im Text steht: für den Weg zur Arbeit."],["Die Zahl der Fahrradfahrer ist um 35% gestiegen.","R","Im Text steht: um 35 Prozent gestiegen."],["In Deutschland gibt es eine Helmpflicht für Radfahrer.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.24",t:"Immer mehr Senioren nutzen Smartphones",s:0,
+text:"Eine Studie der Universität Bremen zeigt: Immer mehr Menschen über 65 Jahre nutzen Smartphones. 60% der Befragten ab 65 Jahren besitzen ein Smartphone. Die beliebtesten Apps sind WhatsApp, Wetter-Apps und Nachrichten-Apps. Viele Senioren nutzen das Smartphone, um mit der Familie in Kontakt zu bleiben. Einige finden die kleine Schrift schwierig. Viele Städte bieten kostenlose Smartphone-Kurse für Senioren an.",
+q:[["60% der Befragten ab 65 Jahren haben ein Smartphone.","R","Im Text steht: 60% der Befragten ab 65 Jahren besitzen ein Smartphone."],["WhatsApp ist bei Senioren beliebt.","R","Im Text steht: Die beliebtesten Apps sind WhatsApp, Wetter-Apps und Nachrichten-Apps."],["Viele Senioren nutzen das Smartphone für den Kontakt zur Familie.","R","Im Text steht: um mit der Familie in Kontakt zu bleiben."],["Smartphone-Kurse für Senioren kosten etwas.","F","Im Text steht: Viele Städte bieten kostenlose Smartphone-Kurse an."],["Die Studie wurde von der Universität München durchgeführt.","F","Im Text steht: Universität Bremen – nicht München."]]},
+
+{n:"1.25",t:"Immer mehr Menschen essen vegetarisch",s:0,
+text:"Laut einer neuen Umfrage essen immer mehr Deutsche kein Fleisch mehr. Heute ernähren sich 10% der Deutschen vegetarisch und 2% vegan. Besonders junge Menschen zwischen 18 und 35 Jahren essen weniger Fleisch. Als Gründe werden Umweltschutz, Gesundheit und Tierschutz genannt. Supermärkte und Restaurants bieten immer mehr vegetarische Produkte an. Der Markt für Fleischersatzprodukte wächst stark.",
+q:[["10% der Deutschen essen kein Fleisch.","R","Im Text steht: ernähren sich 10% der Deutschen vegetarisch."],["2% der Deutschen leben vegan.","R","Im Text steht: 2% vegan."],["Religion ist der Hauptgrund für vegetarische Ernährung.","N","Im Text werden Umweltschutz, Gesundheit und Tierschutz genannt – Religion nicht."],["Vor allem ältere Menschen essen weniger Fleisch.","F","Im Text steht: junge Menschen zwischen 18 und 35 Jahren."],["Der Markt für Fleischersatzprodukte wächst stark.","R","Im Text steht: Der Markt für Fleischersatzprodukte wächst stark."]]},
+
+{n:"1.26",t:"Neue Flugverbindung nach Spanien",s:0,
+text:"Die Fluggesellschaft SkyConnect bietet ab März eine neue direkte Verbindung von Berlin nach Valencia an. Die Flüge finden dienstags und samstags statt. Ein Hin- und Rückflugticket kostet ab 89 Euro. Der Flug dauert etwa 3 Stunden. Tickets können auf der Website der Airline oder bei Reisebüros gekauft werden. Für Handgepäck fallen keine extra Kosten an.",
+q:[["Die neue Flugverbindung geht nach Madrid.","F","Im Text steht: nach Valencia – nicht Madrid."],["Flüge finden zweimal pro Woche statt.","R","Im Text steht: dienstags und samstags – zwei Tage pro Woche."],["Ein Ticket kostet ab 89 Euro.","R","Im Text steht: ab 89 Euro."],["Handgepäck ist kostenlos.","R","Im Text steht: Für Handgepäck fallen keine extra Kosten an."],["Auf dem Flug gibt es kostenloses Essen.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.27",t:"Neuer Mitarbeiter bei AutoTech GmbH",s:0,
+text:"Die AutoTech GmbH in Stuttgart sucht neue Mitarbeiter. Das Unternehmen sucht vor allem Ingenieure für Elektromobilität und Softwareentwickler. Bewerber müssen mindestens drei Jahre Berufserfahrung haben. Die Gehälter sind überdurchschnittlich. Das Unternehmen bietet flexible Arbeitszeiten und die Möglichkeit, von zu Hause zu arbeiten. Bewerbungen können bis zum 30. September per E-Mail eingereicht werden.",
+q:[["Das Unternehmen sucht Ingenieure und Softwareentwickler.","R","Im Text steht: Ingenieure für Elektromobilität und Softwareentwickler."],["Bewerber brauchen keine Berufserfahrung.","F","Im Text steht: mindestens drei Jahre Berufserfahrung."],["Die Mitarbeiter können von zu Hause arbeiten.","R","Im Text steht: die Möglichkeit, von zu Hause zu arbeiten."],["Die Bewerbungsfrist endet am 30. Oktober.","F","Im Text steht: bis zum 30. September."],["Das Unternehmen bietet Weiterbildungen an.","N","Diese Information steht nicht im Text."]]},
+
+{n:"1.28",t:"Marathon in Frankfurt",s:0,
+text:"Am 22. Oktober findet der Frankfurt-Marathon statt. Es ist einer der größten Marathons in Deutschland. Über 15.000 Läufer aus 100 Ländern nehmen teil. Die Strecke führt durch die Innenstadt. Zuschauer können den Marathon kostenlos verfolgen. Es gibt auch einen Halbmarathon und einen Lauf für Kinder. Die Anmeldung ist bis zum 15. September online möglich.",
+q:[["Über 15.000 Läufer nehmen am Marathon teil.","R","Im Text steht: Über 15.000 Läufer nehmen teil."],["Die Strecke führt am Rhein entlang.","N","Im Text steht nur: durch die Innenstadt – der Rhein wird nicht erwähnt."],["Zuschauer müssen Eintritt bezahlen.","F","Im Text steht: Zuschauer können den Marathon kostenlos verfolgen."],["Es gibt auch einen Lauf für Kinder.","R","Im Text steht: einen Lauf für Kinder."],["Die Anmeldung schließt am 15. September.","R","Im Text steht: bis zum 15. September online möglich."]]},
+
+{n:"1.29",t:"Überraschung in Rom",s:0,
+text:"Eine deutsche Touristin hat in Rom einen wertvollen antiken Ring gefunden. Sie hat den Ring sofort der Polizei gegeben. Die Polizei hat den Ring als 2.000 Jahre alt identifiziert. Der Ring gehörte vermutlich einem römischen Adligen. Die Touristin wurde für ihre Ehrlichkeit offiziell von der Stadt Rom gelobt. Sie durfte den Ring fotografieren, bevor er in ein Museum gebracht wurde.",
+q:[["Die Touristin hat den Ring behalten.","F","Im Text steht: Sie hat den Ring sofort der Polizei gegeben."],["Der Ring ist etwa 2.000 Jahre alt.","R","Im Text steht: als 2.000 Jahre alt identifiziert."],["Die Touristin kommt aus Deutschland.","R","Im Text steht: Eine deutsche Touristin."],["Der Ring kommt in ein Museum.","R","Im Text steht: bevor er in ein Museum gebracht wurde."],["Die Touristin bekam eine Geldbelohnung.","N","Im Text steht nur: Sie wurde gelobt – von einer Belohnung steht nichts im Text."]]},
+];
+
+function cls(s){return s===100?"done":s>0?"partial":"pending";}
+const list=document.getElementById("list");
+EX.forEach((ex,i)=>{
+  const c=cls(ex.s);
+  const div=document.createElement("div");
+  div.className="ex";
+
+  const qHtml=ex.q.map(([stmt,,],qi)=>
+    `<div class="q" id="q_${i}_${qi}">
+      <p class="q-text"><span class="q-num">${qi+1}.</span> ${stmt}</p>
+      <div class="q-opts">
+        <label><input type="radio" name="q_${i}_${qi}" value="R"><span class="rfn-lbl">R</span>Richtig</label>
+        <label><input type="radio" name="q_${i}_${qi}" value="F"><span class="rfn-lbl">F</span>Falsch</label>
+        <label><input type="radio" name="q_${i}_${qi}" value="N"><span class="rfn-lbl">N</span>Steht nicht im Text</label>
+      </div>
+      <div class="hint"></div>
+    </div>`
+  ).join("");
+
+  div.innerHTML=`
+<div class="ex-hd" tabindex="0" role="button" aria-expanded="false">
+  <div class="stripe ${c}"></div>
+  <div class="ex-lbl"><div class="ex-num">Übung ${ex.n}</div><div class="ex-title">${ex.t}</div></div>
+  <div class="ex-right"><span class="badge ${c}">${ex.s===0?"–":ex.s+" %"}</span><span class="chevron">▾</span></div>
+</div>
+<div class="ex-body">
+  <p class="instr">Lesen Sie den Text. Kreuzen Sie für jede Aussage an: Richtig (R), Falsch (F) oder Steht nicht im Text (N).</p>
+  <div class="article">
+    <div class="article-header">Lesen Sie den Text</div>
+    <div class="article-body">${ex.text}</div>
+  </div>
+  <div class="q-list">${qHtml}</div>
+  <button class="check-btn">Antworten prüfen</button>
+  <div class="score"></div>
+</div>`;
+
+  const hd=div.querySelector(".ex-hd");
+  function toggle(){div.classList.toggle("open");hd.setAttribute("aria-expanded",div.classList.contains("open"));}
+  hd.addEventListener("click",toggle);
+  hd.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle();}});
+
+  div.querySelector(".check-btn").addEventListener("click",()=>{
+    let ok=0;
+    const lbl={"R":"Richtig","F":"Falsch","N":"Steht nicht im Text"};
+    ex.q.forEach(([,ans,expl],qi)=>{
+      const qEl=div.querySelector(`#q_${i}_${qi}`);
+      const sel=div.querySelector(`input[name="q_${i}_${qi}"]:checked`);
+      const hint=qEl.querySelector(".hint");
+      qEl.classList.remove("ok","err");
+      if(sel&&sel.value===ans){
+        qEl.classList.add("ok");ok++;
+        hint.innerHTML=`✓ <strong>${lbl[ans]}</strong><span class="hint-sep">·</span><span class="hint-desc">${expl}</span>`;
+      } else {
+        qEl.classList.add("err");
+        hint.innerHTML=`✗ Richtige Antwort: <strong>${lbl[ans]}</strong><span class="hint-sep">·</span><span class="hint-desc">${expl}</span>`;
+      }
+    });
+    const sc=div.querySelector(".score");
+    const pct=Math.round(ok/5*100);
+    sc.className="score show";
+    sc.innerHTML=`<div class="score-bar"><div class="score-fill" style="width:${pct}%"></div></div><p class="score-text">Ergebnis: <span class="sc-val">${ok} von 5</span> richtig &thinsp;·&thinsp; ${pct}&thinsp;%</p>`;
+  });
+
+  list.appendChild(div);
+});
+</script>
+</body>
+</html>
