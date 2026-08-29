@@ -28,6 +28,9 @@
       --gc-bg:rgba(160,110,10,.11);--gc-col:#8B6008;
       --gd-bg:rgba(148,50,45,.10);--gd-col:#7A3030;
       --drop-bg:#F4F8F5;--drop-bd:#B8D4C0;--drop-hov:#ECF4EE;
+      --auto-bg:#EBF4EE;--auto-border:#BDD9C9;
+      --fb-ok-bg:rgba(26,87,56,.07);--fb-ok-bd:#BDD9C9;--fb-ok-col:#1A5738;
+      --fb-miss-bg:rgba(184,78,24,.06);--fb-miss-bd:#E5C4A8;--fb-miss-col:#8B3A0A;
     }
     @media(prefers-color-scheme:dark){:root:not([data-theme=light]){
       --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
@@ -51,6 +54,9 @@
       --gc-bg:rgba(190,148,40,.12);--gc-col:#C09830;
       --gd-bg:rgba(190,80,70,.10);--gd-col:#C06060;
       --drop-bg:#141814;--drop-bd:#2A3C2C;--drop-hov:#191E18;
+      --auto-bg:#1C271E;--auto-border:#2E4835;
+      --fb-ok-bg:rgba(77,170,122,.10);--fb-ok-bd:#2E4835;--fb-ok-col:#4DAA7A;
+      --fb-miss-bg:rgba(224,120,64,.08);--fb-miss-bd:#4A3020;--fb-miss-col:#E07840;
     }}
     :root[data-theme=dark]{
       --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
@@ -74,6 +80,9 @@
       --gc-bg:rgba(190,148,40,.12);--gc-col:#C09830;
       --gd-bg:rgba(190,80,70,.10);--gd-col:#C06060;
       --drop-bg:#141814;--drop-bd:#2A3C2C;--drop-hov:#191E18;
+      --auto-bg:#1C271E;--auto-border:#2E4835;
+      --fb-ok-bg:rgba(77,170,122,.10);--fb-ok-bd:#2E4835;--fb-ok-col:#4DAA7A;
+      --fb-miss-bg:rgba(224,120,64,.08);--fb-miss-bd:#4A3020;--fb-miss-col:#E07840;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px 80px;}
@@ -82,14 +91,12 @@
     .brand-name{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,5vw,2.8rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em;text-wrap:balance;}
     .brand-name em{font-style:italic;font-weight:300;color:var(--accent);}
     .brand-sub{font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-top:8px;}
-
     .info-box{border:1px solid var(--info-border);border-radius:9px;overflow:hidden;}
     .info-box-head{background:var(--info-hd);color:#fff;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:9px 16px;}
     .info-box-body{background:var(--info-bg);padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;}
     @media(max-width:480px){.info-box-body{grid-template-columns:1fr;}}
-    .info-item{font-size:.83rem;line-height:1.5;color:var(--text);}
+    .info-item{font-size:.83rem;line-height:1.5;}
     .info-item strong{color:var(--accent);font-weight:600;}
-
     .list{display:flex;flex-direction:column;gap:6px;}
     .ex{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);transition:box-shadow .18s;}
     .ex.open{box-shadow:0 4px 22px rgba(0,0,0,.09);}
@@ -108,7 +115,6 @@
     .ex.open .chevron{transform:rotate(180deg);}
     .ex-body{display:none;padding:0 20px 26px;border-top:1px solid var(--border);}
     .ex.open .ex-body{display:block;}
-
     .task-ctx{background:var(--task-bg);border:1px solid var(--task-border);border-radius:8px;padding:13px 16px;margin-top:18px;margin-bottom:16px;font-size:.88rem;line-height:1.65;}
     .task-ctx-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--muted);margin-bottom:6px;}
     .task-ctx-rcv{font-size:.8rem;color:var(--muted);margin-bottom:8px;}
@@ -117,48 +123,56 @@
     .bullets{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
     .bullets li{background:var(--bullet-bg);border:1px solid var(--bullet-border);border-radius:6px;padding:8px 12px;font-size:.86rem;line-height:1.45;display:flex;align-items:flex-start;gap:8px;}
     .bullets li::before{content:"→";color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px;}
-
-    /* Mode tabs */
     .mode-tabs{display:flex;gap:3px;margin-bottom:12px;background:var(--task-bg);border:1px solid var(--task-border);border-radius:7px;padding:4px;}
     .mode-tab{flex:1;padding:7px 10px;border:none;border-radius:5px;font-family:'DM Sans',system-ui,sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;background:transparent;color:var(--muted);transition:all .15s;}
     .mode-tab:hover{color:var(--text);}
     .mode-tab.active{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08);}
-
-    /* Typing */
     textarea{width:100%;min-height:140px;font-family:'DM Sans',system-ui,sans-serif;font-size:.9rem;line-height:1.65;color:var(--text);background:var(--ta-bg);border:1.5px solid var(--ta-border);border-radius:8px;padding:12px 14px;resize:vertical;transition:border-color .15s;}
     textarea:focus{outline:none;border-color:var(--accent);}
     textarea::placeholder{color:var(--muted);opacity:.7;}
-    .wc-row{display:flex;align-items:center;justify-content:space-between;margin:8px 0 14px;gap:8px;}
+    .wc-row{display:flex;align-items:center;justify-content:space-between;margin:8px 0 10px;gap:8px;}
     .wc-bar-wrap{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
     .wc-bar{height:100%;border-radius:2px;transition:width .3s,background .3s;}
     .wc-text{font-size:.75rem;font-variant-numeric:tabular-nums;white-space:nowrap;flex-shrink:0;}
     .wc-text.low{color:var(--wc-low);}.wc-text.ok{color:var(--wc-ok);}
-
+    /* Auto-score button */
+    .auto-btn{width:100%;margin-bottom:14px;padding:10px 16px;border:1.5px solid var(--auto-border);border-radius:7px;background:var(--auto-bg);color:var(--accent);font-family:'DM Sans',system-ui,sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px;}
+    .auto-btn:hover{border-color:var(--accent);background:rgba(26,87,56,.12);}
+    .auto-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+    .auto-btn[disabled]{opacity:.45;cursor:not-allowed;}
+    /* Feedback items */
+    .auto-feedback{margin-bottom:14px;display:flex;flex-direction:column;gap:5px;}
+    .fb-item{display:flex;align-items:flex-start;gap:8px;padding:7px 11px;border-radius:6px;font-size:.82rem;line-height:1.4;}
+    .fb-ok{background:var(--fb-ok-bg);border:1px solid var(--fb-ok-bd);color:var(--fb-ok-col);}
+    .fb-miss{background:var(--fb-miss-bg);border:1px solid var(--fb-miss-bd);color:var(--fb-miss-col);}
+    .fb-icon{flex-shrink:0;font-size:.85rem;}
+    .fb-note{font-size:.74rem;color:var(--muted);font-style:italic;padding:4px 11px;text-align:center;}
     /* Upload */
     .drop-zone{border:2px dashed var(--drop-bd);border-radius:8px;background:var(--drop-bg);cursor:pointer;transition:all .15s;min-height:110px;display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;overflow:hidden;margin-bottom:8px;}
     .drop-zone:hover,.drop-zone.drag-over{border-color:var(--accent);background:var(--drop-hov);}
     .drop-zone:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
     .drop-zone.has-file{cursor:default;border-style:solid;border-color:var(--border);}
     .up-ph{display:flex;flex-direction:column;align-items:center;gap:5px;padding:24px 16px;text-align:center;}
-    .up-icon{font-size:1.6rem;}
-    .up-text{font-size:.88rem;font-weight:500;}
-    .up-hint{font-size:.74rem;color:var(--muted);}
+    .up-icon{font-size:1.6rem;}.up-text{font-size:.88rem;font-weight:500;}.up-hint{font-size:.74rem;color:var(--muted);}
     .up-img{width:100%;max-height:380px;object-fit:contain;display:block;padding:8px;}
     .up-fname{padding:18px 16px;font-size:.88rem;font-weight:500;display:flex;align-items:center;gap:8px;}
-    .up-actions{display:flex;gap:6px;margin-bottom:14px;}
+    .up-actions{display:flex;gap:6px;margin-bottom:8px;}
     .btn-sm{padding:5px 12px;border:1px solid var(--border);border-radius:5px;background:none;font-family:'DM Sans',system-ui,sans-serif;font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .12s;}
     .btn-sm:hover{border-color:var(--accent);color:var(--accent);}
-
+    /* Schicken button */
+    .send-btn{width:100%;margin-bottom:14px;padding:11px 16px;border:none;border-radius:7px;background:var(--accent);color:#fff;font-family:'DM Sans',system-ui,sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .send-btn:hover{opacity:.88;}
+    .send-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+    .send-note{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:14px;line-height:1.5;}
     /* Sample answer */
     .sample-toggle{background:none;border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-size:.82rem;font-family:'DM Sans',system-ui,sans-serif;color:var(--muted);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;}
     .sample-toggle:hover{border-color:var(--accent);color:var(--accent);}
-    .sample-toggle .arr{transition:transform .2s;font-size:.65rem;}
+    .sample-toggle .arr{font-size:.65rem;}
     .sample-box{display:none;margin-top:12px;background:var(--sample-bg);border:1px solid var(--sample-border);border-radius:8px;padding:14px 16px;margin-bottom:4px;}
     .sample-box.show{display:block;}
     .sample-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--muted);margin-bottom:8px;}
     .sample-text{font-size:.88rem;line-height:1.7;white-space:pre-wrap;}
     .sample-wc{font-size:.74rem;color:var(--muted);margin-top:6px;}
-
     /* Scoring */
     .score-section{margin-top:20px;border:1px solid var(--score-border);border-radius:9px;overflow:hidden;background:var(--score-bg);}
     .score-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--score-hd);color:#fff;}
@@ -189,7 +203,6 @@
     .grade-b{background:var(--gb-bg);color:var(--gb-col);}
     .grade-c{background:var(--gc-bg);color:var(--gc-col);}
     .grade-d{background:var(--gd-bg);color:var(--gd-col);}
-
     .sig{display:flex;align-items:baseline;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
     .sig-mark{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:300;font-style:italic;color:var(--accent);}
     .sig-copy{font-size:.74rem;color:var(--muted);letter-spacing:.04em;}
@@ -223,189 +236,132 @@
   </footer>
 </div>
 <script>
+/* eval[j] = keyword list for IP j (≥2 hits → 3 pts, 1 hit → 1.5, 0 hits → 0) */
 const EX=[
 {n:"S.1",t:"Kurs verpasst – Entschuldigung",
  rcv:"Ihre Kursleiterin / Ihren Kursleiter",
  ctx:"Sie haben gestern Ihren Deutschkurs nicht besucht. Schreiben Sie eine E-Mail an Ihre Kursleiterin Frau Wagner und entschuldigen Sie sich.",
  bullets:["Warum konnten Sie nicht kommen?","Entschuldigen Sie sich.","Bitten Sie um die verpassten Unterrichtsmaterialien.","Wann können Sie den Stoff nachholen?"],
  ips:["Abwesenheitsgrund klar genannt","Entschuldigung + Bitte um Materialien ausgedrückt","Nachholplan / Zeitangabe gemacht"],
- sample:`Liebe Frau Wagner,
-
-ich entschuldige mich, dass ich gestern nicht im Kurs war. Ich war leider krank und hatte Fieber. Es tut mir sehr leid.
-
-Könnten Sie mir die Materialien vom Unterricht schicken? Ich möchte den Stoff so schnell wie möglich nachholen. Nächste Woche bin ich wieder gesund und lerne fleißig.
-
-Mit freundlichen Grüßen
-[Ihr Name]`},
+ eval:[["krank","fieber","arzt","nicht kommen","konnte nicht","verhindert","unwohlsein"],
+       ["entschuldige","entschuldigung","tut mir leid","sorry","materialien","unterlagen","aufgaben"],
+       ["nachholen","nächste","aufholen","wann","wiederholen","bald lernen"]],
+ sample:`Liebe Frau Wagner,\n\nich entschuldige mich, dass ich gestern nicht im Kurs war. Ich war leider krank und hatte Fieber. Es tut mir sehr leid.\n\nKönnten Sie mir die Materialien vom Unterricht schicken? Ich möchte den Stoff so schnell wie möglich nachholen. Nächste Woche bin ich wieder gesund und lerne fleißig.\n\nMit freundlichen Grüßen\n[Ihr Name]`},
 
 {n:"S.2",t:"Bewerbung: Aushilfe in einer Bäckerei",
  rcv:"Bäckerei Hofmann (jobs@baeckerei-hofmann.de)",
  ctx:"Sie haben eine Stellenanzeige für eine Aushilfsstelle in einer Bäckerei gelesen. Schreiben Sie eine Bewerbungs-E-Mail.",
  bullets:["Wo haben Sie die Anzeige gesehen?","Welche Erfahrungen haben Sie?","Wann können Sie arbeiten?","Wie kann man Sie kontaktieren?"],
- ips:["Anzeigenquelle genannt","Eigene Erfahrungen beschrieben","Verfügbarkeit und Kontaktmöglichkeit angegeben"],
- sample:`Sehr geehrte Damen und Herren,
-
-ich habe Ihre Anzeige auf dem Stadtportal gelesen und möchte mich gerne als Aushilfe bewerben.
-
-Ich habe schon in einem Supermarkt gearbeitet und kenne mich mit dem Verkauf aus. Ich bin zuverlässig und pünktlich. Ich kann montags bis samstags ab 6 Uhr kommen.
-
-Sie können mich unter 0176 12345678 oder per E-Mail erreichen.
-
-Mit freundlichen Grüßen
-[Ihr Name]`},
+ ips:["Anzeigenquelle genannt","Eigene Erfahrungen beschrieben","Verfügbarkeit und Kontakt angegeben"],
+ eval:[["anzeige","gelesen","gesehen","stadtportal","internet","website","zeitung","annonce"],
+       ["erfahrung","gearbeitet","gearbeite","kenntnisse","kann","supermarkt","verkauf","arbeit"],
+       ["montag","dienstag","freitag","samstag","uhr","telefon","email","erreichbar","kontaktieren"]],
+ sample:`Sehr geehrte Damen und Herren,\n\nich habe Ihre Anzeige auf dem Stadtportal gelesen und möchte mich gerne als Aushilfe bewerben.\n\nIch habe schon in einem Supermarkt gearbeitet und kenne mich mit dem Verkauf aus. Ich bin zuverlässig und pünktlich. Ich kann montags bis samstags ab 6 Uhr kommen.\n\nSie können mich unter 0176 12345678 oder per E-Mail erreichen.\n\nMit freundlichen Grüßen\n[Ihr Name]`},
 
 {n:"S.3",t:"Informationen zu einem Kurs anfragen",
  rcv:"Volkshochschule Köln (info@vhs-koeln.de)",
  ctx:"Sie interessieren sich für einen Deutschkurs an der Volkshochschule. Schreiben Sie eine E-Mail und fragen Sie nach Informationen.",
  bullets:["Für welchen Kurs interessieren Sie sich?","Auf welchem Niveau sind Sie?","Wann können Sie den Kurs besuchen?","Was möchten Sie noch wissen?"],
  ips:["Kursinteresse und eigenes Niveau genannt","Verfügbare Zeiten angegeben","Mindestens eine konkrete Frage gestellt"],
- sample:`Sehr geehrte Damen und Herren,
-
-ich interessiere mich für einen Deutschkurs an Ihrer Volkshochschule. Mein Deutschniveau ist A2, und ich möchte gerne B1 erreichen.
-
-Ich kann nur abends nach 18 Uhr kommen, weil ich tagsüber arbeite. Gibt es Kurse am Abend? Was kostet ein Kurs pro Semester, und wann beginnt der nächste Kurs?
-
-Ich freue mich auf Ihre Antwort.
-
-Mit freundlichen Grüßen
-[Ihr Name]`},
+ eval:[["kurs","niveau","a2","a1","b1","deutsch","interessiere","lernen","möchte"],
+       ["abend","morgen","uhr","wann","montag","dienstag","woche","tagsüber","nachmitt"],
+       ["kostet","kosten","beginnt","anfang","termin","gibt es","wie viel","wann","dauer","wann fängt"]],
+ sample:`Sehr geehrte Damen und Herren,\n\nich interessiere mich für einen Deutschkurs an Ihrer Volkshochschule. Mein Deutschniveau ist A2, und ich möchte gerne B1 erreichen.\n\nIch kann nur abends nach 18 Uhr kommen, weil ich tagsüber arbeite. Gibt es Kurse am Abend? Was kostet ein Kurs pro Semester, und wann beginnt der nächste Kurs?\n\nIch freue mich auf Ihre Antwort.\n\nMit freundlichen Grüßen\n[Ihr Name]`},
 
 {n:"S.4",t:"Termin absagen",
  rcv:"Ihre Freundin / Ihren Freund",
  ctx:"Sie haben mit Ihrer Freundin Sara einen Termin für Samstag vereinbart. Sie können aber leider nicht kommen. Schreiben Sie eine E-Mail an Sara.",
  bullets:["Warum können Sie nicht kommen?","Entschuldigen Sie sich.","Machen Sie einen neuen Terminvorschlag.","Schreiben Sie etwas Nettes."],
  ips:["Absagegrund genannt","Entschuldigung ausgedrückt","Neuen Terminvorschlag gemacht"],
- sample:`Liebe Sara,
-
-leider muss ich unseren Termin am Samstag absagen. Mein Bruder kommt überraschend zu Besuch, und ich muss bei ihm bleiben.
-
-Es tut mir wirklich leid! Können wir uns nächsten Samstag treffen? Das wäre für mich perfekt. Ich freue mich schon sehr auf unseren Kaffee zusammen!
-
-Liebe Grüße
-[Dein Name]`},
+ eval:[["weil","leider","kann nicht","bruder","schwester","krank","arbeit","verhindert","muss","überraschend"],
+       ["tut mir leid","entschuldige","entschuldigung","sorry","bedauere","leid"],
+       ["nächste","wann","treffen","vorschlag","samstag","sonntag","woche","nächsten","montag"]],
+ sample:`Liebe Sara,\n\nleider muss ich unseren Termin am Samstag absagen. Mein Bruder kommt überraschend zu Besuch, und ich muss bei ihm bleiben.\n\nEs tut mir wirklich leid! Können wir uns nächsten Samstag treffen? Das wäre für mich perfekt. Ich freue mich schon sehr auf unseren Kaffee zusammen!\n\nLiebe Grüße\n[Dein Name]`},
 
 {n:"S.5",t:"Einladung zum Geburtstag",
  rcv:"Ihren Kollegen / Ihre Kollegin",
  ctx:"Sie feiern nächsten Samstag Ihren Geburtstag und möchten Ihren Kollegen Jonas einladen. Schreiben Sie eine E-Mail.",
  bullets:["Was feiern Sie?","Wann und wo findet die Feier statt?","Was soll Jonas mitbringen?","Was sollen die Gäste wissen?"],
  ips:["Anlass, Datum und Ort genannt","Hinweis auf Mitbringsel / Ablauf gegeben","Um Rückmeldung bis Datum gebeten"],
- sample:`Lieber Jonas,
-
-nächsten Samstag feiere ich meinen Geburtstag und ich möchte dich herzlich einladen!
-
-Die Feier beginnt um 19 Uhr bei mir zu Hause, Rosestraße 14. Es gibt Essen und Musik. Bitte bringe einfach gute Laune mit – ich koche für alle!
-
-Kannst du kommen? Bitte sag mir bis Mittwoch Bescheid, damit ich planen kann.
-
-Liebe Grüße
-[Dein Name]`},
+ eval:[["geburtstag","feiere","feier","party","einlade","uhr","adresse","bei mir","wo"],
+       ["mitbringen","mitgebracht","kuchen","getränke","blumen","nichts","gute laune"],
+       ["bescheid","rückmeldung","antworten","bis","kannst du","bitte sag","meld","reserviere"]],
+ sample:`Lieber Jonas,\n\nnächsten Samstag feiere ich meinen Geburtstag und ich möchte dich herzlich einladen!\n\nDie Feier beginnt um 19 Uhr bei mir zu Hause, Rosestraße 14. Es gibt Essen und Musik. Bitte bringe einfach gute Laune mit – ich koche für alle!\n\nKannst du kommen? Bitte sag mir bis Mittwoch Bescheid, damit ich planen kann.\n\nLiebe Grüße\n[Dein Name]`},
 
 {n:"S.6",t:"Beschwerde: Hotelzimmer",
  rcv:"Hotel Sonnenhof (info@hotel-sonnenhof.de)",
  ctx:"Sie waren letzte Woche im Hotel Sonnenhof. Das Zimmer hatte Probleme. Schreiben Sie eine Beschwerde-E-Mail.",
  bullets:["In welchem Zimmer haben Sie gewohnt? Wann?","Was war das Problem?","Was haben Sie getan?","Was möchten Sie als Lösung?"],
- ips:["Zimmernummer, Zeitraum und Problem beschrieben","Eigene Reaktion / Meldung an Rezeption geschildert","Konkrete Entschädigung / Lösung gefordert"],
- sample:`Sehr geehrte Damen und Herren,
-
-ich habe letzte Woche (12.–14. September) in Zimmer 205 gewohnt. Leider war die Heizung kaputt, und das Zimmer war sehr kalt. Ich habe an der Rezeption gefragt, aber es hat sich nichts geändert.
-
-Das war sehr unangenehm, besonders nachts. Ich bitte Sie um eine Rückerstattung für die Nächte oder einen Rabatt bei meinem nächsten Aufenthalt.
-
-Mit freundlichen Grüßen
-[Ihr Name]`},
+ ips:["Zimmernummer, Zeitraum und Problem beschrieben","Eigene Reaktion / Meldung an Rezeption","Entschädigung / Lösung gefordert"],
+ eval:[["zimmer","nacht","tage","datum","september","problem","kaputt","defekt","kalt","warm","laut","dreckig"],
+       ["rezeption","gefragt","beschwert","gesagt","gemeldet","nichts","nicht geholfen","gesprochen"],
+       ["erstattung","rückerstattung","rabatt","entschädigung","kostenlos","möchte","bitte","zurück","gutschein"]],
+ sample:`Sehr geehrte Damen und Herren,\n\nich habe letzte Woche (12.–14. September) in Zimmer 205 gewohnt. Leider war die Heizung kaputt, und das Zimmer war sehr kalt. Ich habe an der Rezeption gefragt, aber es hat sich nichts geändert.\n\nDas war sehr unangenehm, besonders nachts. Ich bitte Sie um eine Rückerstattung für die Nächte oder einen Rabatt bei meinem nächsten Aufenthalt.\n\nMit freundlichen Grüßen\n[Ihr Name]`},
 
 {n:"S.7",t:"Nachbar: Dankeschön",
  rcv:"Ihren Nachbarn / Ihre Nachbarin",
  ctx:"Ihr Nachbar Herr Müller hat letzte Woche Ihre Post angenommen und für Ihren Hund gesorgt, während Sie im Urlaub waren. Schreiben Sie ihm eine Dankes-E-Mail.",
  bullets:["Wofür bedanken Sie sich?","Wie war Ihr Urlaub?","Wie geht es dem Hund?","Was möchten Sie anbieten?"],
- ips:["Expliziter Dank für spezifische Hilfe ausgedrückt","Urlaub und Hundebefinden erwähnt","Gegenangebot / kleines Geschenk angekündigt"],
- sample:`Lieber Herr Müller,
-
-ich möchte mich herzlich bei Ihnen bedanken! Sie haben während meines Urlaubs meine Post angenommen und so gut auf meinen Hund Max aufgepasst. Das war wirklich sehr nett von Ihnen.
-
-Der Urlaub war wunderschön, und Max geht es sehr gut – er war sicher bei Ihnen. Als kleines Dankeschön bringe ich Ihnen morgen etwas mit aus dem Urlaub.
-
-Mit freundlichen Grüßen
-[Ihr Name]`},
+ ips:["Dank für spezifische Hilfe ausgedrückt","Urlaub und Hundebefinden erwähnt","Gegenangebot / Geschenk angekündigt"],
+ eval:[["danke","dankeschön","bedanken","herzlich","nett","hilfe","geholfen","post","hund"],
+       ["urlaub","reise","schön","wunderbar","toll","hund","max","gut","geht es"],
+       ["mitbringen","etwas","einladen","dafür","als dankeschön","gegenleistung","anbiete","morgen"]],
+ sample:`Lieber Herr Müller,\n\nich möchte mich herzlich bei Ihnen bedanken! Sie haben während meines Urlaubs meine Post angenommen und so gut auf meinen Hund Max aufgepasst. Das war wirklich sehr nett von Ihnen.\n\nDer Urlaub war wunderschön, und Max geht es sehr gut – er war sicher bei Ihnen. Als kleines Dankeschön bringe ich Ihnen morgen etwas mit aus dem Urlaub.\n\nMit freundlichen Grüßen\n[Ihr Name]`},
 
 {n:"S.8",t:"Arzttermin anfragen",
  rcv:"Hausarztpraxis Dr. Schulze (praxis@dr-schulze.de)",
  ctx:"Sie fühlen sich seit einigen Tagen nicht gut und möchten einen Termin beim Arzt machen. Schreiben Sie eine E-Mail an die Praxis.",
  bullets:["Warum schreiben Sie?","Was sind Ihre Beschwerden?","Wann können Sie kommen?","Was ist Ihre Telefonnummer?"],
- ips:["Beschwerden konkret beschrieben","Verfügbare Zeiten angegeben","Kontaktdaten (Telefon) hinterlassen"],
- sample:`Sehr geehrte Damen und Herren,
-
-ich möchte gerne einen Termin bei Dr. Schulze vereinbaren. Ich fühle mich seit drei Tagen nicht gut – ich habe Kopfschmerzen, Halsschmerzen und leicht erhöhte Temperatur.
-
-Ich kann montags, dienstags und freitags vormittags kommen. Wenn es möglich ist, würde ich gerne bald einen Termin bekommen. Sie können mich unter 0176 55667788 erreichen.
-
-Vielen Dank und mit freundlichen Grüßen
-[Ihr Name]`},
+ ips:["Beschwerden konkret beschrieben","Verfügbare Zeiten angegeben","Kontaktdaten hinterlassen"],
+ eval:[["kopf","schmerz","hals","bauch","rücken","fieber","erkältet","husten","nicht gut","beschwerden","unwohlsein"],
+       ["montag","dienstag","freitag","uhr","morgen","abend","wann","woche","vormitt","nachmitt"],
+       ["telefon","nummer","erreichbar","email","anrufen","kontakt","handy"]],
+ sample:`Sehr geehrte Damen und Herren,\n\nich möchte gerne einen Termin bei Dr. Schulze vereinbaren. Ich fühle mich seit drei Tagen nicht gut – ich habe Kopfschmerzen, Halsschmerzen und leicht erhöhte Temperatur.\n\nIch kann montags, dienstags und freitags vormittags kommen. Wenn es möglich ist, würde ich gerne bald einen Termin bekommen. Sie können mich unter 0176 55667788 erreichen.\n\nVielen Dank und mit freundlichen Grüßen\n[Ihr Name]`},
 
 {n:"S.9",t:"Wohnung anfragen",
  rcv:"Hausverwaltung Grün (info@hausverwaltung-gruen.de)",
  ctx:"Sie haben eine Anzeige für eine 2-Zimmer-Wohnung gesehen und möchten mehr Informationen. Schreiben Sie eine E-Mail.",
  bullets:["Wo haben Sie die Anzeige gesehen?","Was möchten Sie über die Wohnung wissen?","Wann können Sie die Wohnung besichtigen?","Stellen Sie sich kurz vor."],
- ips:["Anzeigenquelle genannt + kurze Vorstellung","Mindestens zwei Fragen zur Wohnung gestellt","Besichtigungstermin vorgeschlagen"],
- sample:`Sehr geehrte Damen und Herren,
-
-ich habe Ihre Anzeige für die 2-Zimmer-Wohnung auf der Website ImmoscoutHessen gesehen und interessiere mich sehr dafür.
-
-Ich bin 32 Jahre alt, arbeite als Lehrerin und suche eine ruhige Wohnung. Gibt es einen Balkon? Sind Haustiere erlaubt? Ich habe eine kleine Katze.
-
-Ich kann die Wohnung gerne unter der Woche nach 17 Uhr oder am Wochenende besichtigen.
-
-Mit freundlichen Grüßen
-[Ihr Name]`},
+ ips:["Anzeigenquelle + kurze Selbstvorstellung","Fragen zur Wohnung gestellt","Besichtigungstermin vorgeschlagen"],
+ eval:[["anzeige","gelesen","gesehen","immoscout","internet","website","ich bin","ich arbeite","suche","jahre"],
+       ["balkon","haustier","hund","katze","keller","garage","miete","kosten","heizung","frei","wann verfügbar"],
+       ["besichtigung","besichtigen","ansehen","termin","montag","dienstag","woche","wann","uhr","wochenende"]],
+ sample:`Sehr geehrte Damen und Herren,\n\nich habe Ihre Anzeige für die 2-Zimmer-Wohnung auf der Website ImmoscoutHessen gesehen und interessiere mich sehr dafür.\n\nIch bin 32 Jahre alt, arbeite als Lehrerin und suche eine ruhige Wohnung. Gibt es einen Balkon? Sind Haustiere erlaubt? Ich habe eine kleine Katze.\n\nIch kann die Wohnung gerne unter der Woche nach 17 Uhr oder am Wochenende besichtigen.\n\nMit freundlichen Grüßen\n[Ihr Name]`},
 
 {n:"S.10",t:"Krankmeldung an den Arbeitgeber",
  rcv:"Ihren Chef / Ihre Chefin",
  ctx:"Sie sind krank und können heute und morgen nicht zur Arbeit kommen. Schreiben Sie eine E-Mail an Ihren Chef Herrn Becker.",
  bullets:["Warum schreiben Sie?","Was ist Ihr Problem?","Wie lange bleiben Sie zu Hause?","Was passiert mit Ihrer Arbeit?"],
- ips:["Krankheit und Grund der Abwesenheit genannt","Dauer der Krankschreibung mitgeteilt","Regelung der Aufgaben und Attest erwähnt"],
- sample:`Sehr geehrter Herr Becker,
-
-ich schreibe Ihnen, weil ich heute leider nicht zur Arbeit kommen kann. Ich bin krank – ich habe starke Rückenschmerzen und bin beim Arzt gewesen. Der Arzt hat mich für heute und morgen krankgeschrieben.
-
-Meine Kollegin Frau Schmidt hat sich bereit erklärt, meine dringenden Aufgaben zu übernehmen. Das Attest schicke ich Ihnen so schnell wie möglich.
-
-Mit freundlichen Grüßen
-[Ihr Name]`},
+ ips:["Krankheit und Abwesenheitsgrund genannt","Dauer der Krankschreibung mitgeteilt","Regelung der Aufgaben + Attest erwähnt"],
+ eval:[["krank","krankheit","arzt","rücken","schmerzen","fieber","unwohlsein","nicht kommen"],
+       ["heute","morgen","tage","woche","krankgeschrieben","attest","arzt hat"],
+       ["kollegin","kollege","übernehmen","aufgaben","erledigt","attest","schicken","geregelt"]],
+ sample:`Sehr geehrter Herr Becker,\n\nich schreibe Ihnen, weil ich heute leider nicht zur Arbeit kommen kann. Ich bin krank – ich habe starke Rückenschmerzen und bin beim Arzt gewesen. Der Arzt hat mich für heute und morgen krankgeschrieben.\n\nMeine Kollegin Frau Schmidt hat sich bereit erklärt, meine dringenden Aufgaben zu übernehmen. Das Attest schicke ich Ihnen so schnell wie möglich.\n\nMit freundlichen Grüßen\n[Ihr Name]`},
 
 {n:"S.11",t:"Anmeldung: Kochkurs",
  rcv:"Küchenstudio Leckerbissen (kochschule@leckerbissen.de)",
  ctx:"Sie möchten sich für einen Kochkurs über asiatische Küche anmelden. Schreiben Sie eine E-Mail an die Kochschule.",
  bullets:["Für welchen Kurs möchten Sie sich anmelden?","Warum interessiert Sie dieser Kurs?","Haben Sie Fragen zum Kurs?","Wie können Sie kontaktiert werden?"],
- ips:["Kursname und Datum zur Anmeldung genannt","Interesse begründet + eine Frage gestellt","Kontaktmöglichkeit angegeben und Bestätigung erbeten"],
- sample:`Sehr geehrte Damen und Herren,
-
-ich möchte mich gerne für den Kochkurs „Asiatische Küche" am 14. September anmelden.
-
-Ich interessiere mich sehr für asiatisches Essen und möchte lernen, es selbst zu kochen. Ich bin Anfänger – ist das kein Problem? Bitte bestätigen Sie mir die Anmeldung. Sie können mich unter 0162 33445566 oder per E-Mail erreichen.
-
-Ich freue mich auf den Kurs!
-
-Mit freundlichen Grüßen
-[Ihr Name]`},
+ ips:["Kursname + Termin zur Anmeldung genannt","Interesse begründet + Frage gestellt","Kontaktmöglichkeit + Bestätigung erbeten"],
+ eval:[["kochkurs","anmeld","kurs","asiat","datum","september","oktober","termin","14"],
+       ["interessiere","interessiert","liebe","mag","anfänger","frage","erlaubt","problem","warum"],
+       ["telefon","email","erreichbar","kontakt","bestätigung","bestätigen","antwort","nachricht"]],
+ sample:`Sehr geehrte Damen und Herren,\n\nich möchte mich gerne für den Kochkurs „Asiatische Küche" am 14. September anmelden.\n\nIch interessiere mich sehr für asiatisches Essen und möchte lernen, es selbst zu kochen. Ich bin Anfänger – ist das kein Problem? Bitte bestätigen Sie mir die Anmeldung. Sie können mich unter 0162 33445566 oder per E-Mail erreichen.\n\nIch freue mich auf den Kurs!\n\nMit freundlichen Grüßen\n[Ihr Name]`},
 
 {n:"S.12",t:"Hilfe beim Umzug anbieten",
  rcv:"Ihre Freundin / Ihren Freund",
  ctx:"Ihre Freundin Maria zieht nächsten Monat in eine neue Wohnung um. Sie möchten ihr helfen. Schreiben Sie Maria eine E-Mail.",
  bullets:["Was haben Sie gehört / gelesen?","Was möchten Sie anbieten?","Wann haben Sie Zeit?","Was brauchen Sie von ihr?"],
- ips:["Umzug erwähnt und Glückwunsch ausgedrückt","Konkretes Hilfsangebot beschrieben","Verfügbare Zeit und benötigte Info angegeben"],
- sample:`Liebe Maria,
-
-ich habe von deinem Umzug gehört – herzlichen Glückwunsch zur neuen Wohnung!
-
-Ich möchte dir gerne beim Umzug helfen. Ich kann Kisten tragen und beim Aufräumen helfen. Am Wochenende habe ich den ganzen Tag Zeit. Sage mir bitte, wann der Umzug stattfindet und was ich mitbringen soll – zum Beispiel Kartons oder Werkzeug.
-
-Ich freue mich, dir zu helfen!
-
-Liebe Grüße
-[Dein Name]`},
+ ips:["Umzug erwähnt + Glückwunsch ausgedrückt","Konkretes Hilfsangebot beschrieben","Verfügbare Zeit + benötigte Info angegeben"],
+ eval:[["umzug","gehört","gelesen","glückwunsch","neue wohnung","freue","toll","super"],
+       ["helfen","helfe","hilfe","tragen","packen","aufräumen","kommen","dabei","unterstützen"],
+       ["wann","woche","samstag","sonntag","tag","karton","werkzeug","was soll","brauche","schreib mir"]]},
 ];
 
 const MIN=40;
+const ANREDE=["liebe ","lieber ","sehr geehrte","sehr geehrter","hallo ","guten tag"];
+const GRUSS=["freundlichen grüßen","liebe grüße","viele grüße","herzliche grüße","hochachtungsvoll","mit grüßen","beste grüße"];
+
 const IP_VALS=[{v:"3",l:"3",c:"r3"},{v:"1.5",l:"1,5",c:"r1"},{v:"0",l:"0",c:"r0"}];
 const K_VALS=[{v:"1",l:"1",c:"r3"},{v:"0.5",l:"0,5",c:"r1"},{v:"0",l:"0",c:"r0"}];
 
@@ -420,8 +376,7 @@ function radioGroup(name,vals){
 function scoreRow(num,desc,name,vals,extra){
   return `<div class="score-row${extra?' '+extra:''}">`+
     `<div class="score-row-label"><span class="score-row-num">${num}</span><span class="score-row-desc">${desc}</span></div>`+
-    radioGroup(name,vals)+
-  `</div>`;
+    radioGroup(name,vals)+`</div>`;
 }
 
 const list=document.getElementById('list');
@@ -429,16 +384,16 @@ const list=document.getElementById('list');
 EX.forEach((ex,i)=>{
   const div=document.createElement('div');
   div.className='ex';
-
   const bullHtml=ex.bullets.map(b=>`<li>${b}</li>`).join('');
   const ipHtml=ex.ips.map((d,j)=>scoreRow(`IP ${j+1}`,d,`ip${i}_${j}`,IP_VALS)).join('');
-  const kHtml=scoreRow('K','Kommunikative Gestaltung (Anrede, Grußformel, passende Textsorte)',`k${i}`,K_VALS,'score-row-k');
+  const kHtml=scoreRow('K','Kommunikative Gestaltung (Anrede, Grußformel, Textsorte)',`k${i}`,K_VALS,'score-row-k');
+  const hasS12=!ex.sample;
 
   div.innerHTML=`
 <div class="ex-hd" tabindex="0" role="button" aria-expanded="false">
   <div class="stripe pending"></div>
   <div class="ex-lbl"><div class="ex-num">Aufgabe ${ex.n}</div><div class="ex-title">${ex.t}</div></div>
-  <div class="ex-right"><span class="score-pill" id="pill${i}">– / 10</span><span class="chevron">▾</span></div>
+  <div class="ex-right"><span class="score-pill" id="pill${i}">– / 10</span><span class="chevron">▾</span></div>
 </div>
 <div class="ex-body">
   <div class="task-ctx">
@@ -460,10 +415,12 @@ EX.forEach((ex,i)=>{
       <div class="wc-bar-wrap"><div class="wc-bar" id="wcb${i}" style="width:0%;background:var(--wc-low)"></div></div>
       <span class="wc-text low" id="wct${i}">0 Wörter (mind. ${MIN})</span>
     </div>
+    <div class="auto-feedback" id="afb${i}" hidden></div>
+    <button class="auto-btn" id="abtn${i}">✦ Automatisch bewerten</button>
   </div>
 
   <div id="up${i}" hidden>
-    <div class="drop-zone" id="dz${i}" tabindex="0" role="button" aria-label="Bild hochladen – klicken oder ziehen">
+    <div class="drop-zone" id="dz${i}" tabindex="0" role="button" aria-label="Bild hochladen">
       <input type="file" id="fi${i}" accept="image/*,.pdf" style="position:absolute;opacity:0;width:0;height:0">
       <div class="up-ph" id="uph${i}"><div class="up-icon">📷</div><div class="up-text">Klicken oder Bild hierher ziehen</div><div class="up-hint">JPG · PNG · PDF</div></div>
       <img class="up-img" id="uim${i}" src="" alt="Antwort" hidden>
@@ -473,26 +430,26 @@ EX.forEach((ex,i)=>{
       <button class="btn-sm" id="uch${i}">Anderes Bild wählen</button>
       <button class="btn-sm" id="urm${i}">✕ Entfernen</button>
     </div>
+    <button class="send-btn" id="sbtn${i}" hidden>▶ Schicken – Bewertungsbogen öffnen</button>
+    <p class="send-note" id="snote${i}" hidden>Handgeschriebene Antworten werden manuell bewertet. Nutzen Sie den Bewertungsbogen unten.</p>
   </div>
 
-  <button class="sample-toggle" id="st${i}" style="margin-top:4px">
+  ${ex.sample?`<button class="sample-toggle" id="st${i}" style="margin-top:4px">
     <span class="stl">Musterantwort anzeigen</span><span class="arr">▾</span>
   </button>
   <div class="sample-box" id="sb${i}">
     <div class="sample-label">Musterantwort</div>
     <div class="sample-text" id="stx${i}"></div>
     <div class="sample-wc" id="swc${i}"></div>
-  </div>
+  </div>`:''}
 
-  <div class="score-section">
+  <div class="score-section" id="sc${i}">
     <div class="score-hd">
       <span class="score-hd-title">Bewertung nach telc A2-Kriterien</span>
       <span class="score-hd-total" id="sht${i}">– / 10 Punkte</span>
     </div>
     <div class="score-rows">
-      ${ipHtml}
-      <hr class="score-sep">
-      ${kHtml}
+      ${ipHtml}<hr class="score-sep">${kHtml}
     </div>
     <div class="score-footer">
       <span class="score-footer-lbl">Gesamtpunktzahl</span>
@@ -536,7 +493,57 @@ EX.forEach((ex,i)=>{
     wct.className='wc-text '+(n>=MIN?'ok':'low');
   });
 
-  /* upload */
+  /* ── Auto-score (typing mode) ── */
+  const aBtn=div.querySelector(`#abtn${i}`);
+  const afb=div.querySelector(`#afb${i}`);
+
+  aBtn.addEventListener('click',()=>{
+    const text=ta.value.toLowerCase();
+    if(text.trim().length<10){
+      afb.innerHTML='<div class="fb-item fb-miss"><span class="fb-icon">⚠</span><span>Bitte schreiben Sie zuerst Ihren Text.</span></div>';
+      afb.hidden=false;return;
+    }
+
+    /* K: check Anrede + Grußformel */
+    const hasAnrede=ANREDE.some(w=>text.includes(w));
+    const hasGruss=GRUSS.some(w=>text.includes(w));
+    let kScore=0;
+    if(hasAnrede&&hasGruss) kScore=1;
+    else if(hasAnrede||hasGruss) kScore=0.5;
+
+    /* IP scores */
+    const ipScores=ex.eval.map(kws=>{
+      const hits=kws.filter(w=>text.includes(w.toLowerCase()));
+      return hits.length>=2?3:hits.length===1?1.5:0;
+    });
+
+    /* Set radios */
+    ex.ips.forEach((_,j)=>{
+      const r=div.querySelector(`input[name="ip${i}_${j}"][value="${ipScores[j]}"]`);
+      if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
+    });
+    const kr=div.querySelector(`input[name="k${i}"][value="${kScore}"]`);
+    if(kr){kr.checked=true;kr.dispatchEvent(new Event('change',{bubbles:true}));}
+
+    /* Build feedback */
+    const items=[];
+    ex.ips.forEach((desc,j)=>{
+      const sc=ipScores[j];
+      if(sc===3) items.push(`<div class="fb-item fb-ok"><span class="fb-icon">✓</span><span><strong>IP ${j+1}</strong> – ${desc}: vollständig adressiert (3 Pkt)</span></div>`);
+      else if(sc===1.5) items.push(`<div class="fb-item fb-miss"><span class="fb-icon">△</span><span><strong>IP ${j+1}</strong> – ${desc}: teilweise (1,5 Pkt) – mehr Details empfohlen</span></div>`);
+      else items.push(`<div class="fb-item fb-miss"><span class="fb-icon">✗</span><span><strong>IP ${j+1}</strong> – ${desc}: nicht erkannt (0 Pkt)</span></div>`);
+    });
+    const kLabel=kScore===1?'Anrede und Grußformel vorhanden (1 Pkt)':kScore===0.5?'Nur Anrede oder Grußformel (0,5 Pkt)':'Keine Anrede / Grußformel erkannt (0 Pkt)';
+    const kCls=kScore>0?'fb-ok':'fb-miss';
+    const kIcon=kScore===1?'✓':kScore===0.5?'△':'✗';
+    items.push(`<div class="fb-item ${kCls}"><span class="fb-icon">${kIcon}</span><span><strong>K</strong> – ${kLabel}</span></div>`);
+    items.push(`<p class="fb-note">Automatischer Vorschlag – bitte überprüfen und ggf. anpassen.</p>`);
+    afb.innerHTML=items.join('');
+    afb.hidden=false;
+    div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+
+  /* ── Upload (photo mode) ── */
   const dz=div.querySelector(`#dz${i}`);
   const fi=div.querySelector(`#fi${i}`);
   const uph=div.querySelector(`#uph${i}`);
@@ -545,6 +552,8 @@ EX.forEach((ex,i)=>{
   const uac=div.querySelector(`#uac${i}`);
   const uch=div.querySelector(`#uch${i}`);
   const urm=div.querySelector(`#urm${i}`);
+  const sendBtn=div.querySelector(`#sbtn${i}`);
+  const sendNote=div.querySelector(`#snote${i}`);
 
   function showFile(file){
     if(!file)return;
@@ -552,14 +561,14 @@ EX.forEach((ex,i)=>{
       const r=new FileReader();
       r.onload=e=>{uim.src=e.target.result;uim.hidden=false;ufn.hidden=true;};
       r.readAsDataURL(file);
-    }else{
-      uim.hidden=true;ufn.textContent='📄 '+file.name;ufn.hidden=false;
-    }
+    }else{uim.hidden=true;ufn.textContent='📄 '+file.name;ufn.hidden=false;}
     uph.hidden=true;uac.hidden=false;dz.classList.add('has-file');
+    sendBtn.hidden=false;sendNote.hidden=true;
   }
   function clearFile(){
     fi.value='';uim.src='';uim.hidden=true;ufn.hidden=true;
     uph.hidden=false;uac.hidden=true;dz.classList.remove('has-file');
+    sendBtn.hidden=true;sendNote.hidden=true;
   }
   fi.addEventListener('change',e=>showFile(e.target.files[0]));
   dz.addEventListener('click',()=>{if(!dz.classList.contains('has-file'))fi.click();});
@@ -570,21 +579,32 @@ EX.forEach((ex,i)=>{
   uch.addEventListener('click',e=>{e.stopPropagation();fi.click();});
   urm.addEventListener('click',e=>{e.stopPropagation();clearFile();});
 
-  /* sample answer */
-  const stBtn=div.querySelector(`#st${i}`);
-  const sBox=div.querySelector(`#sb${i}`);
-  const sTxt=div.querySelector(`#stx${i}`);
-  const sWc=div.querySelector(`#swc${i}`);
-  let sOpen=false;
-  stBtn.addEventListener('click',()=>{
-    sOpen=!sOpen;
-    sBox.classList.toggle('show',sOpen);
-    stBtn.querySelector('.stl').textContent=sOpen?'Musterantwort ausblenden':'Musterantwort anzeigen';
-    stBtn.querySelector('.arr').textContent=sOpen?'▴':'▾';
-    if(sOpen&&!sTxt.textContent){sTxt.textContent=ex.sample;sWc.textContent=countWords(ex.sample)+' Wörter';}
+  sendBtn.addEventListener('click',()=>{
+    sendNote.hidden=false;
+    const sc=div.querySelector(`#sc${i}`);
+    sc.scrollIntoView({behavior:'smooth',block:'start'});
+    sc.style.outline='2px solid var(--accent)';
+    sc.style.borderRadius='9px';
+    setTimeout(()=>{sc.style.outline='';},1800);
   });
 
-  /* scoring */
+  /* ── Sample answer (only if ex.sample exists) ── */
+  if(ex.sample){
+    const stBtn=div.querySelector(`#st${i}`);
+    const sBox=div.querySelector(`#sb${i}`);
+    const sTxt=div.querySelector(`#stx${i}`);
+    const sWc=div.querySelector(`#swc${i}`);
+    let sOpen=false;
+    stBtn.addEventListener('click',()=>{
+      sOpen=!sOpen;
+      sBox.classList.toggle('show',sOpen);
+      stBtn.querySelector('.stl').textContent=sOpen?'Musterantwort ausblenden':'Musterantwort anzeigen';
+      stBtn.querySelector('.arr').textContent=sOpen?'▴':'▾';
+      if(sOpen&&!sTxt.textContent){sTxt.textContent=ex.sample;sWc.textContent=countWords(ex.sample)+' Wörter';}
+    });
+  }
+
+  /* ── Scoring calc ── */
   const stripe=div.querySelector('.stripe');
   const pill=div.querySelector(`#pill${i}`);
   const sht=div.querySelector(`#sht${i}`);
@@ -595,32 +615,25 @@ EX.forEach((ex,i)=>{
 
   function calcScore(){
     const checked=div.querySelectorAll('.score-section input[type=radio]:checked');
-    const total4=4; /* 3 IP + K */
     if(checked.length===0){
       stn.textContent='–';sgb.textContent='';sgb.className='grade-badge';
-      pill.textContent='– / 10';pill.classList.remove('graded');
+      pill.textContent='– / 10';pill.classList.remove('graded');
       stripe.className='stripe pending';sht.textContent='– / 10 Punkte';return;
     }
-    let sum=0;
-    checked.forEach(r=>sum+=parseFloat(r.value));
+    let sum=0;checked.forEach(r=>sum+=parseFloat(r.value));
     const disp=fmtNum(sum);
-    stn.textContent=disp;
-    pill.textContent=disp+' / 10';
-    pill.classList.add('graded');
-    sht.textContent=disp+' / 10 Punkte';
-    const done=checked.length>=total4;
+    stn.textContent=disp;pill.textContent=disp+' / 10';
+    pill.classList.add('graded');sht.textContent=disp+' / 10 Punkte';
+    const done=checked.length>=4;
     if(done){
       if(sum>=9){sgb.textContent='Sehr gut';sgb.className='grade-badge grade-a';stripe.className='stripe done';}
       else if(sum>=7){sgb.textContent='Gut';sgb.className='grade-badge grade-b';stripe.className='stripe done';}
       else if(sum>=6){sgb.textContent='Ausreichend';sgb.className='grade-badge grade-c';stripe.className='stripe partial';}
       else{sgb.textContent='Nicht bestanden';sgb.className='grade-badge grade-d';stripe.className='stripe err';}
-    }else{
-      sgb.textContent='';sgb.className='grade-badge';stripe.className='stripe partial';
-    }
+    }else{sgb.textContent='';sgb.className='grade-badge';stripe.className='stripe partial';}
   }
 
   div.querySelectorAll('.score-section input[type=radio]').forEach(r=>r.addEventListener('change',calcScore));
-
   list.appendChild(div);
 });
 </script>
