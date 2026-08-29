@@ -781,7 +781,7 @@ EX.forEach((ex,i)=>{
   function updateSendBtn(){
     const hasKey=!!getApiKey();
     if(hasKey&&currentImgData){
-      sendBtn.textContent='🤖 Mit KI transkribieren &amp; auswerten';
+      sendBtn.textContent='🤖 Mit KI transkribieren & auswerten';
     }else if(hasKey&&!currentImgData){
       sendBtn.textContent='▶ Schicken';
     }else{
@@ -847,8 +847,24 @@ EX.forEach((ex,i)=>{
       }finally{
         sendBtn.classList.remove('btn-loading');sendBtn.disabled=false;
       }
+    }else if(!getApiKey()){
+      /* Kein API-Schlüssel: Einstellungen öffnen und hervorheben */
+      const panel=document.getElementById('settings-panel');
+      const toggle=document.getElementById('settings-toggle');
+      const inp=document.getElementById('api-key-input');
+      if(panel&&panel.hidden){panel.hidden=false;toggle&&toggle.setAttribute('aria-expanded','true');}
+      sendNote.textContent='Bitte zuerst den Gemini API-Schlüssel in den KI-Einstellungen oben eingeben.';
+      sendNote.hidden=false;
+      const settingsBar=document.querySelector('.settings-bar');
+      if(settingsBar){
+        settingsBar.scrollIntoView({behavior:'smooth',block:'center'});
+        settingsBar.style.outline='2px solid var(--accent)';
+        settingsBar.style.borderRadius='10px';
+        setTimeout(()=>{settingsBar.style.outline='';settingsBar.style.borderRadius='';},2200);
+      }
+      if(inp)setTimeout(()=>inp.focus(),400);
     }else{
-      /* Manuell: Bewertungsbogen anzeigen */
+      /* Hat Key aber kein Bild: Bewertungsbogen anzeigen */
       sendNote.hidden=false;
       const sc=div.querySelector(`#sc${i}`);
       sc.scrollIntoView({behavior:'smooth',block:'start'});
