@@ -264,14 +264,14 @@
   <div class="settings-bar">
     <button class="settings-toggle" id="settings-toggle" aria-expanded="false">
       <span class="settings-icon">⚙</span>
-      <span class="settings-lbl">KI-Einstellungen (Anthropic API)</span>
+      <span class="settings-lbl">KI-Einstellungen (Gemini API)</span>
       <span class="settings-status" id="settings-status">kein Schlüssel</span>
       <span class="settings-chv">▾</span>
     </button>
     <div class="settings-panel" id="settings-panel" hidden>
-      <p class="settings-info">Geben Sie Ihren <strong>Anthropic API-Schlüssel</strong> ein, um KI-gestützte Transkription, Fehlerkorrektur und Erklärungen zu aktivieren. Der Schlüssel wird nur lokal in Ihrem Browser gespeichert und niemals weitergegeben.</p>
+      <p class="settings-info">Geben Sie Ihren <strong>Gemini API-Schlüssel</strong> ein (kostenlos unter <em>aistudio.google.com</em>), um KI-gestützte Transkription, Fehlerkorrektur und Erklärungen zu aktivieren. Der Schlüssel wird nur lokal in Ihrem Browser gespeichert und niemals weitergegeben.</p>
       <div class="settings-row">
-        <input type="password" id="api-key-input" class="api-key-input" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
+        <input type="password" id="api-key-input" class="api-key-input" placeholder="AIza…" autocomplete="off" spellcheck="false">
         <button class="settings-save" id="settings-save">Speichern</button>
       </div>
       <p class="settings-note" id="settings-note"></p>
@@ -299,7 +299,7 @@
 </div>
 <script>
 /* ── API-Schlüssel (localStorage) ── */
-const LS_KEY='dmh_anthropic_key';
+const LS_KEY='dmh_gemini_key';
 function getApiKey(){try{return localStorage.getItem(LS_KEY)||'';}catch{return '';}}
 function setApiKey(k){try{if(k)localStorage.setItem(LS_KEY,k);else localStorage.removeItem(LS_KEY);}catch{}}
 
@@ -331,21 +331,23 @@ function setApiKey(k){try{if(k)localStorage.setItem(LS_KEY,k);else localStorage.
   updateStatus();
 })();
 
-/* ── Claude API-Aufruf ── */
-async function callClaude(messages){
+/* ── Gemini API-Aufruf ── */
+const GEMINI_MODEL='gemini-2.0-flash';
+async function callGemini(parts){
   const key=getApiKey();
   if(!key) throw Object.assign(new Error('Kein API-Schlüssel gesetzt. Bitte in den KI-Einstellungen oben eingeben.'),{code:'NO_KEY'});
   let res;
   try{
-    res=await fetch('https://api.anthropic.com/v1/messages',{
+    res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,{
       method:'POST',
       headers:{
         'Content-Type':'application/json',
-        'x-api-key':key,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
+        'x-goog-api-key':key
       },
-      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1400,messages})
+      body:JSON.stringify({
+        contents:[{role:'user',parts}],
+        generationConfig:{maxOutputTokens:1400,temperature:0.2,responseMimeType:'application/json'}
+      })
     });
   }catch(e){
     throw new Error('Netzwerkfehler: '+e.message+'. Möglicherweise blockiert die Plattform externe API-Anfragen.');
@@ -355,7 +357,7 @@ async function callClaude(messages){
     throw new Error(e?.error?.message||'Fehler HTTP '+res.status);
   }
   const d=await res.json();
-  return d.content?.[0]?.text||'';
+  return d.candidates?.[0]?.content?.parts?.[0]?.text||'';
 }
 
 /* ── Prompt-Bausteine ── */
@@ -377,15 +379,16 @@ Antworte AUSSCHLIESSLICH mit gültigem JSON, kein Markdown, kein Text davor oder
 {"ip1":3,"ip2":1.5,"ip3":0,"k":1,"korrektur":"korrigierter Text mit Zeilenumbrüchen","fehler":[{"orig":"Originaltext","fix":"Korrektur","erkl":"Grammatikalische Erklärung auf Deutsch"}],"lob":"Was gut ist","tipp":"Ein konkreter Hinweis"}`;
 }
 
-function buildTextMsg(ex,text){
-  return [{role:'user',content:`${basePrompt(ex)}\n\nText des Lernenden:\n"""\n${text}\n"""`}];
+function buildTextParts(ex,text){
+  return [{text:`${basePrompt(ex)}\n\nText des Lernenden:\n"""\n${text}\n"""`}];
 }
 
-function buildPhotoMsg(ex,imgData,imgType){
-  return [{role:'user',content:[
-    {type:'image',source:{type:'base64',media_type:imgType,data:imgData}},
-    {type:'text',text:`${basePrompt(ex)}\n\nTranskribiere zuerst den handgeschriebenen Text aus dem Bild vollständig und analysiere ihn dann.\n\nAntworte mit JSON (erweitere das Schema um "transkription"):\n{"transkription":"vollständiger transkribierter Text","ip1":3,"ip2":1.5,"ip3":0,"k":1,"korrektur":"...","fehler":[{"orig":"...","fix":"...","erkl":"..."}],"lob":"...","tipp":"..."}`}
-  ]}];
+function buildPhotoParts(ex,imgData,imgType){
+  const photoPrompt=basePrompt(ex)+'\n\nTranskribiere zuerst den handgeschriebenen Text aus dem Bild vollständig und analysiere ihn dann. Füge dem JSON-Objekt ein Feld "transkription" hinzu:\n{"transkription":"vollständiger transkribierter Text","ip1":3,"ip2":1.5,"ip3":0,"k":1,"korrektur":"...","fehler":[{"orig":"...","fix":"...","erkl":"..."}],"lob":"...","tipp":"..."}';
+  return [
+    {inlineData:{mimeType:imgType,data:imgData}},
+    {text:photoPrompt}
+  ];
 }
 
 /* ── Ergebnis rendern ── */
@@ -712,7 +715,7 @@ EX.forEach((ex,i)=>{
       aBtn.textContent='KI bewertet …';
       afb.hidden=true;airDiv.hidden=true;
       try{
-        const raw=await callClaude(buildTextMsg(ex,text));
+        const raw=await callGemini(buildTextParts(ex,text));
         const data=parseAI(raw);
         setScores(div,i,ex,data);
         renderAI(airDiv,data,false);
@@ -832,7 +835,7 @@ EX.forEach((ex,i)=>{
       sendBtn.classList.add('btn-loading');sendBtn.disabled=true;
       airuDiv.hidden=true;sendNote.hidden=true;
       try{
-        const raw=await callClaude(buildPhotoMsg(ex,currentImgData,currentImgType));
+        const raw=await callGemini(buildPhotoParts(ex,currentImgData,currentImgType));
         const data=parseAI(raw);
         setScores(div,i,ex,data);
         renderAI(airuDiv,data,true);
