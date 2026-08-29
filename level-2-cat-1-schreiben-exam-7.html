@@ -779,13 +779,47 @@ EX.forEach((ex,i)=>{
   let currentImgData=null,currentImgType=null;
 
   function updateSendBtn(){
-    const hasKey=!!getApiKey();
-    if(hasKey&&currentImgData){
-      sendBtn.textContent='🤖 Mit KI transkribieren & auswerten';
-    }else if(hasKey&&!currentImgData){
-      sendBtn.textContent='▶ Schicken';
+    if(currentImgData){
+      sendBtn.textContent='🤖 Erneut von KI bewerten';
     }else{
-      sendBtn.textContent='▶ Schicken – Bewertungsbogen öffnen';
+      sendBtn.textContent='▶ Schicken';
+    }
+  }
+
+  async function runPhotoAI(){
+    if(!currentImgData)return;
+    const key=getApiKey();
+    if(!key){
+      const panel=document.getElementById('settings-panel');
+      const toggle=document.getElementById('settings-toggle');
+      const inp=document.getElementById('api-key-input');
+      if(panel&&panel.hidden){panel.hidden=false;toggle&&toggle.setAttribute('aria-expanded','true');}
+      sendNote.textContent='Bitte zuerst den Gemini API-Schlüssel in den KI-Einstellungen oben eingeben.';
+      sendNote.hidden=false;
+      const settingsBar=document.querySelector('.settings-bar');
+      if(settingsBar){
+        settingsBar.scrollIntoView({behavior:'smooth',block:'center'});
+        settingsBar.style.outline='2px solid var(--accent)';
+        settingsBar.style.borderRadius='10px';
+        setTimeout(()=>{settingsBar.style.outline='';settingsBar.style.borderRadius='';},2200);
+      }
+      if(inp)setTimeout(()=>inp.focus(),400);
+      return;
+    }
+    sendBtn.classList.add('btn-loading');sendBtn.disabled=true;
+    airuDiv.hidden=true;sendNote.hidden=true;
+    try{
+      const raw=await callGemini(buildPhotoParts(ex,currentImgData,currentImgType));
+      const data=parseAI(raw);
+      setScores(div,i,ex,data);
+      renderAI(airuDiv,data,true);
+      airuDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
+      div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
+    }catch(e){
+      airuDiv.innerHTML=`<div class="ai-result"><div class="ai-err-box">⚠ ${esc(e.message)}</div></div>`;
+      airuDiv.hidden=false;
+    }finally{
+      sendBtn.classList.remove('btn-loading');sendBtn.disabled=false;
     }
   }
 
@@ -800,6 +834,7 @@ EX.forEach((ex,i)=>{
         if(m){currentImgType=m[1];currentImgData=m[2];}
         uim.src=dataUrl;uim.hidden=false;ufn.hidden=true;
         updateSendBtn();
+        runPhotoAI();
       };
       r.readAsDataURL(file);
     }else{
@@ -829,42 +864,11 @@ EX.forEach((ex,i)=>{
   urm.addEventListener('click',e=>{e.stopPropagation();clearFile();});
 
   sendBtn.addEventListener('click',async()=>{
-    const key=getApiKey();
-    if(key&&currentImgData){
-      /* KI-Transkription + Bewertung */
-      sendBtn.classList.add('btn-loading');sendBtn.disabled=true;
-      airuDiv.hidden=true;sendNote.hidden=true;
-      try{
-        const raw=await callGemini(buildPhotoParts(ex,currentImgData,currentImgType));
-        const data=parseAI(raw);
-        setScores(div,i,ex,data);
-        renderAI(airuDiv,data,true);
-        airuDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
-        div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
-      }catch(e){
-        airuDiv.innerHTML=`<div class="ai-result"><div class="ai-err-box">⚠ ${esc(e.message)}</div></div>`;
-        airuDiv.hidden=false;
-      }finally{
-        sendBtn.classList.remove('btn-loading');sendBtn.disabled=false;
-      }
-    }else if(!getApiKey()){
-      /* Kein API-Schlüssel: Einstellungen öffnen und hervorheben */
-      const panel=document.getElementById('settings-panel');
-      const toggle=document.getElementById('settings-toggle');
-      const inp=document.getElementById('api-key-input');
-      if(panel&&panel.hidden){panel.hidden=false;toggle&&toggle.setAttribute('aria-expanded','true');}
-      sendNote.textContent='Bitte zuerst den Gemini API-Schlüssel in den KI-Einstellungen oben eingeben.';
-      sendNote.hidden=false;
-      const settingsBar=document.querySelector('.settings-bar');
-      if(settingsBar){
-        settingsBar.scrollIntoView({behavior:'smooth',block:'center'});
-        settingsBar.style.outline='2px solid var(--accent)';
-        settingsBar.style.borderRadius='10px';
-        setTimeout(()=>{settingsBar.style.outline='';settingsBar.style.borderRadius='';},2200);
-      }
-      if(inp)setTimeout(()=>inp.focus(),400);
+    if(currentImgData){
+      /* Foto-Modus: (erneut) mit KI bewerten */
+      await runPhotoAI();
     }else{
-      /* Hat Key aber kein Bild: Bewertungsbogen anzeigen */
+      /* Text-Modus: Bewertungsbogen anzeigen */
       sendNote.hidden=false;
       const sc=div.querySelector(`#sc${i}`);
       sc.scrollIntoView({behavior:'smooth',block:'start'});
