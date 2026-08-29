@@ -161,7 +161,9 @@
     .drop-zone:hover,.drop-zone.drag-over{border-color:var(--accent);background:var(--drop-hov);}
     .drop-zone:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
     .drop-zone.has-file{cursor:default;border-style:solid;border-color:var(--border);}
-    .up-ph{display:flex;flex-direction:column;align-items:center;gap:5px;padding:24px 16px;text-align:center;}
+    .drop-zone input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;}
+    .drop-zone.has-file input[type=file]{display:none;}
+    .up-ph{display:flex;flex-direction:column;align-items:center;gap:5px;padding:24px 16px;text-align:center;pointer-events:none;}
     .up-icon{font-size:1.6rem;}.up-text{font-size:.88rem;font-weight:500;}.up-hint{font-size:.74rem;color:var(--muted);}
     .up-img{width:100%;max-height:380px;object-fit:contain;display:block;padding:8px;}
     .up-fname{padding:18px 16px;font-size:.88rem;font-weight:500;display:flex;align-items:center;gap:8px;}
@@ -490,14 +492,14 @@ EX.forEach((ex,i)=>{
 
   <!-- Foto-Modus -->
   <div id="up${i}" hidden>
-    <div class="drop-zone" id="dz${i}" tabindex="0" role="button" aria-label="Bild hochladen">
-      <input type="file" id="fi${i}" accept="image/*,.pdf" style="position:absolute;opacity:0;width:0;height:0">
-      <div class="up-ph" id="uph${i}"><div class="up-icon">📷</div><div class="up-text">Klicken oder Bild hierher ziehen</div><div class="up-hint">JPG · PNG · PDF</div></div>
+    <div class="drop-zone" id="dz${i}" aria-label="Bild hochladen">
+      <input type="file" id="fi${i}" accept="image/*" aria-label="Foto auswählen oder aufnehmen">
+      <div class="up-ph" id="uph${i}"><div class="up-icon">📷</div><div class="up-text">Foto aufnehmen oder auswählen</div><div class="up-hint">Kamera · Galerie · JPG · PNG</div></div>
       <img class="up-img" id="uim${i}" src="" alt="Antwort" hidden>
       <div class="up-fname" id="ufn${i}" hidden></div>
     </div>
     <div class="up-actions" id="uac${i}" hidden>
-      <button class="btn-sm" id="uch${i}">Anderes Bild wählen</button>
+      <label class="btn-sm" id="uch${i}" for="fi${i}">Anderes Foto wählen</label>
       <button class="btn-sm" id="urm${i}">✕ Entfernen</button>
     </div>
     <button class="gemini-btn" id="sbtn${i}" hidden>🔗 Mit Gemini öffnen</button>
@@ -651,12 +653,9 @@ EX.forEach((ex,i)=>{
   }
 
   fi.addEventListener('change',e=>showFile(e.target.files[0]));
-  dz.addEventListener('click',()=>{if(!dz.classList.contains('has-file'))fi.click();});
-  dz.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!dz.classList.contains('has-file')){e.preventDefault();fi.click();}});
   dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
   dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
   dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');showFile(e.dataTransfer.files[0]);});
-  uch.addEventListener('click',e=>{e.stopPropagation();fi.click();});
   urm.addEventListener('click',e=>{e.stopPropagation();clearFile();});
 
   sendBtn.addEventListener('click',()=>{
