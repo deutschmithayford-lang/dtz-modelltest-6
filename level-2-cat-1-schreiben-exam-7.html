@@ -297,8 +297,8 @@ ${text}
 
 function openInGemini(ex,text){
   const prompt=buildGeminiPrompt(ex,text);
-  try{navigator.clipboard.writeText(prompt);}catch{}
-  window.open('https://gemini.google.com/','_blank','noopener');
+  const url='https://gemini.google.com/app?q='+encodeURIComponent(prompt);
+  window.open(url,'_blank','noopener');
 }
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
@@ -609,7 +609,7 @@ EX.forEach((ex,i)=>{
   gBtn.addEventListener('click',()=>{
     const text=ta.value.trim()||'[noch kein Text eingegeben]';
     openInGemini(ex,text);
-    gTst.textContent='✓ Prompt kopiert – in Gemini einfügen (Strg+V) & ggf. Foto hochladen';
+    gTst.textContent='Gemini öffnet sich mit dem Prompt …';
     setTimeout(()=>{gTst.textContent='';},4000);
   });
 
@@ -662,7 +662,7 @@ EX.forEach((ex,i)=>{
   sendBtn.addEventListener('click',()=>{
     const photoNote='[Handgeschriebener Text – bitte das hochgeladene Foto in dieses Gemini-Gespräch einfügen]';
     openInGemini(ex,photoNote);
-    sendNote.textContent='✓ Prompt kopiert – in Gemini einfügen (Strg+V) und das Foto anhängen';
+    sendNote.textContent='Gemini öffnet sich – bitte das Foto dort hochladen';
     sendNote.hidden=false;
     setTimeout(()=>{sendNote.hidden=true;sendNote.textContent='';},5000);
   });
