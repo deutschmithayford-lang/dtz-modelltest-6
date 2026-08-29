@@ -94,26 +94,11 @@
     .brand-name{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,5vw,2.8rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em;text-wrap:balance;}
     .brand-name em{font-style:italic;font-weight:300;color:var(--accent);}
     .brand-sub{font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-top:8px;}
-    /* Settings bar */
-    .settings-bar{border:1px solid var(--border);border-radius:9px;overflow:hidden;background:var(--surface);}
-    .settings-toggle{width:100%;display:flex;align-items:center;gap:10px;padding:11px 16px;border:none;background:none;font-family:'DM Sans',system-ui,sans-serif;font-size:.87rem;font-weight:500;color:var(--text);cursor:pointer;text-align:left;}
-    .settings-toggle:hover{background:rgba(26,87,56,.04);}
-    .settings-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
-    .settings-icon{font-size:.9rem;flex-shrink:0;}
-    .settings-lbl{flex:1;}
-    .settings-status{font-size:.75rem;padding:3px 9px;border-radius:4px;background:var(--task-bg);color:var(--muted);font-weight:500;white-space:nowrap;}
-    .settings-status.ok{background:var(--fb-ok-bg);color:var(--fb-ok-col);border:1px solid var(--fb-ok-bd);}
-    .settings-chv{font-size:.65rem;color:var(--muted);transition:transform .2s;}
-    .settings-toggle[aria-expanded=true] .settings-chv{transform:rotate(180deg);}
-    .settings-panel{padding:13px 16px 16px;border-top:1px solid var(--border);background:var(--task-bg);}
-    .settings-info{font-size:.81rem;color:var(--muted);line-height:1.55;margin-bottom:12px;}
-    .settings-row{display:flex;gap:8px;}
-    .api-key-input{flex:1;min-width:0;padding:8px 12px;border:1.5px solid var(--ta-border);border-radius:6px;background:var(--ta-bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;font-size:.86rem;}
-    .api-key-input:focus{outline:none;border-color:var(--accent);}
-    .settings-save{padding:8px 16px;border:none;border-radius:6px;background:var(--accent);color:#fff;font-family:'DM Sans',system-ui,sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;flex-shrink:0;}
-    .settings-save:hover{opacity:.88;}
-    .settings-note{font-size:.78rem;margin-top:8px;min-height:1em;color:var(--muted);}
-    .settings-note.ok{color:var(--fb-ok-col);}
+    /* Gemini-Link-Button */
+    .gemini-btn{display:inline-flex;align-items:center;gap:7px;margin-top:10px;padding:9px 18px;border:none;border-radius:7px;background:#1565C0;color:#fff;font-family:'DM Sans',system-ui,sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:opacity .15s;}
+    .gemini-btn:hover{opacity:.88;}
+    .gemini-btn:focus-visible{outline:2px solid #1565C0;outline-offset:2px;}
+    .gemini-toast{font-size:.8rem;color:var(--fb-ok-col);margin-top:7px;min-height:1.2em;font-weight:500;}
     /* Info box */
     .info-box{border:1px solid var(--info-border);border-radius:9px;overflow:hidden;}
     .info-box-head{background:var(--info-hd);color:#fff;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:9px 16px;}
@@ -260,24 +245,6 @@
     <div class="brand-sub">telc A2 · Schreiben Teil 2 · Übungen</div>
   </header>
 
-  <!-- KI-Einstellungen -->
-  <div class="settings-bar">
-    <button class="settings-toggle" id="settings-toggle" aria-expanded="false">
-      <span class="settings-icon">⚙</span>
-      <span class="settings-lbl">KI-Einstellungen (Gemini API)</span>
-      <span class="settings-status" id="settings-status">kein Schlüssel</span>
-      <span class="settings-chv">▾</span>
-    </button>
-    <div class="settings-panel" id="settings-panel" hidden>
-      <p class="settings-info">Geben Sie Ihren <strong>Gemini API-Schlüssel</strong> ein (kostenlos unter <em>aistudio.google.com</em>), um KI-gestützte Transkription, Fehlerkorrektur und Erklärungen zu aktivieren. Der Schlüssel wird nur lokal in Ihrem Browser gespeichert und niemals weitergegeben.</p>
-      <div class="settings-row">
-        <input type="password" id="api-key-input" class="api-key-input" placeholder="AIza…" autocomplete="off" spellcheck="false">
-        <button class="settings-save" id="settings-save">Speichern</button>
-      </div>
-      <p class="settings-note" id="settings-note"></p>
-    </div>
-  </div>
-
   <div class="info-box">
     <div class="info-box-head">Prüfungsformat &amp; Bewertungskriterien</div>
     <div class="info-box-body">
@@ -298,141 +265,43 @@
   </footer>
 </div>
 <script>
-/* ── API-Schlüssel (localStorage) ── */
-const LS_KEY='dmh_gemini_key';
-function getApiKey(){try{return localStorage.getItem(LS_KEY)||'';}catch{return '';}}
-function setApiKey(k){try{if(k)localStorage.setItem(LS_KEY,k);else localStorage.removeItem(LS_KEY);}catch{}}
-
-/* ── Settings-Panel ── */
-(function(){
-  const tog=document.getElementById('settings-toggle');
-  const panel=document.getElementById('settings-panel');
-  const inp=document.getElementById('api-key-input');
-  const saveBtn=document.getElementById('settings-save');
-  const statusEl=document.getElementById('settings-status');
-  const noteEl=document.getElementById('settings-note');
-  function updateStatus(){
-    const k=getApiKey();
-    statusEl.textContent=k?'✓ KI aktiv':'kein Schlüssel';
-    statusEl.className='settings-status'+(k?' ok':'');
-  }
-  tog.addEventListener('click',()=>{
-    const willOpen=panel.hidden;
-    panel.hidden=!willOpen;
-    tog.setAttribute('aria-expanded',String(willOpen));
-    if(willOpen) inp.value=getApiKey()?'••••••••••••••••':'';
-  });
-  saveBtn.addEventListener('click',()=>{
-    const v=inp.value.trim();
-    if(v&&!/^•+$/.test(v)){setApiKey(v);noteEl.textContent='✓ Gespeichert';noteEl.className='settings-note ok';}
-    else if(!v){setApiKey('');noteEl.textContent='Schlüssel entfernt.';noteEl.className='settings-note';}
-    updateStatus();setTimeout(()=>{noteEl.textContent='';},2800);
-  });
-  updateStatus();
-})();
-
-/* ── Gemini API-Aufruf ── */
-const GEMINI_MODEL='gemini-2.0-flash';
-async function callGemini(parts){
-  const key=getApiKey();
-  if(!key) throw Object.assign(new Error('Kein API-Schlüssel gesetzt. Bitte in den KI-Einstellungen oben eingeben.'),{code:'NO_KEY'});
-  let res;
-  try{
-    res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-goog-api-key':key
-      },
-      body:JSON.stringify({
-        contents:[{role:'user',parts}],
-        generationConfig:{maxOutputTokens:1400,temperature:0.2,responseMimeType:'application/json'}
-      })
-    });
-  }catch(e){
-    throw new Error('Netzwerkfehler: '+e.message+'. Möglicherweise blockiert die Plattform externe API-Anfragen.');
-  }
-  if(!res.ok){
-    const e=await res.json().catch(()=>({}));
-    throw new Error(e?.error?.message||'Fehler HTTP '+res.status);
-  }
-  const d=await res.json();
-  return d.candidates?.[0]?.content?.parts?.[0]?.text||'';
-}
-
-/* ── Prompt-Bausteine ── */
-function basePrompt(ex){
-  return `Du bist Deutschlehrer/in für A2-Niveau (telc). Analysiere die Lernerantwort auf Deutsch.
+/* ── Gemini-Prompt-Builder + Link ── */
+function buildGeminiPrompt(ex,text){
+  return `Du bist Deutschlehrer/in für A2-Niveau (telc). Analysiere die folgende Lernerantwort auf Deutsch.
 
 Aufgabe: ${ex.ctx}
 An: ${ex.rcv}
-Schreibpunkte:
-${ex.bullets.map(b=>'- '+b).join('\n')}
 
-Bewertungskriterien:
+Schreibpunkte (alle müssen angesprochen werden):
+${ex.bullets.map((b,j)=>`IP ${j+1}: ${b}`).join('\n')}
+
+Bewertungskriterien (telc A2):
 - IP 1 (${ex.ips[0]}): 3 / 1,5 / 0 Punkte
 - IP 2 (${ex.ips[1]}): 3 / 1,5 / 0 Punkte
 - IP 3 (${ex.ips[2]}): 3 / 1,5 / 0 Punkte
-- K (Kommunikative Gestaltung – Anrede, Grußformel, Textsorte): 1 / 0,5 / 0 Punkte
+- K (Kommunikative Gestaltung – korrekte Anrede, Grußformel, E-Mail-Stil): 1 / 0,5 / 0 Punkte
+- Maximalpunktzahl: 10 Punkte
 
-Antworte AUSSCHLIESSLICH mit gültigem JSON, kein Markdown, kein Text davor oder danach:
-{"ip1":3,"ip2":1.5,"ip3":0,"k":1,"korrektur":"korrigierter Text mit Zeilenumbrüchen","fehler":[{"orig":"Originaltext","fix":"Korrektur","erkl":"Grammatikalische Erklärung auf Deutsch"}],"lob":"Was gut ist","tipp":"Ein konkreter Hinweis"}`;
+Bitte:
+1. Korrigiere den Text des Lernenden und liste jeden Fehler einzeln auf
+2. Erkläre jeden Fehler auf Deutsch (Grammatik, Wortschatz, Stil)
+3. Schlage einen vollständig verbesserten Text vor
+4. Bewerte IP 1, IP 2, IP 3 und K streng nach den Bewertungskriterien
+5. Gib die Gesamtpunktzahl an (max. 10)
+
+Text des Lernenden:
+"""
+${text}
+"""`;
 }
 
-function buildTextParts(ex,text){
-  return [{text:`${basePrompt(ex)}\n\nText des Lernenden:\n"""\n${text}\n"""`}];
+function openInGemini(ex,text){
+  const prompt=buildGeminiPrompt(ex,text);
+  try{navigator.clipboard.writeText(prompt);}catch{}
+  window.open('https://gemini.google.com/','_blank','noopener');
 }
 
-function buildPhotoParts(ex,imgData,imgType){
-  const photoPrompt=basePrompt(ex)+'\n\nTranskribiere zuerst den handgeschriebenen Text aus dem Bild vollständig und analysiere ihn dann. Füge dem JSON-Objekt ein Feld "transkription" hinzu:\n{"transkription":"vollständiger transkribierter Text","ip1":3,"ip2":1.5,"ip3":0,"k":1,"korrektur":"...","fehler":[{"orig":"...","fix":"...","erkl":"..."}],"lob":"...","tipp":"..."}';
-  return [
-    {inlineData:{mimeType:imgType,data:imgData}},
-    {text:photoPrompt}
-  ];
-}
-
-/* ── Ergebnis rendern ── */
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
-
-function renderAI(container,data,hasTranscription){
-  let h='<div class="ai-result">';
-  if(hasTranscription&&data.transkription){
-    h+=`<div class="ai-section"><div class="ai-section-head">📝 Transkription des handgeschriebenen Textes</div><div class="ai-box">${esc(data.transkription)}</div></div>`;
-  }
-  if(data.fehler&&data.fehler.length){
-    h+='<div class="ai-section"><div class="ai-section-head">❌ Fehler &amp; Korrekturen</div><div class="error-list">';
-    data.fehler.forEach(f=>{
-      h+=`<div class="error-item"><span class="error-orig">${esc(f.orig)}</span><span class="error-arrow">→</span><span class="error-fix">${esc(f.fix)}</span><div class="error-explain">${esc(f.erkl)}</div></div>`;
-    });
-    h+='</div></div>';
-  }else{
-    h+='<div class="ai-section" style="font-size:.85rem;color:var(--fb-ok-col);">✓ Keine Fehler gefunden</div>';
-  }
-  if(data.korrektur){
-    h+=`<div class="ai-section"><div class="ai-section-head">✏ Korrigierter Text</div><div class="ai-box corrected">${esc(data.korrektur)}</div></div>`;
-  }
-  if(data.lob) h+=`<div class="ai-lob">👍 ${esc(data.lob)}</div>`;
-  if(data.tipp) h+=`<div class="ai-tipp">💡 Tipp: ${esc(data.tipp)}</div>`;
-  h+='</div>';
-  container.innerHTML=h;
-  container.hidden=false;
-}
-
-function setScores(div,i,ex,data){
-  ex.ips.forEach((_,j)=>{
-    const sc=j===0?data.ip1:j===1?data.ip2:data.ip3;
-    const r=div.querySelector(`input[name="ip${i}_${j}"][value="${String(sc)}"]`);
-    if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
-  });
-  const kr=div.querySelector(`input[name="k${i}"][value="${String(data.k)}"]`);
-  if(kr){kr.checked=true;kr.dispatchEvent(new Event('change',{bubbles:true}));}
-}
-
-function parseAI(raw){
-  const m=raw.match(/\{[\s\S]*\}/);
-  if(!m) throw new Error('Keine gültige JSON-Antwort vom Modell erhalten.');
-  return JSON.parse(m[0]);
-}
 
 /* ── Übungsdaten ── */
 const EX=[
@@ -614,8 +483,9 @@ EX.forEach((ex,i)=>{
       <span class="wc-text low" id="wct${i}">0 Wörter (mind. ${MIN})</span>
     </div>
     <div class="auto-feedback" id="afb${i}" hidden></div>
-    <div id="air${i}" hidden></div>
     <button class="auto-btn" id="abtn${i}">✦ Automatisch bewerten</button>
+    <button class="gemini-btn" id="gbtn${i}">🔗 Mit Gemini öffnen</button>
+    <div class="gemini-toast" id="gtst${i}"></div>
   </div>
 
   <!-- Foto-Modus -->
@@ -630,9 +500,8 @@ EX.forEach((ex,i)=>{
       <button class="btn-sm" id="uch${i}">Anderes Bild wählen</button>
       <button class="btn-sm" id="urm${i}">✕ Entfernen</button>
     </div>
-    <button class="send-btn" id="sbtn${i}" hidden>▶ Schicken</button>
-    <p class="send-note" id="snote${i}" hidden>Handgeschriebene Antworten werden manuell bewertet. Nutzen Sie den Bewertungsbogen unten.</p>
-    <div id="airu${i}" hidden></div>
+    <button class="gemini-btn" id="sbtn${i}" hidden>🔗 Mit Gemini öffnen</button>
+    <div class="gemini-toast" id="snote${i}" hidden></div>
   </div>
 
   ${ex.sample?`<button class="sample-toggle" id="st${i}" style="margin-top:4px">
@@ -697,71 +566,51 @@ EX.forEach((ex,i)=>{
   /* ── Tippen-Modus: Auswerten ── */
   const aBtn=div.querySelector(`#abtn${i}`);
   const afb=div.querySelector(`#afb${i}`);
-  const airDiv=div.querySelector(`#air${i}`);
+  const gBtn=div.querySelector(`#gbtn${i}`);
+  const gTst=div.querySelector(`#gtst${i}`);
 
-  aBtn.addEventListener('click',async()=>{
+  aBtn.addEventListener('click',()=>{
     const text=ta.value.trim();
     if(text.length<10){
       afb.innerHTML='<div class="fb-item fb-miss"><span class="fb-icon">⚠</span><span>Bitte schreiben Sie zuerst Ihren Text.</span></div>';
-      afb.hidden=false;airDiv.hidden=true;return;
+      afb.hidden=false;return;
     }
+    /* Keyword-basierte Schnellbewertung */
+    const textL=text.toLowerCase();
+    const hasAnrede=ANREDE.some(w=>textL.includes(w));
+    const hasGruss=GRUSS.some(w=>textL.includes(w));
+    let kScore=0;
+    if(hasAnrede&&hasGruss) kScore=1;
+    else if(hasAnrede||hasGruss) kScore=0.5;
+    const ipScores=ex.eval.map(kws=>{
+      const hits=kws.filter(w=>textL.includes(w.toLowerCase()));
+      return hits.length>=2?3:hits.length===1?1.5:0;
+    });
+    ex.ips.forEach((_,j)=>{
+      const r=div.querySelector(`input[name="ip${i}_${j}"][value="${ipScores[j]}"]`);
+      if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
+    });
+    const kr=div.querySelector(`input[name="k${i}"][value="${kScore}"]`);
+    if(kr){kr.checked=true;kr.dispatchEvent(new Event('change',{bubbles:true}));}
+    const items=[];
+    ex.ips.forEach((desc,j)=>{
+      const sc=ipScores[j];
+      if(sc===3) items.push(`<div class="fb-item fb-ok"><span class="fb-icon">✓</span><span><strong>IP ${j+1}</strong> – ${desc}: vollständig adressiert (3 Pkt)</span></div>`);
+      else if(sc===1.5) items.push(`<div class="fb-item fb-miss"><span class="fb-icon">△</span><span><strong>IP ${j+1}</strong> – ${desc}: teilweise (1,5 Pkt) – mehr Details empfohlen</span></div>`);
+      else items.push(`<div class="fb-item fb-miss"><span class="fb-icon">✗</span><span><strong>IP ${j+1}</strong> – ${desc}: nicht erkannt (0 Pkt)</span></div>`);
+    });
+    const kLabel=kScore===1?'Anrede und Grußformel vorhanden (1 Pkt)':kScore===0.5?'Nur Anrede oder Grußformel (0,5 Pkt)':'Keine Anrede / Grußformel erkannt (0 Pkt)';
+    items.push(`<div class="fb-item ${kScore>0?'fb-ok':'fb-miss'}"><span class="fb-icon">${kScore===1?'✓':kScore===0.5?'△':'✗'}</span><span><strong>K</strong> – ${kLabel}</span></div>`);
+    afb.innerHTML=items.join('');
+    afb.hidden=false;
+    div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
 
-    const key=getApiKey();
-
-    if(key){
-      /* KI-Auswertung */
-      aBtn.classList.add('btn-loading');aBtn.disabled=true;
-      const origLabel=aBtn.textContent;
-      aBtn.textContent='KI bewertet …';
-      afb.hidden=true;airDiv.hidden=true;
-      try{
-        const raw=await callGemini(buildTextParts(ex,text));
-        const data=parseAI(raw);
-        setScores(div,i,ex,data);
-        renderAI(airDiv,data,false);
-        div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
-      }catch(e){
-        airDiv.innerHTML=`<div class="ai-result"><div class="ai-err-box">⚠ ${esc(e.message)}</div></div>`;
-        airDiv.hidden=false;
-      }finally{
-        aBtn.classList.remove('btn-loading');aBtn.disabled=false;aBtn.textContent=origLabel;
-      }
-    }else{
-      /* Keyword-basierte Schnellbewertung */
-      airDiv.hidden=true;
-      const textL=text.toLowerCase();
-      const hasAnrede=ANREDE.some(w=>textL.includes(w));
-      const hasGruss=GRUSS.some(w=>textL.includes(w));
-      let kScore=0;
-      if(hasAnrede&&hasGruss) kScore=1;
-      else if(hasAnrede||hasGruss) kScore=0.5;
-
-      const ipScores=ex.eval.map(kws=>{
-        const hits=kws.filter(w=>textL.includes(w.toLowerCase()));
-        return hits.length>=2?3:hits.length===1?1.5:0;
-      });
-
-      ex.ips.forEach((_,j)=>{
-        const r=div.querySelector(`input[name="ip${i}_${j}"][value="${ipScores[j]}"]`);
-        if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
-      });
-      const kr=div.querySelector(`input[name="k${i}"][value="${kScore}"]`);
-      if(kr){kr.checked=true;kr.dispatchEvent(new Event('change',{bubbles:true}));}
-
-      const items=[];
-      ex.ips.forEach((desc,j)=>{
-        const sc=ipScores[j];
-        if(sc===3) items.push(`<div class="fb-item fb-ok"><span class="fb-icon">✓</span><span><strong>IP ${j+1}</strong> – ${desc}: vollständig adressiert (3 Pkt)</span></div>`);
-        else if(sc===1.5) items.push(`<div class="fb-item fb-miss"><span class="fb-icon">△</span><span><strong>IP ${j+1}</strong> – ${desc}: teilweise (1,5 Pkt) – mehr Details empfohlen</span></div>`);
-        else items.push(`<div class="fb-item fb-miss"><span class="fb-icon">✗</span><span><strong>IP ${j+1}</strong> – ${desc}: nicht erkannt (0 Pkt)</span></div>`);
-      });
-      const kLabel=kScore===1?'Anrede und Grußformel vorhanden (1 Pkt)':kScore===0.5?'Nur Anrede oder Grußformel (0,5 Pkt)':'Keine Anrede / Grußformel erkannt (0 Pkt)';
-      items.push(`<div class="fb-item ${kScore>0?'fb-ok':'fb-miss'}"><span class="fb-icon">${kScore===1?'✓':kScore===0.5?'△':'✗'}</span><span><strong>K</strong> – ${kLabel}</span></div>`);
-      items.push(`<p class="fb-note">Automatischer Vorschlag (Schlüsselwörter) – für KI-Auswertung API-Schlüssel in den Einstellungen oben eingeben.</p>`);
-      afb.innerHTML=items.join('');
-      afb.hidden=false;
-      div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
-    }
+  gBtn.addEventListener('click',()=>{
+    const text=ta.value.trim()||'[noch kein Text eingegeben]';
+    openInGemini(ex,text);
+    gTst.textContent='✓ Prompt kopiert – in Gemini einfügen (Strg+V) & ggf. Foto hochladen';
+    setTimeout(()=>{gTst.textContent='';},4000);
   });
 
   /* ── Foto-Modus ── */
@@ -775,83 +624,30 @@ EX.forEach((ex,i)=>{
   const urm=div.querySelector(`#urm${i}`);
   const sendBtn=div.querySelector(`#sbtn${i}`);
   const sendNote=div.querySelector(`#snote${i}`);
-  const airuDiv=div.querySelector(`#airu${i}`);
-  let currentImgData=null,currentImgType=null;
-
-  function updateSendBtn(){
-    if(currentImgData){
-      sendBtn.textContent='🤖 Erneut von KI bewerten';
-    }else{
-      sendBtn.textContent='▶ Schicken';
-    }
-  }
-
-  async function runPhotoAI(){
-    if(!currentImgData)return;
-    const key=getApiKey();
-    if(!key){
-      const panel=document.getElementById('settings-panel');
-      const toggle=document.getElementById('settings-toggle');
-      const inp=document.getElementById('api-key-input');
-      if(panel&&panel.hidden){panel.hidden=false;toggle&&toggle.setAttribute('aria-expanded','true');}
-      sendNote.textContent='Bitte zuerst den Gemini API-Schlüssel in den KI-Einstellungen oben eingeben.';
-      sendNote.hidden=false;
-      const settingsBar=document.querySelector('.settings-bar');
-      if(settingsBar){
-        settingsBar.scrollIntoView({behavior:'smooth',block:'center'});
-        settingsBar.style.outline='2px solid var(--accent)';
-        settingsBar.style.borderRadius='10px';
-        setTimeout(()=>{settingsBar.style.outline='';settingsBar.style.borderRadius='';},2200);
-      }
-      if(inp)setTimeout(()=>inp.focus(),400);
-      return;
-    }
-    sendBtn.classList.add('btn-loading');sendBtn.disabled=true;
-    airuDiv.hidden=true;sendNote.hidden=true;
-    try{
-      const raw=await callGemini(buildPhotoParts(ex,currentImgData,currentImgType));
-      const data=parseAI(raw);
-      setScores(div,i,ex,data);
-      renderAI(airuDiv,data,true);
-      airuDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
-      div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
-    }catch(e){
-      airuDiv.innerHTML=`<div class="ai-result"><div class="ai-err-box">⚠ ${esc(e.message)}</div></div>`;
-      airuDiv.hidden=false;
-    }finally{
-      sendBtn.classList.remove('btn-loading');sendBtn.disabled=false;
-    }
-  }
+  let currentImgData=null;
 
   function showFile(file){
     if(!file)return;
-    airuDiv.hidden=true;airuDiv.innerHTML='';
     if(file.type.startsWith('image/')){
       const r=new FileReader();
       r.onload=e=>{
-        const dataUrl=e.target.result;
-        const m=dataUrl.match(/^data:(image\/[^;]+);base64,(.+)$/);
-        if(m){currentImgType=m[1];currentImgData=m[2];}
-        uim.src=dataUrl;uim.hidden=false;ufn.hidden=true;
-        updateSendBtn();
-        runPhotoAI();
+        uim.src=e.target.result;uim.hidden=false;ufn.hidden=true;
+        currentImgData=e.target.result;
       };
       r.readAsDataURL(file);
     }else{
-      currentImgData=null;currentImgType=null;
+      currentImgData=null;
       uim.hidden=true;ufn.textContent='📄 '+file.name;ufn.hidden=false;
-      updateSendBtn();
     }
     uph.hidden=true;uac.hidden=false;dz.classList.add('has-file');
-    sendBtn.hidden=false;sendNote.hidden=true;
+    sendBtn.hidden=false;sendNote.hidden=true;sendNote.textContent='';
   }
 
   function clearFile(){
     fi.value='';uim.src='';uim.hidden=true;ufn.hidden=true;
     uph.hidden=false;uac.hidden=true;dz.classList.remove('has-file');
-    sendBtn.hidden=true;sendNote.hidden=true;
-    currentImgData=null;currentImgType=null;
-    airuDiv.hidden=true;airuDiv.innerHTML='';
+    sendBtn.hidden=true;sendNote.hidden=true;sendNote.textContent='';
+    currentImgData=null;
   }
 
   fi.addEventListener('change',e=>showFile(e.target.files[0]));
@@ -863,19 +659,12 @@ EX.forEach((ex,i)=>{
   uch.addEventListener('click',e=>{e.stopPropagation();fi.click();});
   urm.addEventListener('click',e=>{e.stopPropagation();clearFile();});
 
-  sendBtn.addEventListener('click',async()=>{
-    if(currentImgData){
-      /* Foto-Modus: (erneut) mit KI bewerten */
-      await runPhotoAI();
-    }else{
-      /* Text-Modus: Bewertungsbogen anzeigen */
-      sendNote.hidden=false;
-      const sc=div.querySelector(`#sc${i}`);
-      sc.scrollIntoView({behavior:'smooth',block:'start'});
-      sc.style.outline='2px solid var(--accent)';
-      sc.style.borderRadius='9px';
-      setTimeout(()=>{sc.style.outline='';},1800);
-    }
+  sendBtn.addEventListener('click',()=>{
+    const photoNote='[Handgeschriebener Text – bitte das hochgeladene Foto in dieses Gemini-Gespräch einfügen]';
+    openInGemini(ex,photoNote);
+    sendNote.textContent='✓ Prompt kopiert – in Gemini einfügen (Strg+V) und das Foto anhängen';
+    sendNote.hidden=false;
+    setTimeout(()=>{sendNote.hidden=true;sendNote.textContent='';},5000);
   });
 
   /* Musterantwort */
