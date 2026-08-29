@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesen Teil 3 · Deutsch mit Hayford</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@400;500&display=swap">
+  <style>
+    :root{
+      --bg:#F7F5F0;--surface:#FFFFFF;--border:#E5DDD4;
+      --text:#1C1A17;--muted:#7A736B;
+      --accent:#1A5738;--accent-dark:#13402A;
+      --done:#1A5738;--partial:#B84E18;--pending:#A8A29A;
+      --card-bg:#EBF4EE;--card-border:#BDD9C9;--card-hd:#1A5738;
+      --stmt-bg:#F0EDE8;--stmt-border:#D6CFC7;
+      --correct:#1A5738;--wrong:#AE2D2D;
+      --correct-bg:rgba(26,87,56,.09);--wrong-bg:rgba(174,45,45,.08);
+      --tag-bg:#1A5738;--tag-text:#fff;
+    }
+    @media(prefers-color-scheme:dark){:root:not([data-theme=light]){
+      --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
+      --text:#EAE8E2;--muted:#857F77;
+      --accent:#4DAA7A;--accent-dark:#5EC28A;
+      --done:#4DAA7A;--partial:#E07840;--pending:#47433C;
+      --card-bg:#1C271E;--card-border:#2E4835;--card-hd:#1E4C30;
+      --stmt-bg:#211F1B;--stmt-border:#38352E;
+      --correct:#4DAA7A;--wrong:#E05252;
+      --correct-bg:rgba(77,170,122,.11);--wrong-bg:rgba(224,82,82,.1);
+      --tag-bg:#1E4C30;--tag-text:#A8D8BB;
+    }}
+    :root[data-theme=dark]{
+      --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
+      --text:#EAE8E2;--muted:#857F77;
+      --accent:#4DAA7A;--accent-dark:#5EC28A;
+      --done:#4DAA7A;--partial:#E07840;--pending:#47433C;
+      --card-bg:#1C271E;--card-border:#2E4835;--card-hd:#1E4C30;
+      --stmt-bg:#211F1B;--stmt-border:#38352E;
+      --correct:#4DAA7A;--wrong:#E05252;
+      --correct-bg:rgba(77,170,122,.11);--wrong-bg:rgba(224,82,82,.1);
+      --tag-bg:#1E4C30;--tag-text:#A8D8BB;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px 80px;}
+    .wrap{width:100%;max-width:800px;display:flex;flex-direction:column;gap:32px;}
+    .brand{padding-bottom:28px;border-bottom:2px solid var(--accent);}
+    .brand-name{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,5vw,2.8rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em;text-wrap:balance;}
+    .brand-name em{font-style:italic;font-weight:300;color:var(--accent);}
+    .brand-sub{font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-top:8px;}
+    .legend{display:flex;gap:20px;flex-wrap:wrap;}
+    .leg{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase;}
+    .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+    .dot.done{background:var(--done);}.dot.partial{background:var(--partial);}.dot.pending{background:var(--pending);}
+    /* Accordion list */
+    .list{display:flex;flex-direction:column;gap:6px;}
+    .ex{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);transition:box-shadow .18s;}
+    .ex.open{box-shadow:0 4px 22px rgba(0,0,0,.09);}
+    .ex-hd{display:grid;grid-template-columns:5px 1fr auto;gap:0 16px;align-items:center;cursor:pointer;user-select:none;transition:background .12s;}
+    .ex-hd:hover{background:rgba(26,87,56,.04);}
+    .stripe{min-height:56px;}.stripe.done{background:var(--done);}.stripe.partial{background:var(--partial);}.stripe.pending{background:var(--pending);}
+    .ex-lbl{padding:14px 0;}.ex-num{font-size:.7rem;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;}.ex-title{font-size:.95rem;font-weight:500;}
+    .ex-right{display:flex;align-items:center;gap:10px;padding-right:16px;flex-shrink:0;}
+    .badge{font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;padding:3px 9px;border-radius:4px;}
+    .badge.done{color:var(--done);background:rgba(26,87,56,.1);}.badge.partial{color:var(--partial);background:rgba(184,78,24,.1);}.badge.pending{color:var(--muted);}
+    .chevron{color:var(--muted);transition:transform .22s;font-size:.7rem;}
+    .ex.open .chevron{transform:rotate(180deg);}
+    .ex-body{display:none;padding:0 20px 26px;border-top:1px solid var(--border);}
+    .ex.open .ex-body{display:block;}
+    .instr{font-size:.82rem;color:var(--muted);margin-top:18px;margin-bottom:20px;font-style:italic;line-height:1.55;}
+    /* Two-column layout */
+    .exercise-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+    @media(max-width:560px){.exercise-grid{grid-template-columns:1fr;}}
+    .col-head{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:10px;}
+    /* Text cards */
+    .text-card{border:1px solid var(--card-border);border-radius:8px;overflow:hidden;margin-bottom:10px;}
+    .text-card:last-child{margin-bottom:0;}
+    .text-card-head{background:var(--card-hd);display:flex;align-items:center;gap:10px;padding:8px 12px;}
+    .text-tag{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:5px;background:rgba(255,255,255,.22);color:#fff;font-weight:700;font-size:.85rem;flex-shrink:0;}
+    .text-card-title{color:#fff;font-size:.8rem;font-weight:500;letter-spacing:.02em;line-height:1.25;}
+    .text-card-body{background:var(--card-bg);padding:12px 14px;font-size:.82rem;line-height:1.65;color:var(--text);}
+    /* Statement cards */
+    .stmt-card{background:var(--stmt-bg);border:1.5px solid var(--stmt-border);border-radius:8px;padding:13px 14px;margin-bottom:10px;transition:border-color .15s;}
+    .stmt-card:last-child{margin-bottom:0;}
+    .stmt-card.ok{border-color:var(--correct);background:var(--correct-bg);}
+    .stmt-card.err{border-color:var(--wrong);background:var(--wrong-bg);}
+    .stmt-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+    .stmt-num{font-weight:700;color:var(--accent);font-size:.9rem;flex-shrink:0;padding-top:1px;}
+    .stmt-text{font-size:.88rem;line-height:1.5;color:var(--text);}
+    .stmt-select-row{display:flex;align-items:center;gap:8px;}
+    .stmt-select-lbl{font-size:.75rem;color:var(--muted);white-space:nowrap;}
+    select{appearance:none;-webkit-appearance:none;font-family:'DM Sans',system-ui,sans-serif;font-size:.88rem;font-weight:500;color:var(--text);background:var(--surface);border:1.5px solid var(--border);border-radius:6px;padding:6px 30px 6px 10px;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A736B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;transition:border-color .15s;}
+    select:focus{outline:none;border-color:var(--accent);}
+    .stmt-card.ok select{border-color:var(--correct);color:var(--correct);}
+    .stmt-card.err select{border-color:var(--wrong);color:var(--wrong);}
+    .stmt-hint{display:none;font-size:.79rem;margin-top:8px;padding:7px 10px;border-radius:5px;line-height:1.45;}
+    .stmt-card.ok .stmt-hint{display:block;background:var(--correct-bg);color:var(--correct);}
+    .stmt-card.err .stmt-hint{display:block;background:var(--wrong-bg);color:var(--wrong);}
+    .stmt-hint strong{font-weight:600;}
+    .check-btn{background:var(--accent);color:#fff;border:none;padding:11px 26px;border-radius:7px;font-size:.9rem;font-family:'DM Sans',system-ui,sans-serif;font-weight:500;cursor:pointer;transition:background .15s,transform .1s;letter-spacing:.02em;}
+    .check-btn:hover{background:var(--accent-dark);}
+    .check-btn:active{transform:scale(.98);}
+    .score{display:none;margin-top:16px;}
+    .score.show{display:block;}
+    .score-bar{height:5px;background:var(--border);border-radius:3px;margin-bottom:9px;overflow:hidden;}
+    .score-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .55s cubic-bezier(.4,0,.2,1);}
+    .score-text{font-size:.875rem;color:var(--muted);}
+    .sc-val{color:var(--accent);font-weight:600;}
+    .sig{display:flex;align-items:baseline;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+    .sig-mark{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:300;font-style:italic;color:var(--accent);}
+    .sig-copy{font-size:.74rem;color:var(--muted);letter-spacing:.04em;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="brand">
+    <div class="brand-name">Deutsch <em>mit</em> Hayford</div>
+    <div class="brand-sub">telc A2 · Lesen Teil 3 · Übungen</div>
+  </header>
+  <div class="legend">
+    <span class="leg"><span class="dot done"></span>Abgeschlossen</span>
+    <span class="leg"><span class="dot partial"></span>In Bearbeitung</span>
+    <span class="leg"><span class="dot pending"></span>Noch offen</span>
+  </div>
+  <div class="list" id="list"></div>
+  <footer class="sig">
+    <span class="sig-mark">Deutsch mit Hayford</span>
+    <span class="sig-copy">© 2024–2026 · All rights reserved</span>
+  </footer>
+</div>
+<script>
+const EX=[
+
+{n:"3.1",t:"Dienstleistungen in der Stadt",s:0,
+texts:[
+  {id:"A",title:"FitLife Fitness-Studio",body:"Probetraining kostenlos! Monatsbeitrag: 39 €. Kurse: Yoga, Zumba, Pilates und Krafttraining. Geöffnet Mo–Fr 7–22 Uhr, Sa–So 9–18 Uhr. Parkplätze und Duschen vorhanden. Jetzt eintreten: 3 Monate zum Preis von 2 Monaten. Anmeldung online oder persönlich. Frankfurter Allee 22."},
+  {id:"B",title:"Fahrrad-Station München",body:"Fahrräder stundenweise oder tageweise mieten. Preise: 1 Stunde 3 €, 1 Tag 15 €. Stadtfahrräder, E-Bikes und Kinderräder verfügbar. Geöffnet täglich 8–19 Uhr. Helm: 2 € Aufpreis. Stadtplan und Schloss inklusive. Online reservieren unter fahrrad-station.de."},
+  {id:"C",title:"VHS Köln – Deutschkurse",body:"Deutschkurse A1–C1. Nächster Kursstart: 5. September. Kleingruppen, max. 12 Personen. Kursgebühr: 180 € pro Semester. Prüfungsvorbereitung möglich. Informationsabend: Do, 25. August, 18 Uhr. Anmeldung: vhs-koeln.de oder Tel. 0221 12345."},
+  {id:"D",title:"Tierärztlicher Notdienst Hamburg",body:"Rund um die Uhr geöffnet – täglich, auch an Wochenenden und Feiertagen. Kleintiere, Vögel und Reptilien. Bitte vor dem Besuch anrufen! Tel. 040 98765. Notfallaufnahme ohne Termin möglich. Tiergartenstraße 14, Hamburg-Altona."},
+  {id:"E",title:"KleidungsWerk – Second Hand",body:"Kinder- und Erwachsenenkleidung günstig kaufen und verkaufen. Wir kaufen auch Ihre alten Sachen! Spielzeug, Bücher und kleine Möbel ebenfalls. Geöffnet Di–Sa 10–18 Uhr. Lerchenweg 7, Düsseldorf. Tel. 0211 33344."},
+  {id:"F",title:"Lernhilfe – Nachhilfezentrum",body:"Einzelunterricht und Kleingruppen für Klassen 1–13. Fächer: Mathe, Englisch, Deutsch, Physik u. v. m. Erste Stunde kostenlos! Ab 25 € pro Stunde. Auch online möglich. Beratungstermin vereinbaren: Tel. 030 77788, Mo–Fr 9–18 Uhr."},
+  {id:"G",title:"Fröhliche Bühne – Kindertheater",body:"Wochenendvorstellungen für Kinder ab 5 Jahren. Sa & So, jeweils 15 Uhr. Eintritt: 8 € (Kinder), 12 € (Erwachsene). Aktuelles Stück: „Der gestiefelte Kater". Dauer: ca. 60 Minuten. Karten online oder an der Tageskasse. Parkplätze am Theater."},
+],
+stmts:[
+  {n:1,text:"Herr Kim möchte ein Fahrrad für drei Stunden ausleihen.",ans:"B",expl:"Text B: Fahrräder stundenweise mieten – 1 Stunde 3 €."},
+  {n:2,text:"Katja ist nach Deutschland gezogen und möchte jetzt Deutsch lernen.",ans:"C",expl:"Text C: VHS Köln bietet Deutschkurse A1–C1 an."},
+  {n:3,text:"Anna sucht günstige Kleidung für ihre 3-jährige Tochter.",ans:"E",expl:"Text E: KleidungsWerk – Kinderkleidung günstig kaufen."},
+  {n:4,text:"Es ist 23 Uhr und Stefans Hund ist plötzlich krank.",ans:"D",expl:"Text D: Tierärztlicher Notdienst – rund um die Uhr geöffnet."},
+  {n:5,text:"Lisa sucht ein Theaterprogramm am Samstagnachmittag für ihre 7-jährige Tochter.",ans:"G",expl:"Text G: Kindertheater – Sa & So 15 Uhr, ab 5 Jahren."},
+]},
+
+{n:"3.2",t:"Veranstaltungen und Angebote",s:0,
+texts:[
+  {id:"A",title:"Stadtbücherei – Leseclub",body:"Jeden zweiten Donnerstag, 18 Uhr. Wir lesen und besprechen gemeinsam aktuelle Romane. Mitgliedschaft in der Bücherei erforderlich. Jahresgebühr: 12 €. Neuanmeldungen jederzeit möglich. Stadtbücherei Hannover, 1. Etage, Raum 12."},
+  {id:"B",title:"Sprachcafé Deutsch",body:"Kostenlos Deutsch üben in kleiner Gruppe! Jeden Dienstag und Freitag, 10–12 Uhr. Für alle Niveaus – keine Anmeldung nötig. Kaffee und Tee kostenlos. Ev. Gemeindehaus, Hauptstr. 5, Dresden."},
+  {id:"C",title:"Flohmarkt am Stadtpark",body:"Jeden ersten Sonntag im Monat, 8–14 Uhr. Verkäufer zahlen 5 € für einen Stand. Besucher haben freien Eintritt. Gebrauchte Möbel, Kleidung, Bücher und Haushaltswaren. Stadtpark Nürnberg, Eingang West. Wetterschutz vorhanden."},
+  {id:"D",title:"Schwimmkurs für Erwachsene",body:"Anfänger und Fortgeschrittene willkommen! 10 Stunden, montags 19–20 Uhr. Gebühr: 85 €. Kursbeginn: 3. Oktober. Eigene Badekappe mitbringen. Anmeldung bis 25. September: Tel. 0511 66677 oder Hallenbad Mitte, Schwimmbadweg 3."},
+  {id:"E",title:"Kochkurs – Asiatische Küche",body:"Lernen Sie, asiatisch zu kochen! Samstag, 14. September, 14–18 Uhr. Kosten: 55 € inkl. Zutaten und Getränke. Maximal 10 Teilnehmer. Anmeldung bis 10. September per E-Mail: kochschule@leckerbissen.de. Küchenstudio Leckerbissen, Am Markt 3."},
+  {id:"F",title:"Stadtführung – Altstadt",body:"Entdecken Sie die Geschichte unserer Altstadt! Samstag und Sonntag, 11 Uhr. Dauer: 90 Minuten. Kosten: 8 € pro Person (Kinder unter 12 Jahren frei). Keine Anmeldung nötig. Treffpunkt: Marktbrunnen. Auch auf Englisch und Türkisch."},
+  {id:"G",title:"Yoga für Senioren",body:"Sanftes Yoga speziell für Menschen ab 60 Jahren. Mittwoch und Freitag, 9–10 Uhr. Gebühr: 30 € pro Monat. Erste Stunde kostenlos zum Schnuppern! Keine Vorkenntnisse nötig. Anmeldung: Tel. 089 12233. Kulturzentrum West, Birkenweg 8."},
+],
+stmts:[
+  {n:1,text:"Herr Özkan möchte jeden Freitagvormittag sein Deutsch verbessern – kostenlos und ohne Anmeldung.",ans:"B",expl:"Text B: Sprachcafé – freitags 10–12 Uhr, kostenlos, keine Anmeldung."},
+  {n:2,text:"Frau Becker sucht einen Kurs, bei dem sie schwimmen lernen kann.",ans:"D",expl:"Text D: Schwimmkurs für Erwachsene – auch für Anfänger."},
+  {n:3,text:"Tomás möchte am Sonntag alte Bücher und Kleidung verkaufen.",ans:"C",expl:"Text C: Flohmarkt jeden ersten Sonntag – Verkäufer zahlen 5 €."},
+  {n:4,text:"Marie möchte am Wochenende die Geschichte der Stadt kennenlernen.",ans:"F",expl:"Text F: Stadtführung Altstadt – Sa & So 11 Uhr, 90 Minuten."},
+  {n:5,text:"Frau Keller ist 68 Jahre alt und möchte sich sportlich betätigen.",ans:"G",expl:"Text G: Yoga für Senioren – ab 60 Jahren, Mi & Fr."},
+]},
+
+{n:"3.3",t:"Arbeit und Wohnen",s:0,
+texts:[
+  {id:"A",title:"Stellenanzeige: Bäckerei Hofmann",body:"Wir suchen einen Verkäufer / eine Verkäuferin (Teilzeit, 20 Std./Woche). Mo–Sa, 6–10 Uhr. Keine Vorkenntnisse nötig, Einarbeitung garantiert. Bewerbung per E-Mail: jobs@baeckerei-hofmann.de. Bitte Foto beifügen. Bäckerei Hofmann, Rosenweg 11, Stuttgart."},
+  {id:"B",title:"WG-Zimmer zu vermieten",body:"Helles Zimmer (16 m²) in 3er-WG. Miete: 420 € warm. Küche und Bad werden geteilt. Ruhige Lage, 10 Minuten zur U-Bahn. Tierhalter leider nicht möglich. Nichtraucher bevorzugt. Besichtigungstermin: Mi oder Do abends. Kontakt: wg.zimmer.bonn@gmail.com"},
+  {id:"C",title:"Umzugshelfer gesucht",body:"Wir ziehen am 12. Oktober um und suchen 3–4 kräftige Helfer. Bezahlung: 12 € pro Stunde. Verpflegung wird gestellt. Einsatz von 8–16 Uhr. Schwere Möbel müssen getragen werden. Melden Sie sich bis 5. Oktober: Tel. 0176 55443322."},
+  {id:"D",title:"Reinigungskraft (Minijob)",body:"Hotel Sonnenhof sucht Reinigungskräfte für Zimmer und Flure. Mo–Fr, 8–12 Uhr, 450 € im Monat. Erfahrung erwünscht, aber nicht zwingend. Sofort verfügbar? Melden Sie sich: Tel. 0761 98801, Frau Berger."},
+  {id:"E",title:"Wohnung zu vermieten",body:"2-Zimmer-Wohnung (58 m²), 2. OG, Aufzug. Miete: 780 € kalt + 120 € NK. Einbauküche vorhanden. Haustiere auf Anfrage. Frei ab 1. November. Besichtigung nach Vereinbarung. Bitte schriftlich bewerben: Hausverwaltung Grün, Lindenweg 3, Freiburg."},
+  {id:"F",title:"Babysitter gesucht",body:"Familie mit zwei Kindern (4 und 7 Jahre) sucht zuverlässige Babysitterin für 2–3 Abende pro Woche. 10–12 € pro Stunde. Deutschkenntnisse wichtig. Referenzen erwünscht. Melden Sie sich per WhatsApp oder Anruf: 0162 77889."},
+  {id:"G",title:"Stellenanzeige: Supermarkt Rewe",body:"Kassenkraft (Vollzeit/Teilzeit). Früh- und Spätschicht möglich. Vorkenntnisse wünschenswert. Gehalt nach Tarif. Arbeitsort: Rewe-Filiale, Bahnhofstr. 12. Bewerbung direkt im Markt oder online: rewe.de/karriere."},
+],
+stmts:[
+  {n:1,text:"Maria sucht eine 2-Zimmer-Wohnung. Sie hat eine Katze.",ans:"E",expl:"Text E: 2-Zimmer-Wohnung – Haustiere auf Anfrage möglich."},
+  {n:2,text:"Peter sucht einen Job am frühen Morgen und kann in einer Bäckerei arbeiten.",ans:"A",expl:"Text A: Bäckerei Hofmann – Mo–Sa 6–10 Uhr, keine Vorkenntnisse nötig."},
+  {n:3,text:"Yuki sucht ein WG-Zimmer. Sie hat keine Haustiere und raucht nicht.",ans:"B",expl:"Text B: WG-Zimmer – Nichtraucher, keine Haustiere, 420 € warm."},
+  {n:4,text:"Familie Meier sucht jemanden, der abends auf ihre Kinder aufpasst.",ans:"F",expl:"Text F: Babysitter gesucht – 2–3 Abende pro Woche."},
+  {n:5,text:"Tom hat viel Kraft und möchte an einem Tag für einen Umzug helfen.",ans:"C",expl:"Text C: Umzugshelfer gesucht – 12 € pro Stunde, 12. Oktober."},
+]},
+
+{n:"3.4",t:"Gesundheit und Freizeit",s:0,
+texts:[
+  {id:"A",title:"Blutspende – Jetzt Termin buchen",body:"Blut spenden und Leben retten! Das DRK sucht Blutspender zwischen 18 und 65 Jahren. Nächste Spendenaktion: Samstag, 20. September, 9–14 Uhr. Sporthalle Tempelhof. Bitte nüchtern kommen (kein Frühstück). Termin online buchen: blutspende.de. Spender erhalten einen kleinen Imbiss."},
+  {id:"B",title:"Wanderclub Bergfreunde",body:"Wir wandern jeden Sonntag! Leichte bis mittelschwere Touren, 8–15 km. Start: 9 Uhr am Bahnhof Süd. Offen für Gäste, einfach mitkommen! Ausrüstung: gute Schuhe und Wasser mitbringen. Mehr Infos: bergfreunde-club.de oder Tel. 0721 44566."},
+  {id:"C",title:"Apotheke Zur Linde – Lieferservice",body:"Medikamente bequem nach Hause bestellen! Lieferung am gleichen Tag (Bestellung bis 12 Uhr). Liefergebiet: Stadtgebiet München. Rezepte per Foto senden. Tel. 089 33221 oder apotheke-linde.de. Mo–Fr 8–18 Uhr, Sa 9–14 Uhr."},
+  {id:"D",title:"Fotokurs für Anfänger",body:"Lernen Sie, tolle Fotos zu machen! 6 Abende, jeweils mittwochs 18–20 Uhr. Gebühr: 90 €. Kamera nicht nötig – Smartphone reicht! Kursbeginn: 8. Oktober. Anmeldung bis 1. Oktober: fotoschule-mainz.de."},
+  {id:"E",title:"Stadtlauf Hamburg – Anmeldung offen",body:"5 km oder 10 km laufen – für alle Niveaus! Veranstaltung: Sonntag, 5. Oktober. Start: 10 Uhr, Alster. Startgebühr: 15 € (5 km) oder 20 € (10 km). Anmeldung bis 28. September: stadtlauf-hamburg.de. T-Shirt und Medaille für alle Finisher."},
+  {id:"F",title:"Massagepraxis WohlSein",body:"Klassische Massage, Sportmassage und Entspannungsmassage. Ersttermin 20% Rabatt! Termine Mo–Sa nach Vereinbarung. Online buchen: wohlsein-praxis.de oder Tel. 040 77654. Gutscheine erhältlich. Wandsbeker Marktstr. 18, Hamburg."},
+  {id:"G",title:"Gemüsegarten pachten",body:"Kleingarten (25 m²) in der Gartenanlage Sonnenhang zu verpachten. Jahrespacht: 120 €. Wasser und Werkzeug vorhanden. Ideal für Familien und Hobbygärtner. Warteliste kurz! Bewerbung: gartenanlage-sonnenhang.de oder Tel. 0721 55678."},
+],
+stmts:[
+  {n:1,text:"Herr Weiss ist krank und kann nicht in die Apotheke fahren. Er braucht seine Medikamente noch heute.",ans:"C",expl:"Text C: Apotheke Linde – Lieferservice am gleichen Tag bei Bestellung bis 12 Uhr."},
+  {n:2,text:"Julia möchte am Wochenende mit einer Gruppe in der Natur wandern.",ans:"B",expl:"Text B: Wanderclub – jeden Sonntag, offen für Gäste."},
+  {n:3,text:"Paul möchte lernen, bessere Fotos zu machen. Er hat keine Kamera, nur ein Smartphone.",ans:"D",expl:"Text D: Fotokurs – Smartphone reicht!"},
+  {n:4,text:"Anna möchte am Sonntag an einem Lauf teilnehmen. Sie läuft zum ersten Mal bei so einer Veranstaltung.",ans:"E",expl:"Text E: Stadtlauf – für alle Niveaus, So 5. Oktober."},
+  {n:5,text:"Familie Hofer möchte Gemüse selbst anbauen und sucht ein kleines Stück Garten.",ans:"G",expl:"Text G: Kleingarten pachten – 25 m², 120 € pro Jahr, für Familien."},
+]},
+
+{n:"3.5",t:"Kurse und Bildung",s:0,
+texts:[
+  {id:"A",title:"Erste-Hilfe-Kurs",body:"Lebensrettende Maßnahmen lernen! 1-Tages-Kurs, samstags 9–17 Uhr. Kosten: 35 €. Zertifikat inklusive. Maximale Teilnehmerzahl: 15 Personen. Anmeldung unter: drk-kurs.de oder Tel. 0221 98700. Nächster Termin: 18. Oktober."},
+  {id:"B",title:"Online-Kurs: Excel Grundlagen",body:"Microsoft Excel für Anfänger. Lernen Sie im eigenen Tempo! 12 Video-Lektionen, lebenslanger Zugang. Preis: 49 €. Zertifikat nach Abschluss. Start jederzeit möglich. Zugang nach Bezahlung sofort. Mehr Infos: digitalkurse.de."},
+  {id:"C",title:"Musikschule Harmonie – Gitarre",body:"Gitarrenunterricht für Kinder (ab 8 J.) und Erwachsene. Einzel- und Gruppenunterricht. Probestunde kostenlos! Preise ab 28 € pro 45 Minuten. Mo–Fr 14–20 Uhr, Sa 9–14 Uhr. Instrumente können gemietet werden. Tel. 0711 23456."},
+  {id:"D",title:"Nähkurs für Anfänger",body:"Lernen Sie nähen in 6 Abenden! Di, 18:30–20:30 Uhr. Gebühr: 75 €, Materialkosten extra. Nähmaschinen vorhanden – eigene kann mitgebracht werden. Kursstart: 15. Oktober. Anmeldung bis 8. Oktober: naehschule-wien@mail.at."},
+  {id:"E",title:"Sprachkurs Spanisch – Intensiv",body:"Spanisch lernen in 2 Wochen! Täglich Mo–Fr, 9–13 Uhr. Niveau A1 und A2. Kursbeginn: 3. November. Gebühr: 220 €. Max. 8 Personen pro Gruppe. Anmeldung: sprachzentrum-berlin.de oder Tel. 030 45678."},
+  {id:"F",title:"Computerkurs für Senioren",body:"Internet, E-Mail und Smartphone richtig nutzen. Dienstag, 10–12 Uhr. Kostenbeitrag: 5 € pro Termin. Keine Vorkenntnisse nötig. Gerät wird gestellt oder eigenes Gerät mitbringen. Volkshochschule Essen, Zimmer 3. Keine Anmeldung nötig."},
+  {id:"G",title:"Töpferkurs – Keramik",body:"Töpfern für Anfänger und Fortgeschrittene. Jeden Samstag, 10–13 Uhr. Monatskurs: 80 €. Material und Ofen inklusive. Kleine Gruppe (max. 8 Personen). Atelier Ton & Form, Gartenstr. 22, Leipzig. Tel. 0341 77889."},
+],
+stmts:[
+  {n:1,text:"Herr Costa möchte seine Arbeit mit Excel verbessern und am Wochenende nicht weg von zu Hause.",ans:"B",expl:"Text B: Online-Kurs Excel – von zu Hause, Start jederzeit."},
+  {n:2,text:"Oma Schmidt, 72, möchte lernen, wie man das Internet und E-Mails benutzt.",ans:"F",expl:"Text F: Computerkurs für Senioren – Internet, E-Mail, dienstags."},
+  {n:3,text:"Tom (10 Jahre) interessiert sich für Musik und möchte ein Instrument lernen.",ans:"C",expl:"Text C: Musikschule – Gitarre für Kinder ab 8 Jahren."},
+  {n:4,text:"Eva möchte schnell Spanisch lernen und kann morgens Zeit einplanen.",ans:"E",expl:"Text E: Spanisch-Intensivkurs – Mo–Fr 9–13 Uhr."},
+  {n:5,text:"Leon möchte an einem Samstag einen Kurs belegen, bei dem er etwas mit seinen Händen macht.",ans:"G",expl:"Text G: Töpferkurs – jeden Samstag 10–13 Uhr."},
+]},
+
+{n:"3.6",t:"Einkaufen und Services",s:0,
+texts:[
+  {id:"A",title:"Buchhandlung Lesestube",body:"Bücher, Hörbücher und Spiele. Geöffnet Mo–Sa 9–19 Uhr. Bestellungen möglich – Lieferzeit 1–3 Tage. Gutscheine für jeden Anlass. 10% Rabatt mit Kundenkarte. Lesungen und Buchpräsentationen regelmäßig. Marktplatz 5, Augsburg."},
+  {id:"B",title:"Brillen & Kontaktlinsen – Optik Meier",body:"Augentest kostenlos! Große Auswahl an Brillenfassungen, auch für Kinder. Kontaktlinsen auf Bestellung. Mo–Fr 9–18 Uhr, Sa 9–14 Uhr. Reparaturen oft am gleichen Tag. Bahnhofstr. 20, Mannheim."},
+  {id:"C",title:"Schlüsseldienst 24h",body:"Schlüssel verloren oder Tür zugefallen? Wir sind rund um die Uhr für Sie da! Tel. 0800 123456 (kostenlos). Schnelle Reaktionszeit – innerhalb von 30 Minuten vor Ort. Seriöse Preise, Festpreisgarantie. Großraum Stuttgart."},
+  {id:"D",title:"Bio-Wochenmarkt",body:"Frisches Obst, Gemüse, Käse und Fleisch direkt vom Bauernhof. Jeden Samstag 7–13 Uhr. Marktplatz Karlsruhe. Auch regionale Spezialitäten und Honig. Bezahlung nur bar. Kinder können kostenlos Tiere streicheln!"},
+  {id:"E",title:"Schreibwaren & Bürobedarf",body:"Stifte, Papier, Hefte, Ordner und mehr. Kopier- und Druckservice im Haus. Laminieren und Binden ebenfalls. Schülerrabatt: 5%. Mo–Fr 8–18 Uhr, Sa 9–13 Uhr. Schulweg 3, Kiel. Bestellungen per E-Mail möglich."},
+  {id:"F",title:"Friseur Haartraum – Neue Preise",body:"Damenschnitt ab 35 €, Herrenschnitt ab 18 €, Kinderschnitt ab 12 €. Färben und Strähnchen auf Anfrage. Termine Mo–Sa. Online buchen: haartraum.de. Walk-in möglich, aber Wartezeit möglich. Rathausplatz 1, Bremen."},
+  {id:"G",title:"Reparaturcafé",body:"Kaputte Gegenstände selbst reparieren – mit Hilfe! Jeden ersten Samstag im Monat, 10–14 Uhr. Eintritt frei. Freiwillige Helfer unterstützen Sie. Elektrogeräte, Kleidung, Fahrräder. Mitbringen: das defekte Gerät. Bürgerhaus Mitte, Dortmund."},
+],
+stmts:[
+  {n:1,text:"Es ist 23 Uhr und Frau Hoffmann hat sich ausgesperrt.",ans:"C",expl:"Text C: Schlüsseldienst – rund um die Uhr, innerhalb 30 Minuten."},
+  {n:2,text:"Max sucht am Samstagmorgen frisches Gemüse und Käse direkt vom Bauernhof.",ans:"D",expl:"Text D: Bio-Wochenmarkt – Sa 7–13 Uhr, Gemüse und Käse vom Bauernhof."},
+  {n:3,text:"Luisa braucht Hefte und Stifte für die Schule und möchte Schülerrabatt.",ans:"E",expl:"Text E: Schreibwaren – Schülerrabatt 5%."},
+  {n:4,text:"Opa Fritz hat einen alten Radio, der nicht mehr funktioniert, und möchte ihn selbst reparieren.",ans:"G",expl:"Text G: Reparaturcafé – Elektrogeräte reparieren mit Hilfe, erster Sa im Monat."},
+  {n:5,text:"Frau Bauer möchte ihre Brille reparieren lassen und braucht auch einen Augentest.",ans:"B",expl:"Text B: Optik Meier – Augentest kostenlos, Reparaturen oft am gleichen Tag."},
+]},
+
+{n:"3.7",t:"Reisen und Transport",s:0,
+texts:[
+  {id:"A",title:"Mitfahrzentrale – Günstig reisen",body:"Mitfahrgelegenheiten deutschlandweit finden oder anbieten. Fahrten von 5 ct/km. Kostenlose App für iOS und Android. Bezahlung über die App. Raucherfahrten auf Anfrage. Haustiere nur mit Vereinbarung. Jetzt registrieren: mitfahr.de"},
+  {id:"B",title:"Deutsches Museum – Führungen",body:"Täglich Führungen in Deutsch und Englisch. 11 Uhr und 14 Uhr. Dauer: 75 Minuten. Treffpunkt: Haupteingang. Eintritt Museum: 14 € (Kinder unter 6 Jahren frei). Führungsgebühr: 5 € extra. Schulgruppen auf Anmeldung."},
+  {id:"C",title:"Paketservice – Sofortversand",body:"Pakete schnell versenden! Abholung zu Hause: Mo–Fr, Termin online buchen. Packstationen rund um die Uhr verfügbar. Preise ab 4,99 €. Sendungsverfolgung inklusive. Ausland möglich. paketservice-express.de"},
+  {id:"D",title:"Pensionhaus Alpenblick",body:"Ruhige Lage, 5 Minuten vom Skigebiet. Doppelzimmer ab 75 € pro Nacht inkl. Frühstück. WLAN kostenlos. Haustiere willkommen. Parkplatz kostenlos. Reservierung: alpenblick-pension.de oder Tel. 08821 33456."},
+  {id:"E",title:"Stadtbus Linie 7 – Änderung",body:"Achtung: Ab Montag, 15. September fährt Linie 7 einen Umweg über die Weststraße. Die Haltestelle Marktplatz entfällt vorübergehend. Nächste Haltestelle: Rathausplatz (200 m). Fahrzeiten bleiben unverändert. Mehr Infos: stadtbus.de"},
+  {id:"F",title:"Campingplatz Seetal",body:"Direkt am See, Schwimmen und Angeln möglich. Stellplätze für Zelte und Wohnwagen. Preise: ab 12 € pro Nacht. Sanitäranlagen, WLAN und kleiner Supermarkt. Haustiere erlaubt. Reservierung: seetal-camping.de. Mai bis Oktober geöffnet."},
+  {id:"G",title:"Taxiunternehmen Zuverlässig",body:"Fahrten rund um die Uhr, auch am Wochenende. Festpreise zum Flughafen. Kindersitze auf Anfrage. Gepäck kein Problem. Maximal 4 Personen pro Fahrzeug. Ruf einfach an: 0700 55555 oder App nutzen: taxi-zuverlässig.de"},
+],
+stmts:[
+  {n:1,text:"Familie Huber sucht eine preiswerte Unterkunft mit Frühstück in den Bergen. Sie haben einen Hund.",ans:"D",expl:"Text D: Pension Alpenblick – Frühstück inkl., Haustiere willkommen, Bergregion."},
+  {n:2,text:"Tobias möchte günstig von München nach Berlin fahren und sucht jemanden zum Mitfahren.",ans:"A",expl:"Text A: Mitfahrzentrale – günstige Fahrten finden, ab 5 ct/km."},
+  {n:3,text:"Frau Lehmann möchte am Wochenende mit ihrem Zelt direkt am Wasser übernachten.",ans:"F",expl:"Text F: Campingplatz Seetal – direkt am See, Zelte möglich."},
+  {n:4,text:"Erik muss um 3 Uhr nachts zum Flughafen fahren.",ans:"G",expl:"Text G: Taxiunternehmen – rund um die Uhr, Festpreise zum Flughafen."},
+  {n:5,text:"Lena will ein Paket verschicken, ist aber tagsüber nicht zu Hause.",ans:"C",expl:"Text C: Paketservice – Packstationen rund um die Uhr verfügbar."},
+]},
+
+{n:"3.8",t:"Alltag und Nachbarschaft",s:0,
+texts:[
+  {id:"A",title:"Hundesitter gesucht",body:"Suche zuverlässigen Hundesitter für unseren Labrador (4 Jahre, kastriert, sehr freundlich) für 2 Wochen im August. Gassi gehen 2× täglich nötig. Bezahlung: 20 € pro Tag. Erfahrung mit Hunden wichtig. Kontakt: 0176 44332211, Frau Straub."},
+  {id:"B",title:"Werkzeug zu verleihen",body:"Bohrmaschine, Säge, Leiter und diverses Werkzeug kostenlos zu leihen. Bitte 2 Tage im Voraus anfragen. Für Nachbarn aus dem Haus. Rückgabe innerhalb von 3 Tagen. Klingeln Sie bei Familie Kraft, 3. OG rechts oder schreiben Sie: kraft.werkzeug@mail.de"},
+  {id:"C",title:"Fahrradständer – Infos",body:"Der neue Fahrradständer am Eingang ist ab sofort nutzbar. Bitte Fahrräder nur dort abstellen. Fahrräder im Treppenhaus sind nicht erlaubt. Der Hausmeister entfernt nicht ordnungsgemäß abgestellte Fahrräder. – Hausverwaltung"},
+  {id:"D",title:"Tausche Gitarrenunterricht gegen Sprachunterricht",body:"Ich bin Gitarrenlehrer (15 Jahre Erfahrung) und biete Unterricht für Anfänger an. Dafür suche ich jemanden, der mir Spanisch beibringt. Niveau egal. 1 Std. gegen 1 Std. Keine Bezahlung. Melden Sie sich: gitarrelehrer99@mail.de"},
+  {id:"E",title:"Haushaltsauflösung",body:"Wir verkaufen Möbel, Haushaltsgeräte und Bücher zu günstigen Preisen. Besichtigung: Sa, 14. September, 10–15 Uhr. Spülmaschine (80 €), Sofa (50 €), Bücherregal (20 €) und vieles mehr. Abnahme am gleichen Tag nötig. Friedensstr. 8, EG links."},
+  {id:"F",title:"Paketannahme – Bitte helfen",body:"Liebe Nachbarn, ich bin häufig tagsüber nicht zu Hause. Wäre jemand bereit, gelegentlich meine Pakete anzunehmen? Ich tue gerne dasselbe für Sie! Bitte klingeln Sie bei mir (Nr. 12) oder schreiben: pakethilfe@mailbox.org"},
+  {id:"G",title:"Parkplatz zu vermieten",body:"Privater Tiefgaragenplatz in der Wohnanlage zu vermieten. 80 € pro Monat. Zufahrt mit Chipkarte. Nur für PKW, kein Motorrad. Langzeitmiete bevorzugt. Kontakt: hausverwaltung-sued@mail.de"},
+],
+stmts:[
+  {n:1,text:"Frau Reiter fährt viel und braucht einen sicheren Stellplatz für ihr Auto.",ans:"G",expl:"Text G: Tiefgaragenplatz zu vermieten – 80 € pro Monat, nur für PKW."},
+  {n:2,text:"Herr Novák möchte Gitarre lernen und kann dafür Spanischunterricht geben.",ans:"D",expl:"Text D: Tausche Gitarren- gegen Sprachunterricht."},
+  {n:3,text:"Jonas braucht eine Bohrmaschine für ein Wochenendprojekt, möchte aber nicht kaufen.",ans:"B",expl:"Text B: Werkzeug zu leihen – Bohrmaschine, kostenlos für Nachbarn."},
+  {n:4,text:"Familie Sommer sucht günstige Möbel für ihre neue Wohnung.",ans:"E",expl:"Text E: Haushaltsauflösung – Sofa, Bücherregal und mehr zu günstigen Preisen."},
+  {n:5,text:"Frau Park hat einen Hund und sucht jemanden, der in den Ferien auf ihn aufpasst.",ans:"A",expl:"Text A: Hundesitter gesucht – 2 Wochen, 20 € pro Tag, Erfahrung nötig."},
+]},
+
+];
+
+function cls(s){return s===100?"done":s>0?"partial":"pending";}
+const list=document.getElementById("list");
+
+EX.forEach((ex,i)=>{
+  const c=cls(ex.s);
+  const div=document.createElement("div");
+  div.className="ex";
+
+  const textsHtml=ex.texts.map(t=>`
+    <div class="text-card">
+      <div class="text-card-head">
+        <span class="text-tag">${t.id}</span>
+        <span class="text-card-title">${t.title}</span>
+      </div>
+      <div class="text-card-body">${t.body}</div>
+    </div>`).join("");
+
+  const stmtsHtml=ex.stmts.map(s=>`
+    <div class="stmt-card" id="stmt_${i}_${s.n}">
+      <div class="stmt-top">
+        <span class="stmt-num">${s.n}.</span>
+        <span class="stmt-text">${s.text}</span>
+      </div>
+      <div class="stmt-select-row">
+        <span class="stmt-select-lbl">Antwort:</span>
+        <select name="stmt_${i}_${s.n}">
+          <option value="">– wählen –</option>
+          ${ex.texts.map(t=>`<option value="${t.id}">${t.id}</option>`).join("")}
+        </select>
+      </div>
+      <div class="stmt-hint"></div>
+    </div>`).join("");
+
+  div.innerHTML=`
+<div class="ex-hd" tabindex="0" role="button" aria-expanded="false">
+  <div class="stripe ${c}"></div>
+  <div class="ex-lbl"><div class="ex-num">Übung ${ex.n}</div><div class="ex-title">${ex.t}</div></div>
+  <div class="ex-right"><span class="badge ${c}">${ex.s===0?"–":ex.s+" %"}</span><span class="chevron">▾</span></div>
+</div>
+<div class="ex-body">
+  <p class="instr">Lesen Sie die Texte A–${ex.texts[ex.texts.length-1].id}. Welcher Text passt zu welcher Person? Für zwei Texte gibt es keine passende Person.</p>
+  <div class="exercise-grid">
+    <div>
+      <div class="col-head">Texte</div>
+      ${textsHtml}
+    </div>
+    <div>
+      <div class="col-head">Personen / Situationen</div>
+      ${stmtsHtml}
+    </div>
+  </div>
+  <button class="check-btn">Antworten prüfen</button>
+  <div class="score"></div>
+</div>`;
+
+  const hd=div.querySelector(".ex-hd");
+  function toggle(){div.classList.toggle("open");hd.setAttribute("aria-expanded",div.classList.contains("open"));}
+  hd.addEventListener("click",toggle);
+  hd.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle();}});
+
+  div.querySelector(".check-btn").addEventListener("click",()=>{
+    let ok=0;
+    ex.stmts.forEach(s=>{
+      const card=div.querySelector(`#stmt_${i}_${s.n}`);
+      const sel=div.querySelector(`select[name="stmt_${i}_${s.n}"]`);
+      const hint=card.querySelector(".stmt-hint");
+      card.classList.remove("ok","err");
+      if(sel.value===s.ans){
+        card.classList.add("ok");ok++;
+        hint.innerHTML=`✓ <strong>${s.ans}</strong> – ${s.expl}`;
+      } else {
+        card.classList.add("err");
+        const got=sel.value?` (gewählt: <strong>${sel.value}</strong>)`:"";
+        hint.innerHTML=`✗ Richtige Antwort: <strong>${s.ans}</strong>${got} – ${s.expl}`;
+      }
+    });
+    const sc=div.querySelector(".score");
+    const pct=Math.round(ok/ex.stmts.length*100);
+    sc.className="score show";
+    sc.innerHTML=`<div class="score-bar"><div class="score-fill" style="width:${pct}%"></div></div><p class="score-text">Ergebnis: <span class="sc-val">${ok} von ${ex.stmts.length}</span> richtig &thinsp;·&thinsp; ${pct}&thinsp;%</p>`;
+  });
+
+  list.appendChild(div);
+});
+</script>
+</body>
+</html>
