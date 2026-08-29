@@ -10,37 +10,70 @@
       --bg:#F7F5F0;--surface:#FFFFFF;--border:#E5DDD4;
       --text:#1C1A17;--muted:#7A736B;
       --accent:#1A5738;--accent-dark:#13402A;
-      --done:#1A5738;--partial:#B84E18;--pending:#A8A29A;
+      --done:#1A5738;--partial:#B84E18;--pending:#A8A29A;--err:#A03030;
       --info-bg:#EBF4EE;--info-border:#BDD9C9;--info-hd:#1A5738;
       --task-bg:#F3F1EC;--task-border:#DDD8D0;
       --bullet-bg:rgba(26,87,56,.08);--bullet-border:#BDD9C9;
       --ta-bg:#FFFFFF;--ta-border:#D6CFC7;
       --sample-bg:#F0EDE8;--sample-border:#C8BFB4;
       --wc-ok:#1A5738;--wc-low:#B84E18;
+      --score-bg:#F1F4F1;--score-border:#C8D8C8;--score-hd:#1A5738;
+      --radio-border:#C2BAB0;
+      --r3-bg:rgba(26,87,56,.11);--r3-bd:#1A5738;--r3-col:#1A5738;
+      --r1-bg:rgba(162,110,12,.11);--r1-bd:#A26E0C;--r1-col:#8B5E08;
+      --r0-bg:rgba(148,72,60,.09);--r0-bd:#944840;--r0-col:#7A3830;
+      --total-bg:#E8EEE8;
+      --ga-bg:rgba(26,87,56,.12);--ga-col:#1A5738;
+      --gb-bg:rgba(40,120,60,.10);--gb-col:#267A3A;
+      --gc-bg:rgba(160,110,10,.11);--gc-col:#8B6008;
+      --gd-bg:rgba(148,50,45,.10);--gd-col:#7A3030;
+      --drop-bg:#F4F8F5;--drop-bd:#B8D4C0;--drop-hov:#ECF4EE;
     }
     @media(prefers-color-scheme:dark){:root:not([data-theme=light]){
       --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
       --text:#EAE8E2;--muted:#857F77;
       --accent:#4DAA7A;--accent-dark:#5EC28A;
-      --done:#4DAA7A;--partial:#E07840;--pending:#47433C;
-      --info-bg:#1C271E;--info-border:#2E4835;--info-hd:#1E4C30;
+      --done:#4DAA7A;--partial:#E07840;--pending:#47433C;--err:#C05050;
+      --info-bg:#1C271E;--info-border:#2E4835;--info-hd:#1A5738;
       --task-bg:#1E1C18;--task-border:#302E28;
       --bullet-bg:rgba(77,170,122,.08);--bullet-border:#2E4835;
       --ta-bg:#16150F;--ta-border:#38352E;
       --sample-bg:#211F1B;--sample-border:#38352E;
       --wc-ok:#4DAA7A;--wc-low:#E07840;
+      --score-bg:#181E19;--score-border:#2A3C2C;--score-hd:#1A5738;
+      --radio-border:#3A3830;
+      --r3-bg:rgba(77,170,122,.14);--r3-bd:#4DAA7A;--r3-col:#4DAA7A;
+      --r1-bg:rgba(200,155,40,.12);--r1-bd:#C09830;--r1-col:#C09830;
+      --r0-bg:rgba(190,90,80,.10);--r0-bd:#BE5A50;--r0-col:#BE5A50;
+      --total-bg:#1C241D;
+      --ga-bg:rgba(77,170,122,.15);--ga-col:#4DAA7A;
+      --gb-bg:rgba(60,150,80,.12);--gb-col:#3D9660;
+      --gc-bg:rgba(190,148,40,.12);--gc-col:#C09830;
+      --gd-bg:rgba(190,80,70,.10);--gd-col:#C06060;
+      --drop-bg:#141814;--drop-bd:#2A3C2C;--drop-hov:#191E18;
     }}
     :root[data-theme=dark]{
       --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
       --text:#EAE8E2;--muted:#857F77;
       --accent:#4DAA7A;--accent-dark:#5EC28A;
-      --done:#4DAA7A;--partial:#E07840;--pending:#47433C;
-      --info-bg:#1C271E;--info-border:#2E4835;--info-hd:#1E4C30;
+      --done:#4DAA7A;--partial:#E07840;--pending:#47433C;--err:#C05050;
+      --info-bg:#1C271E;--info-border:#2E4835;--info-hd:#1A5738;
       --task-bg:#1E1C18;--task-border:#302E28;
       --bullet-bg:rgba(77,170,122,.08);--bullet-border:#2E4835;
       --ta-bg:#16150F;--ta-border:#38352E;
       --sample-bg:#211F1B;--sample-border:#38352E;
       --wc-ok:#4DAA7A;--wc-low:#E07840;
+      --score-bg:#181E19;--score-border:#2A3C2C;--score-hd:#1A5738;
+      --radio-border:#3A3830;
+      --r3-bg:rgba(77,170,122,.14);--r3-bd:#4DAA7A;--r3-col:#4DAA7A;
+      --r1-bg:rgba(200,155,40,.12);--r1-bd:#C09830;--r1-col:#C09830;
+      --r0-bg:rgba(190,90,80,.10);--r0-bd:#BE5A50;--r0-col:#BE5A50;
+      --total-bg:#1C241D;
+      --ga-bg:rgba(77,170,122,.15);--ga-col:#4DAA7A;
+      --gb-bg:rgba(60,150,80,.12);--gb-col:#3D9660;
+      --gc-bg:rgba(190,148,40,.12);--gc-col:#C09830;
+      --gd-bg:rgba(190,80,70,.10);--gd-col:#C06060;
+      --drop-bg:#141814;--drop-bd:#2A3C2C;--drop-hov:#191E18;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px 80px;}
@@ -49,59 +82,118 @@
     .brand-name{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,5vw,2.8rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em;text-wrap:balance;}
     .brand-name em{font-style:italic;font-weight:300;color:var(--accent);}
     .brand-sub{font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-top:8px;}
-    /* Prüfungsinfo-Box */
+
     .info-box{border:1px solid var(--info-border);border-radius:9px;overflow:hidden;}
     .info-box-head{background:var(--info-hd);color:#fff;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:9px 16px;}
     .info-box-body{background:var(--info-bg);padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;}
     @media(max-width:480px){.info-box-body{grid-template-columns:1fr;}}
     .info-item{font-size:.83rem;line-height:1.5;color:var(--text);}
     .info-item strong{color:var(--accent);font-weight:600;}
-    /* Accordion */
+
     .list{display:flex;flex-direction:column;gap:6px;}
     .ex{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);transition:box-shadow .18s;}
     .ex.open{box-shadow:0 4px 22px rgba(0,0,0,.09);}
     .ex-hd{display:grid;grid-template-columns:5px 1fr auto;gap:0 16px;align-items:center;cursor:pointer;user-select:none;transition:background .12s;}
     .ex-hd:hover{background:rgba(26,87,56,.04);}
-    .stripe{min-height:56px;}.stripe.done{background:var(--done);}.stripe.partial{background:var(--partial);}.stripe.pending{background:var(--pending);}
-    .ex-lbl{padding:14px 0;}.ex-num{font-size:.7rem;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;}.ex-title{font-size:.95rem;font-weight:500;}
-    .ex-right{display:flex;align-items:center;gap:10px;padding-right:16px;flex-shrink:0;}
-    .badge{font-size:.75rem;font-weight:600;white-space:nowrap;padding:3px 9px;border-radius:4px;}
-    .badge.done{color:var(--done);background:rgba(26,87,56,.1);}.badge.partial{color:var(--partial);background:rgba(184,78,24,.1);}.badge.pending{color:var(--muted);}
+    .ex-hd:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+    .stripe{min-height:60px;transition:background .3s;}
+    .stripe.done{background:var(--done);}.stripe.partial{background:var(--partial);}.stripe.pending{background:var(--pending);}.stripe.err{background:var(--err);}
+    .ex-lbl{padding:14px 0;}
+    .ex-num{font-size:.7rem;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;}
+    .ex-title{font-size:.95rem;font-weight:500;}
+    .ex-right{display:flex;align-items:center;gap:8px;padding-right:16px;flex-shrink:0;}
+    .score-pill{font-size:.78rem;font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;}
+    .score-pill.graded{color:var(--accent);}
     .chevron{color:var(--muted);transition:transform .22s;font-size:.7rem;}
     .ex.open .chevron{transform:rotate(180deg);}
     .ex-body{display:none;padding:0 20px 26px;border-top:1px solid var(--border);}
     .ex.open .ex-body{display:block;}
-    /* Aufgabe */
-    .task-ctx{background:var(--task-bg);border:1px solid var(--task-border);border-radius:8px;padding:13px 16px;margin-top:18px;margin-bottom:16px;font-size:.88rem;line-height:1.65;color:var(--text);}
+
+    .task-ctx{background:var(--task-bg);border:1px solid var(--task-border);border-radius:8px;padding:13px 16px;margin-top:18px;margin-bottom:16px;font-size:.88rem;line-height:1.65;}
     .task-ctx-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--muted);margin-bottom:6px;}
     .task-ctx-rcv{font-size:.8rem;color:var(--muted);margin-bottom:8px;}
     .task-ctx-rcv strong{color:var(--accent);}
     .bullets-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--muted);margin-bottom:8px;}
-    .bullets{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
-    .bullets li{background:var(--bullet-bg);border:1px solid var(--bullet-border);border-radius:6px;padding:8px 12px;font-size:.86rem;line-height:1.45;color:var(--text);display:flex;align-items:flex-start;gap:8px;}
+    .bullets{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+    .bullets li{background:var(--bullet-bg);border:1px solid var(--bullet-border);border-radius:6px;padding:8px 12px;font-size:.86rem;line-height:1.45;display:flex;align-items:flex-start;gap:8px;}
     .bullets li::before{content:"→";color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px;}
-    .ta-wrap{position:relative;margin-bottom:10px;}
+
+    /* Mode tabs */
+    .mode-tabs{display:flex;gap:3px;margin-bottom:12px;background:var(--task-bg);border:1px solid var(--task-border);border-radius:7px;padding:4px;}
+    .mode-tab{flex:1;padding:7px 10px;border:none;border-radius:5px;font-family:'DM Sans',system-ui,sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;background:transparent;color:var(--muted);transition:all .15s;}
+    .mode-tab:hover{color:var(--text);}
+    .mode-tab.active{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08);}
+
+    /* Typing */
     textarea{width:100%;min-height:140px;font-family:'DM Sans',system-ui,sans-serif;font-size:.9rem;line-height:1.65;color:var(--text);background:var(--ta-bg);border:1.5px solid var(--ta-border);border-radius:8px;padding:12px 14px;resize:vertical;transition:border-color .15s;}
     textarea:focus{outline:none;border-color:var(--accent);}
     textarea::placeholder{color:var(--muted);opacity:.7;}
-    .wc-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:8px;}
+    .wc-row{display:flex;align-items:center;justify-content:space-between;margin:8px 0 14px;gap:8px;}
     .wc-bar-wrap{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
     .wc-bar{height:100%;border-radius:2px;transition:width .3s,background .3s;}
     .wc-text{font-size:.75rem;font-variant-numeric:tabular-nums;white-space:nowrap;flex-shrink:0;}
-    .wc-text.low{color:var(--wc-low);}
-    .wc-text.ok{color:var(--wc-ok);}
+    .wc-text.low{color:var(--wc-low);}.wc-text.ok{color:var(--wc-ok);}
+
+    /* Upload */
+    .drop-zone{border:2px dashed var(--drop-bd);border-radius:8px;background:var(--drop-bg);cursor:pointer;transition:all .15s;min-height:110px;display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;overflow:hidden;margin-bottom:8px;}
+    .drop-zone:hover,.drop-zone.drag-over{border-color:var(--accent);background:var(--drop-hov);}
+    .drop-zone:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+    .drop-zone.has-file{cursor:default;border-style:solid;border-color:var(--border);}
+    .up-ph{display:flex;flex-direction:column;align-items:center;gap:5px;padding:24px 16px;text-align:center;}
+    .up-icon{font-size:1.6rem;}
+    .up-text{font-size:.88rem;font-weight:500;}
+    .up-hint{font-size:.74rem;color:var(--muted);}
+    .up-img{width:100%;max-height:380px;object-fit:contain;display:block;padding:8px;}
+    .up-fname{padding:18px 16px;font-size:.88rem;font-weight:500;display:flex;align-items:center;gap:8px;}
+    .up-actions{display:flex;gap:6px;margin-bottom:14px;}
+    .btn-sm{padding:5px 12px;border:1px solid var(--border);border-radius:5px;background:none;font-family:'DM Sans',system-ui,sans-serif;font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .12s;}
+    .btn-sm:hover{border-color:var(--accent);color:var(--accent);}
+
     /* Sample answer */
     .sample-toggle{background:none;border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-size:.82rem;font-family:'DM Sans',system-ui,sans-serif;color:var(--muted);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;}
     .sample-toggle:hover{border-color:var(--accent);color:var(--accent);}
     .sample-toggle .arr{transition:transform .2s;font-size:.65rem;}
-    .sample-box{display:none;margin-top:12px;background:var(--sample-bg);border:1px solid var(--sample-border);border-radius:8px;padding:14px 16px;}
+    .sample-box{display:none;margin-top:12px;background:var(--sample-bg);border:1px solid var(--sample-border);border-radius:8px;padding:14px 16px;margin-bottom:4px;}
     .sample-box.show{display:block;}
     .sample-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--muted);margin-bottom:8px;}
-    .sample-text{font-size:.88rem;line-height:1.7;color:var(--text);}
+    .sample-text{font-size:.88rem;line-height:1.7;white-space:pre-wrap;}
     .sample-wc{font-size:.74rem;color:var(--muted);margin-top:6px;}
+
+    /* Scoring */
+    .score-section{margin-top:20px;border:1px solid var(--score-border);border-radius:9px;overflow:hidden;background:var(--score-bg);}
+    .score-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--score-hd);color:#fff;}
+    .score-hd-title{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;}
+    .score-hd-total{font-size:.8rem;font-weight:600;font-variant-numeric:tabular-nums;opacity:.85;}
+    .score-rows{padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
+    .score-row{display:grid;grid-template-columns:1fr auto;gap:10px 14px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:10px 12px;}
+    @media(max-width:520px){.score-row{grid-template-columns:1fr;gap:6px;}}
+    .score-row-k{background:rgba(26,87,56,.04);border-color:var(--score-border);}
+    .score-row-label{display:flex;align-items:flex-start;gap:8px;}
+    .score-row-num{font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);flex-shrink:0;min-width:28px;padding-top:1px;}
+    .score-row-desc{font-size:.84rem;line-height:1.4;}
+    .radio-group{display:flex;gap:4px;flex-shrink:0;}
+    .radio-opt{position:relative;display:inline-flex;}
+    .radio-opt input[type=radio]{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;}
+    .radio-opt-label{display:inline-flex;align-items:center;justify-content:center;padding:5px 10px;border-radius:5px;border:1.5px solid var(--radio-border);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .12s;white-space:nowrap;color:var(--muted);min-width:38px;}
+    .radio-opt:hover .radio-opt-label{border-color:var(--text);color:var(--text);}
+    .radio-opt.r3:has(input:checked) .radio-opt-label{background:var(--r3-bg);border-color:var(--r3-bd);color:var(--r3-col);}
+    .radio-opt.r1:has(input:checked) .radio-opt-label{background:var(--r1-bg);border-color:var(--r1-bd);color:var(--r1-col);}
+    .radio-opt.r0:has(input:checked) .radio-opt-label{background:var(--r0-bg);border-color:var(--r0-bd);color:var(--r0-col);}
+    .score-sep{border:none;border-top:1px dashed var(--score-border);margin:2px 0;}
+    .score-footer{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--score-border);background:var(--total-bg);flex-wrap:wrap;}
+    .score-footer-lbl{font-size:.8rem;color:var(--muted);flex:1;}
+    .score-total-num{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;font-weight:600;font-variant-numeric:tabular-nums;color:var(--text);line-height:1;}
+    .score-max-lbl{font-size:.8rem;color:var(--muted);}
+    .grade-badge{font-size:.75rem;font-weight:600;padding:3px 9px;border-radius:4px;white-space:nowrap;}
+    .grade-a{background:var(--ga-bg);color:var(--ga-col);}
+    .grade-b{background:var(--gb-bg);color:var(--gb-col);}
+    .grade-c{background:var(--gc-bg);color:var(--gc-col);}
+    .grade-d{background:var(--gd-bg);color:var(--gd-col);}
+
     .sig{display:flex;align-items:baseline;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
     .sig-mark{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:300;font-style:italic;color:var(--accent);}
     .sig-copy{font-size:.74rem;color:var(--muted);letter-spacing:.04em;}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
   </style>
 </head>
 <body>
@@ -112,14 +204,14 @@
   </header>
 
   <div class="info-box">
-    <div class="info-box-head">Prüfungsinformationen</div>
+    <div class="info-box-head">Prüfungsformat &amp; Bewertungskriterien</div>
     <div class="info-box-body">
       <div class="info-item"><strong>Format:</strong> E-Mail / Kurznachricht schreiben</div>
       <div class="info-item"><strong>Bearbeitungszeit:</strong> ca. 30 Minuten</div>
       <div class="info-item"><strong>Mindestlänge:</strong> ca. 40–60 Wörter</div>
-      <div class="info-item"><strong>Schreibpunkte:</strong> alle Punkte ansprechen</div>
-      <div class="info-item"><strong>Bewertung:</strong> Vollständigkeit, Verständlichkeit</div>
-      <div class="info-item"><strong>Sprache:</strong> einfaches, klares Deutsch</div>
+      <div class="info-item"><strong>IP 1–3:</strong> 3 / 1,5 / 0 Punkte pro Inhaltspunkt</div>
+      <div class="info-item"><strong>K (Gestaltung):</strong> 1 / 0,5 / 0 Punkte</div>
+      <div class="info-item"><strong>Maximal:</strong> 10 Punkte (Bestehen ab 6)</div>
     </div>
   </div>
 
@@ -132,12 +224,12 @@
 </div>
 <script>
 const EX=[
-
 {n:"S.1",t:"Kurs verpasst – Entschuldigung",
-rcv:"An: Ihre Kursleiterin / Ihren Kursleiter",
-ctx:"Sie haben gestern Ihren Deutschkurs nicht besucht. Schreiben Sie eine E-Mail an Ihre Kursleiterin Frau Wagner und entschuldigen Sie sich.",
-bullets:["Warum konnten Sie nicht kommen?","Entschuldigen Sie sich.","Bitten Sie um die verpassten Unterrichtsmaterialien.","Wann können Sie den Stoff nachholen?"],
-sample:`Liebe Frau Wagner,
+ rcv:"Ihre Kursleiterin / Ihren Kursleiter",
+ ctx:"Sie haben gestern Ihren Deutschkurs nicht besucht. Schreiben Sie eine E-Mail an Ihre Kursleiterin Frau Wagner und entschuldigen Sie sich.",
+ bullets:["Warum konnten Sie nicht kommen?","Entschuldigen Sie sich.","Bitten Sie um die verpassten Unterrichtsmaterialien.","Wann können Sie den Stoff nachholen?"],
+ ips:["Abwesenheitsgrund klar genannt","Entschuldigung + Bitte um Materialien ausgedrückt","Nachholplan / Zeitangabe gemacht"],
+ sample:`Liebe Frau Wagner,
 
 ich entschuldige mich, dass ich gestern nicht im Kurs war. Ich war leider krank und hatte Fieber. Es tut mir sehr leid.
 
@@ -147,10 +239,11 @@ Mit freundlichen Grüßen
 [Ihr Name]`},
 
 {n:"S.2",t:"Bewerbung: Aushilfe in einer Bäckerei",
-rcv:"An: Bäckerei Hofmann (jobs@baeckerei-hofmann.de)",
-ctx:"Sie haben eine Stellenanzeige für eine Aushilfsstelle in einer Bäckerei gelesen. Schreiben Sie eine Bewerbungs-E-Mail.",
-bullets:["Wo haben Sie die Anzeige gesehen?","Welche Erfahrungen haben Sie?","Wann können Sie arbeiten?","Wie kann man Sie kontaktieren?"],
-sample:`Sehr geehrte Damen und Herren,
+ rcv:"Bäckerei Hofmann (jobs@baeckerei-hofmann.de)",
+ ctx:"Sie haben eine Stellenanzeige für eine Aushilfsstelle in einer Bäckerei gelesen. Schreiben Sie eine Bewerbungs-E-Mail.",
+ bullets:["Wo haben Sie die Anzeige gesehen?","Welche Erfahrungen haben Sie?","Wann können Sie arbeiten?","Wie kann man Sie kontaktieren?"],
+ ips:["Anzeigenquelle genannt","Eigene Erfahrungen beschrieben","Verfügbarkeit und Kontaktmöglichkeit angegeben"],
+ sample:`Sehr geehrte Damen und Herren,
 
 ich habe Ihre Anzeige auf dem Stadtportal gelesen und möchte mich gerne als Aushilfe bewerben.
 
@@ -162,10 +255,11 @@ Mit freundlichen Grüßen
 [Ihr Name]`},
 
 {n:"S.3",t:"Informationen zu einem Kurs anfragen",
-rcv:"An: Volkshochschule Köln (info@vhs-koeln.de)",
-ctx:"Sie interessieren sich für einen Deutschkurs an der Volkshochschule. Schreiben Sie eine E-Mail und fragen Sie nach Informationen.",
-bullets:["Für welchen Kurs interessieren Sie sich?","Auf welchem Niveau sind Sie?","Wann können Sie den Kurs besuchen?","Was möchten Sie noch wissen?"],
-sample:`Sehr geehrte Damen und Herren,
+ rcv:"Volkshochschule Köln (info@vhs-koeln.de)",
+ ctx:"Sie interessieren sich für einen Deutschkurs an der Volkshochschule. Schreiben Sie eine E-Mail und fragen Sie nach Informationen.",
+ bullets:["Für welchen Kurs interessieren Sie sich?","Auf welchem Niveau sind Sie?","Wann können Sie den Kurs besuchen?","Was möchten Sie noch wissen?"],
+ ips:["Kursinteresse und eigenes Niveau genannt","Verfügbare Zeiten angegeben","Mindestens eine konkrete Frage gestellt"],
+ sample:`Sehr geehrte Damen und Herren,
 
 ich interessiere mich für einen Deutschkurs an Ihrer Volkshochschule. Mein Deutschniveau ist A2, und ich möchte gerne B1 erreichen.
 
@@ -177,10 +271,11 @@ Mit freundlichen Grüßen
 [Ihr Name]`},
 
 {n:"S.4",t:"Termin absagen",
-rcv:"An: Ihre Freundin / Ihren Freund",
-ctx:"Sie haben mit Ihrer Freundin Sara einen Termin für Samstag vereinbart. Sie können aber leider nicht kommen. Schreiben Sie eine E-Mail an Sara.",
-bullets:["Warum können Sie nicht kommen?","Entschuldigen Sie sich.","Machen Sie einen neuen Terminvorschlag.","Schreiben Sie etwas Nettes."],
-sample:`Liebe Sara,
+ rcv:"Ihre Freundin / Ihren Freund",
+ ctx:"Sie haben mit Ihrer Freundin Sara einen Termin für Samstag vereinbart. Sie können aber leider nicht kommen. Schreiben Sie eine E-Mail an Sara.",
+ bullets:["Warum können Sie nicht kommen?","Entschuldigen Sie sich.","Machen Sie einen neuen Terminvorschlag.","Schreiben Sie etwas Nettes."],
+ ips:["Absagegrund genannt","Entschuldigung ausgedrückt","Neuen Terminvorschlag gemacht"],
+ sample:`Liebe Sara,
 
 leider muss ich unseren Termin am Samstag absagen. Mein Bruder kommt überraschend zu Besuch, und ich muss bei ihm bleiben.
 
@@ -190,10 +285,11 @@ Liebe Grüße
 [Dein Name]`},
 
 {n:"S.5",t:"Einladung zum Geburtstag",
-rcv:"An: Ihren Kollegen / Ihre Kollegin",
-ctx:"Sie feiern nächsten Samstag Ihren Geburtstag und möchten Ihren Kollegen Jonas einladen. Schreiben Sie eine E-Mail.",
-bullets:["Was feiern Sie?","Wann und wo findet die Feier statt?","Was soll Jonas mitbringen?","Was sollen die Gäste wissen?"],
-sample:`Lieber Jonas,
+ rcv:"Ihren Kollegen / Ihre Kollegin",
+ ctx:"Sie feiern nächsten Samstag Ihren Geburtstag und möchten Ihren Kollegen Jonas einladen. Schreiben Sie eine E-Mail.",
+ bullets:["Was feiern Sie?","Wann und wo findet die Feier statt?","Was soll Jonas mitbringen?","Was sollen die Gäste wissen?"],
+ ips:["Anlass, Datum und Ort genannt","Hinweis auf Mitbringsel / Ablauf gegeben","Um Rückmeldung bis Datum gebeten"],
+ sample:`Lieber Jonas,
 
 nächsten Samstag feiere ich meinen Geburtstag und ich möchte dich herzlich einladen!
 
@@ -205,10 +301,11 @@ Liebe Grüße
 [Dein Name]`},
 
 {n:"S.6",t:"Beschwerde: Hotelzimmer",
-rcv:"An: Hotel Sonnenhof (info@hotel-sonnenhof.de)",
-ctx:"Sie waren letzte Woche im Hotel Sonnenhof. Das Zimmer hatte Probleme. Schreiben Sie eine Beschwerde-E-Mail.",
-bullets:["In welchem Zimmer haben Sie gewohnt? Wann?","Was war das Problem?","Was haben Sie getan?","Was möchten Sie als Lösung?"],
-sample:`Sehr geehrte Damen und Herren,
+ rcv:"Hotel Sonnenhof (info@hotel-sonnenhof.de)",
+ ctx:"Sie waren letzte Woche im Hotel Sonnenhof. Das Zimmer hatte Probleme. Schreiben Sie eine Beschwerde-E-Mail.",
+ bullets:["In welchem Zimmer haben Sie gewohnt? Wann?","Was war das Problem?","Was haben Sie getan?","Was möchten Sie als Lösung?"],
+ ips:["Zimmernummer, Zeitraum und Problem beschrieben","Eigene Reaktion / Meldung an Rezeption geschildert","Konkrete Entschädigung / Lösung gefordert"],
+ sample:`Sehr geehrte Damen und Herren,
 
 ich habe letzte Woche (12.–14. September) in Zimmer 205 gewohnt. Leider war die Heizung kaputt, und das Zimmer war sehr kalt. Ich habe an der Rezeption gefragt, aber es hat sich nichts geändert.
 
@@ -218,10 +315,11 @@ Mit freundlichen Grüßen
 [Ihr Name]`},
 
 {n:"S.7",t:"Nachbar: Dankeschön",
-rcv:"An: Ihren Nachbarn / Ihre Nachbarin",
-ctx:"Ihr Nachbar Herr Müller hat letzte Woche Ihre Post angenommen und für Ihren Hund gesorgt, während Sie im Urlaub waren. Schreiben Sie ihm eine Dankes-E-Mail.",
-bullets:["Wofür bedanken Sie sich?","Wie war Ihr Urlaub?","Wie geht es dem Hund?","Was möchten Sie anbieten?"],
-sample:`Lieber Herr Müller,
+ rcv:"Ihren Nachbarn / Ihre Nachbarin",
+ ctx:"Ihr Nachbar Herr Müller hat letzte Woche Ihre Post angenommen und für Ihren Hund gesorgt, während Sie im Urlaub waren. Schreiben Sie ihm eine Dankes-E-Mail.",
+ bullets:["Wofür bedanken Sie sich?","Wie war Ihr Urlaub?","Wie geht es dem Hund?","Was möchten Sie anbieten?"],
+ ips:["Expliziter Dank für spezifische Hilfe ausgedrückt","Urlaub und Hundebefinden erwähnt","Gegenangebot / kleines Geschenk angekündigt"],
+ sample:`Lieber Herr Müller,
 
 ich möchte mich herzlich bei Ihnen bedanken! Sie haben während meines Urlaubs meine Post angenommen und so gut auf meinen Hund Max aufgepasst. Das war wirklich sehr nett von Ihnen.
 
@@ -231,10 +329,11 @@ Mit freundlichen Grüßen
 [Ihr Name]`},
 
 {n:"S.8",t:"Arzttermin anfragen",
-rcv:"An: Hausarztpraxis Dr. Schulze (praxis@dr-schulze.de)",
-ctx:"Sie fühlen sich seit einigen Tagen nicht gut und möchten einen Termin beim Arzt machen. Schreiben Sie eine E-Mail an die Praxis.",
-bullets:["Warum schreiben Sie?","Was sind Ihre Beschwerden?","Wann können Sie kommen?","Was ist Ihre Telefonnummer?"],
-sample:`Sehr geehrte Damen und Herren,
+ rcv:"Hausarztpraxis Dr. Schulze (praxis@dr-schulze.de)",
+ ctx:"Sie fühlen sich seit einigen Tagen nicht gut und möchten einen Termin beim Arzt machen. Schreiben Sie eine E-Mail an die Praxis.",
+ bullets:["Warum schreiben Sie?","Was sind Ihre Beschwerden?","Wann können Sie kommen?","Was ist Ihre Telefonnummer?"],
+ ips:["Beschwerden konkret beschrieben","Verfügbare Zeiten angegeben","Kontaktdaten (Telefon) hinterlassen"],
+ sample:`Sehr geehrte Damen und Herren,
 
 ich möchte gerne einen Termin bei Dr. Schulze vereinbaren. Ich fühle mich seit drei Tagen nicht gut – ich habe Kopfschmerzen, Halsschmerzen und leicht erhöhte Temperatur.
 
@@ -244,10 +343,11 @@ Vielen Dank und mit freundlichen Grüßen
 [Ihr Name]`},
 
 {n:"S.9",t:"Wohnung anfragen",
-rcv:"An: Hausverwaltung Grün (info@hausverwaltung-gruen.de)",
-ctx:"Sie haben eine Anzeige für eine 2-Zimmer-Wohnung gesehen und möchten mehr Informationen. Schreiben Sie eine E-Mail.",
-bullets:["Wo haben Sie die Anzeige gesehen?","Was möchten Sie über die Wohnung wissen?","Wann können Sie die Wohnung besichtigen?","Stellen Sie sich kurz vor."],
-sample:`Sehr geehrte Damen und Herren,
+ rcv:"Hausverwaltung Grün (info@hausverwaltung-gruen.de)",
+ ctx:"Sie haben eine Anzeige für eine 2-Zimmer-Wohnung gesehen und möchten mehr Informationen. Schreiben Sie eine E-Mail.",
+ bullets:["Wo haben Sie die Anzeige gesehen?","Was möchten Sie über die Wohnung wissen?","Wann können Sie die Wohnung besichtigen?","Stellen Sie sich kurz vor."],
+ ips:["Anzeigenquelle genannt + kurze Vorstellung","Mindestens zwei Fragen zur Wohnung gestellt","Besichtigungstermin vorgeschlagen"],
+ sample:`Sehr geehrte Damen und Herren,
 
 ich habe Ihre Anzeige für die 2-Zimmer-Wohnung auf der Website ImmoscoutHessen gesehen und interessiere mich sehr dafür.
 
@@ -259,10 +359,11 @@ Mit freundlichen Grüßen
 [Ihr Name]`},
 
 {n:"S.10",t:"Krankmeldung an den Arbeitgeber",
-rcv:"An: Ihren Chef / Ihre Chefin (z. B. chef@firma.de)",
-ctx:"Sie sind krank und können heute und morgen nicht zur Arbeit kommen. Schreiben Sie eine E-Mail an Ihren Chef Herrn Becker.",
-bullets:["Warum schreiben Sie?","Was ist Ihr Problem?","Wie lange bleiben Sie zu Hause?","Was passiert mit Ihrer Arbeit?"],
-sample:`Sehr geehrter Herr Becker,
+ rcv:"Ihren Chef / Ihre Chefin",
+ ctx:"Sie sind krank und können heute und morgen nicht zur Arbeit kommen. Schreiben Sie eine E-Mail an Ihren Chef Herrn Becker.",
+ bullets:["Warum schreiben Sie?","Was ist Ihr Problem?","Wie lange bleiben Sie zu Hause?","Was passiert mit Ihrer Arbeit?"],
+ ips:["Krankheit und Grund der Abwesenheit genannt","Dauer der Krankschreibung mitgeteilt","Regelung der Aufgaben und Attest erwähnt"],
+ sample:`Sehr geehrter Herr Becker,
 
 ich schreibe Ihnen, weil ich heute leider nicht zur Arbeit kommen kann. Ich bin krank – ich habe starke Rückenschmerzen und bin beim Arzt gewesen. Der Arzt hat mich für heute und morgen krankgeschrieben.
 
@@ -272,10 +373,11 @@ Mit freundlichen Grüßen
 [Ihr Name]`},
 
 {n:"S.11",t:"Anmeldung: Kochkurs",
-rcv:"An: Küchenstudio Leckerbissen (kochschule@leckerbissen.de)",
-ctx:"Sie möchten sich für einen Kochkurs über asiatische Küche anmelden. Schreiben Sie eine E-Mail an die Kochschule.",
-bullets:["Für welchen Kurs möchten Sie sich anmelden?","Warum interessiert Sie dieser Kurs?","Haben Sie Fragen zum Kurs?","Wie können Sie kontaktiert werden?"],
-sample:`Sehr geehrte Damen und Herren,
+ rcv:"Küchenstudio Leckerbissen (kochschule@leckerbissen.de)",
+ ctx:"Sie möchten sich für einen Kochkurs über asiatische Küche anmelden. Schreiben Sie eine E-Mail an die Kochschule.",
+ bullets:["Für welchen Kurs möchten Sie sich anmelden?","Warum interessiert Sie dieser Kurs?","Haben Sie Fragen zum Kurs?","Wie können Sie kontaktiert werden?"],
+ ips:["Kursname und Datum zur Anmeldung genannt","Interesse begründet + eine Frage gestellt","Kontaktmöglichkeit angegeben und Bestätigung erbeten"],
+ sample:`Sehr geehrte Damen und Herren,
 
 ich möchte mich gerne für den Kochkurs „Asiatische Küche" am 14. September anmelden.
 
@@ -287,10 +389,11 @@ Mit freundlichen Grüßen
 [Ihr Name]`},
 
 {n:"S.12",t:"Hilfe beim Umzug anbieten",
-rcv:"An: Ihre Freundin / Ihren Freund",
-ctx:"Ihre Freundin Maria zieht nächsten Monat in eine neue Wohnung um. Sie möchten ihr helfen. Schreiben Sie Maria eine E-Mail.",
-bullets:["Was haben Sie gehört / gelesen?","Was möchten Sie anbieten?","Wann haben Sie Zeit?","Was brauchen Sie von ihr?"],
-sample:`Liebe Maria,
+ rcv:"Ihre Freundin / Ihren Freund",
+ ctx:"Ihre Freundin Maria zieht nächsten Monat in eine neue Wohnung um. Sie möchten ihr helfen. Schreiben Sie Maria eine E-Mail.",
+ bullets:["Was haben Sie gehört / gelesen?","Was möchten Sie anbieten?","Wann haben Sie Zeit?","Was brauchen Sie von ihr?"],
+ ips:["Umzug erwähnt und Glückwunsch ausgedrückt","Konkretes Hilfsangebot beschrieben","Verfügbare Zeit und benötigte Info angegeben"],
+ sample:`Liebe Maria,
 
 ich habe von deinem Umzug gehört – herzlichen Glückwunsch zur neuen Wohnung!
 
@@ -300,83 +403,223 @@ Ich freue mich, dir zu helfen!
 
 Liebe Grüße
 [Dein Name]`},
-
 ];
 
-function countWords(txt){return txt.trim().split(/\s+/).filter(w=>w.length>0).length;}
+const MIN=40;
+const IP_VALS=[{v:"3",l:"3",c:"r3"},{v:"1.5",l:"1,5",c:"r1"},{v:"0",l:"0",c:"r0"}];
+const K_VALS=[{v:"1",l:"1",c:"r3"},{v:"0.5",l:"0,5",c:"r1"},{v:"0",l:"0",c:"r0"}];
 
-const list=document.getElementById("list");
+function countWords(t){return t.trim().split(/\s+/).filter(w=>w.length>0).length;}
+
+function radioGroup(name,vals){
+  return `<div class="radio-group">`+vals.map(v=>
+    `<label class="radio-opt ${v.c}"><input type="radio" name="${name}" value="${v.v}"><span class="radio-opt-label">${v.l}</span></label>`
+  ).join('')+`</div>`;
+}
+
+function scoreRow(num,desc,name,vals,extra){
+  return `<div class="score-row${extra?' '+extra:''}">`+
+    `<div class="score-row-label"><span class="score-row-num">${num}</span><span class="score-row-desc">${desc}</span></div>`+
+    radioGroup(name,vals)+
+  `</div>`;
+}
+
+const list=document.getElementById('list');
+
 EX.forEach((ex,i)=>{
-  const div=document.createElement("div");
-  div.className="ex";
-  const bulletsHtml=ex.bullets.map(b=>`<li>${b}</li>`).join("");
-  const MIN=40;
+  const div=document.createElement('div');
+  div.className='ex';
+
+  const bullHtml=ex.bullets.map(b=>`<li>${b}</li>`).join('');
+  const ipHtml=ex.ips.map((d,j)=>scoreRow(`IP ${j+1}`,d,`ip${i}_${j}`,IP_VALS)).join('');
+  const kHtml=scoreRow('K','Kommunikative Gestaltung (Anrede, Grußformel, passende Textsorte)',`k${i}`,K_VALS,'score-row-k');
 
   div.innerHTML=`
 <div class="ex-hd" tabindex="0" role="button" aria-expanded="false">
   <div class="stripe pending"></div>
   <div class="ex-lbl"><div class="ex-num">Aufgabe ${ex.n}</div><div class="ex-title">${ex.t}</div></div>
-  <div class="ex-right"><span class="badge pending">Offen</span><span class="chevron">▾</span></div>
+  <div class="ex-right"><span class="score-pill" id="pill${i}">– / 10</span><span class="chevron">▾</span></div>
 </div>
 <div class="ex-body">
   <div class="task-ctx">
     <div class="task-ctx-label">Aufgabe</div>
-    <div class="task-ctx-rcv"><strong>An:</strong> ${ex.rcv.replace("An: ","")}</div>
+    <div class="task-ctx-rcv"><strong>An:</strong> ${ex.rcv}</div>
     <div>${ex.ctx}</div>
   </div>
   <div class="bullets-label">Schreibpunkte – schreiben Sie zu allen Punkten:</div>
-  <ul class="bullets">${bulletsHtml}</ul>
-  <div class="ta-wrap">
-    <textarea id="ta_${i}" placeholder="Schreiben Sie hier Ihre E-Mail …" rows="8" spellcheck="true" lang="de"></textarea>
+  <ul class="bullets">${bullHtml}</ul>
+
+  <div class="mode-tabs" role="tablist">
+    <button class="mode-tab active" role="tab" aria-selected="true" data-pane="tp${i}">✏ Tippen</button>
+    <button class="mode-tab" role="tab" aria-selected="false" data-pane="up${i}">📷 Foto hochladen</button>
   </div>
-  <div class="wc-row">
-    <div class="wc-bar-wrap"><div class="wc-bar" id="wcbar_${i}" style="width:0%;background:var(--wc-low)"></div></div>
-    <span class="wc-text low" id="wc_${i}">0 Wörter (mind. ${MIN})</span>
+
+  <div id="tp${i}">
+    <textarea id="ta${i}" placeholder="Schreiben Sie hier Ihre E-Mail …" rows="8" spellcheck="true" lang="de"></textarea>
+    <div class="wc-row">
+      <div class="wc-bar-wrap"><div class="wc-bar" id="wcb${i}" style="width:0%;background:var(--wc-low)"></div></div>
+      <span class="wc-text low" id="wct${i}">0 Wörter (mind. ${MIN})</span>
+    </div>
   </div>
-  <button class="sample-toggle" id="stoggle_${i}">
-    <span>Musterantwort anzeigen</span><span class="arr" id="sarr_${i}">▾</span>
+
+  <div id="up${i}" hidden>
+    <div class="drop-zone" id="dz${i}" tabindex="0" role="button" aria-label="Bild hochladen – klicken oder ziehen">
+      <input type="file" id="fi${i}" accept="image/*,.pdf" style="position:absolute;opacity:0;width:0;height:0">
+      <div class="up-ph" id="uph${i}"><div class="up-icon">📷</div><div class="up-text">Klicken oder Bild hierher ziehen</div><div class="up-hint">JPG · PNG · PDF</div></div>
+      <img class="up-img" id="uim${i}" src="" alt="Antwort" hidden>
+      <div class="up-fname" id="ufn${i}" hidden></div>
+    </div>
+    <div class="up-actions" id="uac${i}" hidden>
+      <button class="btn-sm" id="uch${i}">Anderes Bild wählen</button>
+      <button class="btn-sm" id="urm${i}">✕ Entfernen</button>
+    </div>
+  </div>
+
+  <button class="sample-toggle" id="st${i}" style="margin-top:4px">
+    <span class="stl">Musterantwort anzeigen</span><span class="arr">▾</span>
   </button>
-  <div class="sample-box" id="sbox_${i}">
+  <div class="sample-box" id="sb${i}">
     <div class="sample-label">Musterantwort</div>
-    <div class="sample-text" id="stxt_${i}"></div>
-    <div class="sample-wc" id="swc_${i}"></div>
+    <div class="sample-text" id="stx${i}"></div>
+    <div class="sample-wc" id="swc${i}"></div>
+  </div>
+
+  <div class="score-section">
+    <div class="score-hd">
+      <span class="score-hd-title">Bewertung nach telc A2-Kriterien</span>
+      <span class="score-hd-total" id="sht${i}">– / 10 Punkte</span>
+    </div>
+    <div class="score-rows">
+      ${ipHtml}
+      <hr class="score-sep">
+      ${kHtml}
+    </div>
+    <div class="score-footer">
+      <span class="score-footer-lbl">Gesamtpunktzahl</span>
+      <span class="score-total-num" id="stn${i}">–</span>
+      <span class="score-max-lbl">/ 10</span>
+      <span class="grade-badge" id="sgb${i}"></span>
+    </div>
   </div>
 </div>`;
 
-  const hd=div.querySelector(".ex-hd");
-  function toggle(){div.classList.toggle("open");hd.setAttribute("aria-expanded",div.classList.contains("open"));}
-  hd.addEventListener("click",toggle);
-  hd.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle();}});
+  /* accordion */
+  const hd=div.querySelector('.ex-hd');
+  function tog(){div.classList.toggle('open');hd.setAttribute('aria-expanded',div.classList.contains('open'));}
+  hd.addEventListener('click',tog);
+  hd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog();}});
 
-  const ta=div.querySelector(`#ta_${i}`);
-  const wcEl=div.querySelector(`#wc_${i}`);
-  const wcBar=div.querySelector(`#wcbar_${i}`);
-  ta.addEventListener("input",()=>{
+  /* mode tabs */
+  const tabs=div.querySelectorAll('.mode-tab');
+  const tpPane=div.querySelector(`#tp${i}`);
+  const upPane=div.querySelector(`#up${i}`);
+  tabs.forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      tabs.forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});
+      tab.classList.add('active');tab.setAttribute('aria-selected','true');
+      const p=tab.dataset.pane;
+      tpPane.hidden=p!==`tp${i}`;
+      upPane.hidden=p!==`up${i}`;
+    });
+  });
+
+  /* word counter */
+  const ta=div.querySelector(`#ta${i}`);
+  const wct=div.querySelector(`#wct${i}`);
+  const wcb=div.querySelector(`#wcb${i}`);
+  ta.addEventListener('input',()=>{
     const n=countWords(ta.value);
     const pct=Math.min(100,Math.round(n/MIN*100));
-    wcBar.style.width=pct+"%";
-    wcBar.style.background=n>=MIN?"var(--wc-ok)":"var(--wc-low)";
-    wcEl.textContent=n+" Wörter"+(n<MIN?" (mind. "+MIN+")":"");
-    wcEl.className="wc-text "+(n>=MIN?"ok":"low");
+    wcb.style.width=pct+'%';
+    wcb.style.background=n>=MIN?'var(--wc-ok)':'var(--wc-low)';
+    wct.textContent=n+' Wörter'+(n<MIN?' (mind. '+MIN+')':'');
+    wct.className='wc-text '+(n>=MIN?'ok':'low');
   });
 
-  const stBtn=div.querySelector(`#stoggle_${i}`);
-  const sBox=div.querySelector(`#sbox_${i}`);
-  const sTxt=div.querySelector(`#stxt_${i}`);
-  const sWc=div.querySelector(`#swc_${i}`);
-  const sArr=div.querySelector(`#sarr_${i}`);
-  let sOpen=false;
-  stBtn.addEventListener("click",()=>{
-    sOpen=!sOpen;
-    sBox.classList.toggle("show",sOpen);
-    stBtn.querySelector("span").textContent=sOpen?"Musterantwort ausblenden":"Musterantwort anzeigen";
-    sArr.textContent=sOpen?"▴":"▾";
-    if(sOpen&&!sTxt.textContent){
-      sTxt.textContent=ex.sample;
-      const wn=countWords(ex.sample);
-      sWc.textContent=wn+" Wörter";
+  /* upload */
+  const dz=div.querySelector(`#dz${i}`);
+  const fi=div.querySelector(`#fi${i}`);
+  const uph=div.querySelector(`#uph${i}`);
+  const uim=div.querySelector(`#uim${i}`);
+  const ufn=div.querySelector(`#ufn${i}`);
+  const uac=div.querySelector(`#uac${i}`);
+  const uch=div.querySelector(`#uch${i}`);
+  const urm=div.querySelector(`#urm${i}`);
+
+  function showFile(file){
+    if(!file)return;
+    if(file.type.startsWith('image/')){
+      const r=new FileReader();
+      r.onload=e=>{uim.src=e.target.result;uim.hidden=false;ufn.hidden=true;};
+      r.readAsDataURL(file);
+    }else{
+      uim.hidden=true;ufn.textContent='📄 '+file.name;ufn.hidden=false;
     }
+    uph.hidden=true;uac.hidden=false;dz.classList.add('has-file');
+  }
+  function clearFile(){
+    fi.value='';uim.src='';uim.hidden=true;ufn.hidden=true;
+    uph.hidden=false;uac.hidden=true;dz.classList.remove('has-file');
+  }
+  fi.addEventListener('change',e=>showFile(e.target.files[0]));
+  dz.addEventListener('click',()=>{if(!dz.classList.contains('has-file'))fi.click();});
+  dz.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!dz.classList.contains('has-file')){e.preventDefault();fi.click();}});
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');showFile(e.dataTransfer.files[0]);});
+  uch.addEventListener('click',e=>{e.stopPropagation();fi.click();});
+  urm.addEventListener('click',e=>{e.stopPropagation();clearFile();});
+
+  /* sample answer */
+  const stBtn=div.querySelector(`#st${i}`);
+  const sBox=div.querySelector(`#sb${i}`);
+  const sTxt=div.querySelector(`#stx${i}`);
+  const sWc=div.querySelector(`#swc${i}`);
+  let sOpen=false;
+  stBtn.addEventListener('click',()=>{
+    sOpen=!sOpen;
+    sBox.classList.toggle('show',sOpen);
+    stBtn.querySelector('.stl').textContent=sOpen?'Musterantwort ausblenden':'Musterantwort anzeigen';
+    stBtn.querySelector('.arr').textContent=sOpen?'▴':'▾';
+    if(sOpen&&!sTxt.textContent){sTxt.textContent=ex.sample;sWc.textContent=countWords(ex.sample)+' Wörter';}
   });
+
+  /* scoring */
+  const stripe=div.querySelector('.stripe');
+  const pill=div.querySelector(`#pill${i}`);
+  const sht=div.querySelector(`#sht${i}`);
+  const stn=div.querySelector(`#stn${i}`);
+  const sgb=div.querySelector(`#sgb${i}`);
+
+  function fmtNum(n){return Number.isInteger(n)?String(n):n.toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1});}
+
+  function calcScore(){
+    const checked=div.querySelectorAll('.score-section input[type=radio]:checked');
+    const total4=4; /* 3 IP + K */
+    if(checked.length===0){
+      stn.textContent='–';sgb.textContent='';sgb.className='grade-badge';
+      pill.textContent='– / 10';pill.classList.remove('graded');
+      stripe.className='stripe pending';sht.textContent='– / 10 Punkte';return;
+    }
+    let sum=0;
+    checked.forEach(r=>sum+=parseFloat(r.value));
+    const disp=fmtNum(sum);
+    stn.textContent=disp;
+    pill.textContent=disp+' / 10';
+    pill.classList.add('graded');
+    sht.textContent=disp+' / 10 Punkte';
+    const done=checked.length>=total4;
+    if(done){
+      if(sum>=9){sgb.textContent='Sehr gut';sgb.className='grade-badge grade-a';stripe.className='stripe done';}
+      else if(sum>=7){sgb.textContent='Gut';sgb.className='grade-badge grade-b';stripe.className='stripe done';}
+      else if(sum>=6){sgb.textContent='Ausreichend';sgb.className='grade-badge grade-c';stripe.className='stripe partial';}
+      else{sgb.textContent='Nicht bestanden';sgb.className='grade-badge grade-d';stripe.className='stripe err';}
+    }else{
+      sgb.textContent='';sgb.className='grade-badge';stripe.className='stripe partial';
+    }
+  }
+
+  div.querySelectorAll('.score-section input[type=radio]').forEach(r=>r.addEventListener('change',calcScore));
 
   list.appendChild(div);
 });
