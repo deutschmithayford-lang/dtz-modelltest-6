@@ -31,6 +31,7 @@
       --auto-bg:#EBF4EE;--auto-border:#BDD9C9;
       --fb-ok-bg:rgba(26,87,56,.07);--fb-ok-bd:#BDD9C9;--fb-ok-col:#1A5738;
       --fb-miss-bg:rgba(184,78,24,.06);--fb-miss-bd:#E5C4A8;--fb-miss-col:#8B3A0A;
+      --ai-bd:#B8D4C0;--ai-lob-bg:rgba(26,87,56,.06);--ai-tipp-bg:rgba(26,87,56,.04);
     }
     @media(prefers-color-scheme:dark){:root:not([data-theme=light]){
       --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
@@ -57,6 +58,7 @@
       --auto-bg:#1C271E;--auto-border:#2E4835;
       --fb-ok-bg:rgba(77,170,122,.10);--fb-ok-bd:#2E4835;--fb-ok-col:#4DAA7A;
       --fb-miss-bg:rgba(224,120,64,.08);--fb-miss-bd:#4A3020;--fb-miss-col:#E07840;
+      --ai-bd:#2E4835;--ai-lob-bg:rgba(77,170,122,.08);--ai-tipp-bg:rgba(77,170,122,.04);
     }}
     :root[data-theme=dark]{
       --bg:#131210;--surface:#1D1C19;--border:#2D2B26;
@@ -83,6 +85,7 @@
       --auto-bg:#1C271E;--auto-border:#2E4835;
       --fb-ok-bg:rgba(77,170,122,.10);--fb-ok-bd:#2E4835;--fb-ok-col:#4DAA7A;
       --fb-miss-bg:rgba(224,120,64,.08);--fb-miss-bd:#4A3020;--fb-miss-col:#E07840;
+      --ai-bd:#2E4835;--ai-lob-bg:rgba(77,170,122,.08);--ai-tipp-bg:rgba(77,170,122,.04);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px 80px;}
@@ -91,6 +94,27 @@
     .brand-name{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,5vw,2.8rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em;text-wrap:balance;}
     .brand-name em{font-style:italic;font-weight:300;color:var(--accent);}
     .brand-sub{font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-top:8px;}
+    /* Settings bar */
+    .settings-bar{border:1px solid var(--border);border-radius:9px;overflow:hidden;background:var(--surface);}
+    .settings-toggle{width:100%;display:flex;align-items:center;gap:10px;padding:11px 16px;border:none;background:none;font-family:'DM Sans',system-ui,sans-serif;font-size:.87rem;font-weight:500;color:var(--text);cursor:pointer;text-align:left;}
+    .settings-toggle:hover{background:rgba(26,87,56,.04);}
+    .settings-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+    .settings-icon{font-size:.9rem;flex-shrink:0;}
+    .settings-lbl{flex:1;}
+    .settings-status{font-size:.75rem;padding:3px 9px;border-radius:4px;background:var(--task-bg);color:var(--muted);font-weight:500;white-space:nowrap;}
+    .settings-status.ok{background:var(--fb-ok-bg);color:var(--fb-ok-col);border:1px solid var(--fb-ok-bd);}
+    .settings-chv{font-size:.65rem;color:var(--muted);transition:transform .2s;}
+    .settings-toggle[aria-expanded=true] .settings-chv{transform:rotate(180deg);}
+    .settings-panel{padding:13px 16px 16px;border-top:1px solid var(--border);background:var(--task-bg);}
+    .settings-info{font-size:.81rem;color:var(--muted);line-height:1.55;margin-bottom:12px;}
+    .settings-row{display:flex;gap:8px;}
+    .api-key-input{flex:1;min-width:0;padding:8px 12px;border:1.5px solid var(--ta-border);border-radius:6px;background:var(--ta-bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;font-size:.86rem;}
+    .api-key-input:focus{outline:none;border-color:var(--accent);}
+    .settings-save{padding:8px 16px;border:none;border-radius:6px;background:var(--accent);color:#fff;font-family:'DM Sans',system-ui,sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;flex-shrink:0;}
+    .settings-save:hover{opacity:.88;}
+    .settings-note{font-size:.78rem;margin-top:8px;min-height:1em;color:var(--muted);}
+    .settings-note.ok{color:var(--fb-ok-col);}
+    /* Info box */
     .info-box{border:1px solid var(--info-border);border-radius:9px;overflow:hidden;}
     .info-box-head{background:var(--info-hd);color:#fff;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:9px 16px;}
     .info-box-body{background:var(--info-bg);padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;}
@@ -136,12 +160,12 @@
     .wc-text{font-size:.75rem;font-variant-numeric:tabular-nums;white-space:nowrap;flex-shrink:0;}
     .wc-text.low{color:var(--wc-low);}.wc-text.ok{color:var(--wc-ok);}
     /* Auto-score button */
-    .auto-btn{width:100%;margin-bottom:14px;padding:10px 16px;border:1.5px solid var(--auto-border);border-radius:7px;background:var(--auto-bg);color:var(--accent);font-family:'DM Sans',system-ui,sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px;}
+    .auto-btn{width:100%;margin-bottom:10px;padding:10px 16px;border:1.5px solid var(--auto-border);border-radius:7px;background:var(--auto-bg);color:var(--accent);font-family:'DM Sans',system-ui,sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px;}
     .auto-btn:hover{border-color:var(--accent);background:rgba(26,87,56,.12);}
     .auto-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
     .auto-btn[disabled]{opacity:.45;cursor:not-allowed;}
     /* Feedback items */
-    .auto-feedback{margin-bottom:14px;display:flex;flex-direction:column;gap:5px;}
+    .auto-feedback{margin-bottom:10px;display:flex;flex-direction:column;gap:5px;}
     .fb-item{display:flex;align-items:flex-start;gap:8px;padding:7px 11px;border-radius:6px;font-size:.82rem;line-height:1.4;}
     .fb-ok{background:var(--fb-ok-bg);border:1px solid var(--fb-ok-bd);color:var(--fb-ok-col);}
     .fb-miss{background:var(--fb-miss-bg);border:1px solid var(--fb-miss-bd);color:var(--fb-miss-col);}
@@ -159,11 +183,11 @@
     .up-actions{display:flex;gap:6px;margin-bottom:8px;}
     .btn-sm{padding:5px 12px;border:1px solid var(--border);border-radius:5px;background:none;font-family:'DM Sans',system-ui,sans-serif;font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .12s;}
     .btn-sm:hover{border-color:var(--accent);color:var(--accent);}
-    /* Schicken button */
-    .send-btn{width:100%;margin-bottom:14px;padding:11px 16px;border:none;border-radius:7px;background:var(--accent);color:#fff;font-family:'DM Sans',system-ui,sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+    /* Schicken / Auswerten button */
+    .send-btn{width:100%;margin-bottom:10px;padding:11px 16px;border:none;border-radius:7px;background:var(--accent);color:#fff;font-family:'DM Sans',system-ui,sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
     .send-btn:hover{opacity:.88;}
     .send-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
-    .send-note{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:14px;line-height:1.5;}
+    .send-note{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:10px;line-height:1.5;}
     /* Sample answer */
     .sample-toggle{background:none;border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-size:.82rem;font-family:'DM Sans',system-ui,sans-serif;color:var(--muted);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;}
     .sample-toggle:hover{border-color:var(--accent);color:var(--accent);}
@@ -173,6 +197,26 @@
     .sample-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--muted);margin-bottom:8px;}
     .sample-text{font-size:.88rem;line-height:1.7;white-space:pre-wrap;}
     .sample-wc{font-size:.74rem;color:var(--muted);margin-top:6px;}
+    /* AI result panel */
+    .ai-result{margin-bottom:12px;border:1px solid var(--ai-bd);border-radius:8px;overflow:hidden;background:var(--surface);}
+    .ai-section{padding:11px 14px;border-bottom:1px solid var(--border);}
+    .ai-section:last-child{border-bottom:none;}
+    .ai-section-head{font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+    .ai-box{font-size:.87rem;line-height:1.72;background:var(--ta-bg);border:1px solid var(--ta-border);border-radius:6px;padding:10px 13px;white-space:pre-wrap;font-family:'DM Sans',system-ui,sans-serif;}
+    .ai-box.corrected{border-color:var(--fb-ok-bd);background:var(--fb-ok-bg);}
+    .error-list{display:flex;flex-direction:column;gap:8px;}
+    .error-item{font-size:.84rem;line-height:1.5;padding:8px 11px;background:var(--task-bg);border:1px solid var(--border);border-radius:6px;}
+    .error-orig{color:var(--fb-miss-col);text-decoration:line-through;}
+    .error-arrow{color:var(--muted);margin:0 5px;}
+    .error-fix{color:var(--fb-ok-col);font-weight:600;}
+    .error-explain{font-size:.78rem;color:var(--muted);margin-top:4px;font-style:italic;}
+    .ai-lob{padding:9px 14px;background:var(--ai-lob-bg);font-size:.84rem;color:var(--fb-ok-col);border-top:1px solid var(--fb-ok-bd);}
+    .ai-tipp{padding:9px 14px;background:var(--ai-tipp-bg);font-size:.84rem;border-top:1px solid var(--bullet-border);}
+    .ai-err-box{padding:9px 14px;font-size:.83rem;color:var(--fb-miss-col);}
+    /* Loading spinner */
+    .btn-loading{position:relative;pointer-events:none;opacity:.7;}
+    .btn-loading::after{content:'';position:absolute;right:13px;top:50%;width:13px;height:13px;margin-top:-6.5px;border:2.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .65s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
     /* Scoring */
     .score-section{margin-top:20px;border:1px solid var(--score-border);border-radius:9px;overflow:hidden;background:var(--score-bg);}
     .score-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--score-hd);color:#fff;}
@@ -216,6 +260,24 @@
     <div class="brand-sub">telc A2 · Schreiben Teil 2 · Übungen</div>
   </header>
 
+  <!-- KI-Einstellungen -->
+  <div class="settings-bar">
+    <button class="settings-toggle" id="settings-toggle" aria-expanded="false">
+      <span class="settings-icon">⚙</span>
+      <span class="settings-lbl">KI-Einstellungen (Anthropic API)</span>
+      <span class="settings-status" id="settings-status">kein Schlüssel</span>
+      <span class="settings-chv">▾</span>
+    </button>
+    <div class="settings-panel" id="settings-panel" hidden>
+      <p class="settings-info">Geben Sie Ihren <strong>Anthropic API-Schlüssel</strong> ein, um KI-gestützte Transkription, Fehlerkorrektur und Erklärungen zu aktivieren. Der Schlüssel wird nur lokal in Ihrem Browser gespeichert und niemals weitergegeben.</p>
+      <div class="settings-row">
+        <input type="password" id="api-key-input" class="api-key-input" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
+        <button class="settings-save" id="settings-save">Speichern</button>
+      </div>
+      <p class="settings-note" id="settings-note"></p>
+    </div>
+  </div>
+
   <div class="info-box">
     <div class="info-box-head">Prüfungsformat &amp; Bewertungskriterien</div>
     <div class="info-box-body">
@@ -236,7 +298,140 @@
   </footer>
 </div>
 <script>
-/* eval[j] = keyword list for IP j (≥2 hits → 3 pts, 1 hit → 1.5, 0 hits → 0) */
+/* ── API-Schlüssel (localStorage) ── */
+const LS_KEY='dmh_anthropic_key';
+function getApiKey(){try{return localStorage.getItem(LS_KEY)||'';}catch{return '';}}
+function setApiKey(k){try{if(k)localStorage.setItem(LS_KEY,k);else localStorage.removeItem(LS_KEY);}catch{}}
+
+/* ── Settings-Panel ── */
+(function(){
+  const tog=document.getElementById('settings-toggle');
+  const panel=document.getElementById('settings-panel');
+  const inp=document.getElementById('api-key-input');
+  const saveBtn=document.getElementById('settings-save');
+  const statusEl=document.getElementById('settings-status');
+  const noteEl=document.getElementById('settings-note');
+  function updateStatus(){
+    const k=getApiKey();
+    statusEl.textContent=k?'✓ KI aktiv':'kein Schlüssel';
+    statusEl.className='settings-status'+(k?' ok':'');
+  }
+  tog.addEventListener('click',()=>{
+    const willOpen=panel.hidden;
+    panel.hidden=!willOpen;
+    tog.setAttribute('aria-expanded',String(willOpen));
+    if(willOpen) inp.value=getApiKey()?'••••••••••••••••':'';
+  });
+  saveBtn.addEventListener('click',()=>{
+    const v=inp.value.trim();
+    if(v&&!/^•+$/.test(v)){setApiKey(v);noteEl.textContent='✓ Gespeichert';noteEl.className='settings-note ok';}
+    else if(!v){setApiKey('');noteEl.textContent='Schlüssel entfernt.';noteEl.className='settings-note';}
+    updateStatus();setTimeout(()=>{noteEl.textContent='';},2800);
+  });
+  updateStatus();
+})();
+
+/* ── Claude API-Aufruf ── */
+async function callClaude(messages){
+  const key=getApiKey();
+  if(!key) throw Object.assign(new Error('Kein API-Schlüssel gesetzt. Bitte in den KI-Einstellungen oben eingeben.'),{code:'NO_KEY'});
+  let res;
+  try{
+    res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':key,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1400,messages})
+    });
+  }catch(e){
+    throw new Error('Netzwerkfehler: '+e.message+'. Möglicherweise blockiert die Plattform externe API-Anfragen.');
+  }
+  if(!res.ok){
+    const e=await res.json().catch(()=>({}));
+    throw new Error(e?.error?.message||'Fehler HTTP '+res.status);
+  }
+  const d=await res.json();
+  return d.content?.[0]?.text||'';
+}
+
+/* ── Prompt-Bausteine ── */
+function basePrompt(ex){
+  return `Du bist Deutschlehrer/in für A2-Niveau (telc). Analysiere die Lernerantwort auf Deutsch.
+
+Aufgabe: ${ex.ctx}
+An: ${ex.rcv}
+Schreibpunkte:
+${ex.bullets.map(b=>'- '+b).join('\n')}
+
+Bewertungskriterien:
+- IP 1 (${ex.ips[0]}): 3 / 1,5 / 0 Punkte
+- IP 2 (${ex.ips[1]}): 3 / 1,5 / 0 Punkte
+- IP 3 (${ex.ips[2]}): 3 / 1,5 / 0 Punkte
+- K (Kommunikative Gestaltung – Anrede, Grußformel, Textsorte): 1 / 0,5 / 0 Punkte
+
+Antworte AUSSCHLIESSLICH mit gültigem JSON, kein Markdown, kein Text davor oder danach:
+{"ip1":3,"ip2":1.5,"ip3":0,"k":1,"korrektur":"korrigierter Text mit Zeilenumbrüchen","fehler":[{"orig":"Originaltext","fix":"Korrektur","erkl":"Grammatikalische Erklärung auf Deutsch"}],"lob":"Was gut ist","tipp":"Ein konkreter Hinweis"}`;
+}
+
+function buildTextMsg(ex,text){
+  return [{role:'user',content:`${basePrompt(ex)}\n\nText des Lernenden:\n"""\n${text}\n"""`}];
+}
+
+function buildPhotoMsg(ex,imgData,imgType){
+  return [{role:'user',content:[
+    {type:'image',source:{type:'base64',media_type:imgType,data:imgData}},
+    {type:'text',text:`${basePrompt(ex)}\n\nTranskribiere zuerst den handgeschriebenen Text aus dem Bild vollständig und analysiere ihn dann.\n\nAntworte mit JSON (erweitere das Schema um "transkription"):\n{"transkription":"vollständiger transkribierter Text","ip1":3,"ip2":1.5,"ip3":0,"k":1,"korrektur":"...","fehler":[{"orig":"...","fix":"...","erkl":"..."}],"lob":"...","tipp":"..."}`}
+  ]}];
+}
+
+/* ── Ergebnis rendern ── */
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+
+function renderAI(container,data,hasTranscription){
+  let h='<div class="ai-result">';
+  if(hasTranscription&&data.transkription){
+    h+=`<div class="ai-section"><div class="ai-section-head">📝 Transkription des handgeschriebenen Textes</div><div class="ai-box">${esc(data.transkription)}</div></div>`;
+  }
+  if(data.fehler&&data.fehler.length){
+    h+='<div class="ai-section"><div class="ai-section-head">❌ Fehler &amp; Korrekturen</div><div class="error-list">';
+    data.fehler.forEach(f=>{
+      h+=`<div class="error-item"><span class="error-orig">${esc(f.orig)}</span><span class="error-arrow">→</span><span class="error-fix">${esc(f.fix)}</span><div class="error-explain">${esc(f.erkl)}</div></div>`;
+    });
+    h+='</div></div>';
+  }else{
+    h+='<div class="ai-section" style="font-size:.85rem;color:var(--fb-ok-col);">✓ Keine Fehler gefunden</div>';
+  }
+  if(data.korrektur){
+    h+=`<div class="ai-section"><div class="ai-section-head">✏ Korrigierter Text</div><div class="ai-box corrected">${esc(data.korrektur)}</div></div>`;
+  }
+  if(data.lob) h+=`<div class="ai-lob">👍 ${esc(data.lob)}</div>`;
+  if(data.tipp) h+=`<div class="ai-tipp">💡 Tipp: ${esc(data.tipp)}</div>`;
+  h+='</div>';
+  container.innerHTML=h;
+  container.hidden=false;
+}
+
+function setScores(div,i,ex,data){
+  ex.ips.forEach((_,j)=>{
+    const sc=j===0?data.ip1:j===1?data.ip2:data.ip3;
+    const r=div.querySelector(`input[name="ip${i}_${j}"][value="${String(sc)}"]`);
+    if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
+  });
+  const kr=div.querySelector(`input[name="k${i}"][value="${String(data.k)}"]`);
+  if(kr){kr.checked=true;kr.dispatchEvent(new Event('change',{bubbles:true}));}
+}
+
+function parseAI(raw){
+  const m=raw.match(/\{[\s\S]*\}/);
+  if(!m) throw new Error('Keine gültige JSON-Antwort vom Modell erhalten.');
+  return JSON.parse(m[0]);
+}
+
+/* ── Übungsdaten ── */
 const EX=[
 {n:"S.1",t:"Kurs verpasst – Entschuldigung",
  rcv:"Ihre Kursleiterin / Ihren Kursleiter",
@@ -387,7 +582,6 @@ EX.forEach((ex,i)=>{
   const bullHtml=ex.bullets.map(b=>`<li>${b}</li>`).join('');
   const ipHtml=ex.ips.map((d,j)=>scoreRow(`IP ${j+1}`,d,`ip${i}_${j}`,IP_VALS)).join('');
   const kHtml=scoreRow('K','Kommunikative Gestaltung (Anrede, Grußformel, Textsorte)',`k${i}`,K_VALS,'score-row-k');
-  const hasS12=!ex.sample;
 
   div.innerHTML=`
 <div class="ex-hd" tabindex="0" role="button" aria-expanded="false">
@@ -409,6 +603,7 @@ EX.forEach((ex,i)=>{
     <button class="mode-tab" role="tab" aria-selected="false" data-pane="up${i}">📷 Foto hochladen</button>
   </div>
 
+  <!-- Tippen-Modus -->
   <div id="tp${i}">
     <textarea id="ta${i}" placeholder="Schreiben Sie hier Ihre E-Mail …" rows="8" spellcheck="true" lang="de"></textarea>
     <div class="wc-row">
@@ -416,9 +611,11 @@ EX.forEach((ex,i)=>{
       <span class="wc-text low" id="wct${i}">0 Wörter (mind. ${MIN})</span>
     </div>
     <div class="auto-feedback" id="afb${i}" hidden></div>
+    <div id="air${i}" hidden></div>
     <button class="auto-btn" id="abtn${i}">✦ Automatisch bewerten</button>
   </div>
 
+  <!-- Foto-Modus -->
   <div id="up${i}" hidden>
     <div class="drop-zone" id="dz${i}" tabindex="0" role="button" aria-label="Bild hochladen">
       <input type="file" id="fi${i}" accept="image/*,.pdf" style="position:absolute;opacity:0;width:0;height:0">
@@ -430,8 +627,9 @@ EX.forEach((ex,i)=>{
       <button class="btn-sm" id="uch${i}">Anderes Bild wählen</button>
       <button class="btn-sm" id="urm${i}">✕ Entfernen</button>
     </div>
-    <button class="send-btn" id="sbtn${i}" hidden>▶ Schicken – Bewertungsbogen öffnen</button>
+    <button class="send-btn" id="sbtn${i}" hidden>▶ Schicken</button>
     <p class="send-note" id="snote${i}" hidden>Handgeschriebene Antworten werden manuell bewertet. Nutzen Sie den Bewertungsbogen unten.</p>
+    <div id="airu${i}" hidden></div>
   </div>
 
   ${ex.sample?`<button class="sample-toggle" id="st${i}" style="margin-top:4px">
@@ -493,57 +691,77 @@ EX.forEach((ex,i)=>{
     wct.className='wc-text '+(n>=MIN?'ok':'low');
   });
 
-  /* ── Auto-score (typing mode) ── */
+  /* ── Tippen-Modus: Auswerten ── */
   const aBtn=div.querySelector(`#abtn${i}`);
   const afb=div.querySelector(`#afb${i}`);
+  const airDiv=div.querySelector(`#air${i}`);
 
-  aBtn.addEventListener('click',()=>{
-    const text=ta.value.toLowerCase();
-    if(text.trim().length<10){
+  aBtn.addEventListener('click',async()=>{
+    const text=ta.value.trim();
+    if(text.length<10){
       afb.innerHTML='<div class="fb-item fb-miss"><span class="fb-icon">⚠</span><span>Bitte schreiben Sie zuerst Ihren Text.</span></div>';
-      afb.hidden=false;return;
+      afb.hidden=false;airDiv.hidden=true;return;
     }
 
-    /* K: check Anrede + Grußformel */
-    const hasAnrede=ANREDE.some(w=>text.includes(w));
-    const hasGruss=GRUSS.some(w=>text.includes(w));
-    let kScore=0;
-    if(hasAnrede&&hasGruss) kScore=1;
-    else if(hasAnrede||hasGruss) kScore=0.5;
+    const key=getApiKey();
 
-    /* IP scores */
-    const ipScores=ex.eval.map(kws=>{
-      const hits=kws.filter(w=>text.includes(w.toLowerCase()));
-      return hits.length>=2?3:hits.length===1?1.5:0;
-    });
+    if(key){
+      /* KI-Auswertung */
+      aBtn.classList.add('btn-loading');aBtn.disabled=true;
+      const origLabel=aBtn.textContent;
+      aBtn.textContent='KI bewertet …';
+      afb.hidden=true;airDiv.hidden=true;
+      try{
+        const raw=await callClaude(buildTextMsg(ex,text));
+        const data=parseAI(raw);
+        setScores(div,i,ex,data);
+        renderAI(airDiv,data,false);
+        div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
+      }catch(e){
+        airDiv.innerHTML=`<div class="ai-result"><div class="ai-err-box">⚠ ${esc(e.message)}</div></div>`;
+        airDiv.hidden=false;
+      }finally{
+        aBtn.classList.remove('btn-loading');aBtn.disabled=false;aBtn.textContent=origLabel;
+      }
+    }else{
+      /* Keyword-basierte Schnellbewertung */
+      airDiv.hidden=true;
+      const textL=text.toLowerCase();
+      const hasAnrede=ANREDE.some(w=>textL.includes(w));
+      const hasGruss=GRUSS.some(w=>textL.includes(w));
+      let kScore=0;
+      if(hasAnrede&&hasGruss) kScore=1;
+      else if(hasAnrede||hasGruss) kScore=0.5;
 
-    /* Set radios */
-    ex.ips.forEach((_,j)=>{
-      const r=div.querySelector(`input[name="ip${i}_${j}"][value="${ipScores[j]}"]`);
-      if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
-    });
-    const kr=div.querySelector(`input[name="k${i}"][value="${kScore}"]`);
-    if(kr){kr.checked=true;kr.dispatchEvent(new Event('change',{bubbles:true}));}
+      const ipScores=ex.eval.map(kws=>{
+        const hits=kws.filter(w=>textL.includes(w.toLowerCase()));
+        return hits.length>=2?3:hits.length===1?1.5:0;
+      });
 
-    /* Build feedback */
-    const items=[];
-    ex.ips.forEach((desc,j)=>{
-      const sc=ipScores[j];
-      if(sc===3) items.push(`<div class="fb-item fb-ok"><span class="fb-icon">✓</span><span><strong>IP ${j+1}</strong> – ${desc}: vollständig adressiert (3 Pkt)</span></div>`);
-      else if(sc===1.5) items.push(`<div class="fb-item fb-miss"><span class="fb-icon">△</span><span><strong>IP ${j+1}</strong> – ${desc}: teilweise (1,5 Pkt) – mehr Details empfohlen</span></div>`);
-      else items.push(`<div class="fb-item fb-miss"><span class="fb-icon">✗</span><span><strong>IP ${j+1}</strong> – ${desc}: nicht erkannt (0 Pkt)</span></div>`);
-    });
-    const kLabel=kScore===1?'Anrede und Grußformel vorhanden (1 Pkt)':kScore===0.5?'Nur Anrede oder Grußformel (0,5 Pkt)':'Keine Anrede / Grußformel erkannt (0 Pkt)';
-    const kCls=kScore>0?'fb-ok':'fb-miss';
-    const kIcon=kScore===1?'✓':kScore===0.5?'△':'✗';
-    items.push(`<div class="fb-item ${kCls}"><span class="fb-icon">${kIcon}</span><span><strong>K</strong> – ${kLabel}</span></div>`);
-    items.push(`<p class="fb-note">Automatischer Vorschlag – bitte überprüfen und ggf. anpassen.</p>`);
-    afb.innerHTML=items.join('');
-    afb.hidden=false;
-    div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
+      ex.ips.forEach((_,j)=>{
+        const r=div.querySelector(`input[name="ip${i}_${j}"][value="${ipScores[j]}"]`);
+        if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
+      });
+      const kr=div.querySelector(`input[name="k${i}"][value="${kScore}"]`);
+      if(kr){kr.checked=true;kr.dispatchEvent(new Event('change',{bubbles:true}));}
+
+      const items=[];
+      ex.ips.forEach((desc,j)=>{
+        const sc=ipScores[j];
+        if(sc===3) items.push(`<div class="fb-item fb-ok"><span class="fb-icon">✓</span><span><strong>IP ${j+1}</strong> – ${desc}: vollständig adressiert (3 Pkt)</span></div>`);
+        else if(sc===1.5) items.push(`<div class="fb-item fb-miss"><span class="fb-icon">△</span><span><strong>IP ${j+1}</strong> – ${desc}: teilweise (1,5 Pkt) – mehr Details empfohlen</span></div>`);
+        else items.push(`<div class="fb-item fb-miss"><span class="fb-icon">✗</span><span><strong>IP ${j+1}</strong> – ${desc}: nicht erkannt (0 Pkt)</span></div>`);
+      });
+      const kLabel=kScore===1?'Anrede und Grußformel vorhanden (1 Pkt)':kScore===0.5?'Nur Anrede oder Grußformel (0,5 Pkt)':'Keine Anrede / Grußformel erkannt (0 Pkt)';
+      items.push(`<div class="fb-item ${kScore>0?'fb-ok':'fb-miss'}"><span class="fb-icon">${kScore===1?'✓':kScore===0.5?'△':'✗'}</span><span><strong>K</strong> – ${kLabel}</span></div>`);
+      items.push(`<p class="fb-note">Automatischer Vorschlag (Schlüsselwörter) – für KI-Auswertung API-Schlüssel in den Einstellungen oben eingeben.</p>`);
+      afb.innerHTML=items.join('');
+      afb.hidden=false;
+      div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
   });
 
-  /* ── Upload (photo mode) ── */
+  /* ── Foto-Modus ── */
   const dz=div.querySelector(`#dz${i}`);
   const fi=div.querySelector(`#fi${i}`);
   const uph=div.querySelector(`#uph${i}`);
@@ -554,22 +772,50 @@ EX.forEach((ex,i)=>{
   const urm=div.querySelector(`#urm${i}`);
   const sendBtn=div.querySelector(`#sbtn${i}`);
   const sendNote=div.querySelector(`#snote${i}`);
+  const airuDiv=div.querySelector(`#airu${i}`);
+  let currentImgData=null,currentImgType=null;
+
+  function updateSendBtn(){
+    const hasKey=!!getApiKey();
+    if(hasKey&&currentImgData){
+      sendBtn.textContent='🤖 Mit KI transkribieren &amp; auswerten';
+    }else if(hasKey&&!currentImgData){
+      sendBtn.textContent='▶ Schicken';
+    }else{
+      sendBtn.textContent='▶ Schicken – Bewertungsbogen öffnen';
+    }
+  }
 
   function showFile(file){
     if(!file)return;
+    airuDiv.hidden=true;airuDiv.innerHTML='';
     if(file.type.startsWith('image/')){
       const r=new FileReader();
-      r.onload=e=>{uim.src=e.target.result;uim.hidden=false;ufn.hidden=true;};
+      r.onload=e=>{
+        const dataUrl=e.target.result;
+        const m=dataUrl.match(/^data:(image\/[^;]+);base64,(.+)$/);
+        if(m){currentImgType=m[1];currentImgData=m[2];}
+        uim.src=dataUrl;uim.hidden=false;ufn.hidden=true;
+        updateSendBtn();
+      };
       r.readAsDataURL(file);
-    }else{uim.hidden=true;ufn.textContent='📄 '+file.name;ufn.hidden=false;}
+    }else{
+      currentImgData=null;currentImgType=null;
+      uim.hidden=true;ufn.textContent='📄 '+file.name;ufn.hidden=false;
+      updateSendBtn();
+    }
     uph.hidden=true;uac.hidden=false;dz.classList.add('has-file');
     sendBtn.hidden=false;sendNote.hidden=true;
   }
+
   function clearFile(){
     fi.value='';uim.src='';uim.hidden=true;ufn.hidden=true;
     uph.hidden=false;uac.hidden=true;dz.classList.remove('has-file');
     sendBtn.hidden=true;sendNote.hidden=true;
+    currentImgData=null;currentImgType=null;
+    airuDiv.hidden=true;airuDiv.innerHTML='';
   }
+
   fi.addEventListener('change',e=>showFile(e.target.files[0]));
   dz.addEventListener('click',()=>{if(!dz.classList.contains('has-file'))fi.click();});
   dz.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!dz.classList.contains('has-file')){e.preventDefault();fi.click();}});
@@ -579,16 +825,37 @@ EX.forEach((ex,i)=>{
   uch.addEventListener('click',e=>{e.stopPropagation();fi.click();});
   urm.addEventListener('click',e=>{e.stopPropagation();clearFile();});
 
-  sendBtn.addEventListener('click',()=>{
-    sendNote.hidden=false;
-    const sc=div.querySelector(`#sc${i}`);
-    sc.scrollIntoView({behavior:'smooth',block:'start'});
-    sc.style.outline='2px solid var(--accent)';
-    sc.style.borderRadius='9px';
-    setTimeout(()=>{sc.style.outline='';},1800);
+  sendBtn.addEventListener('click',async()=>{
+    const key=getApiKey();
+    if(key&&currentImgData){
+      /* KI-Transkription + Bewertung */
+      sendBtn.classList.add('btn-loading');sendBtn.disabled=true;
+      airuDiv.hidden=true;sendNote.hidden=true;
+      try{
+        const raw=await callClaude(buildPhotoMsg(ex,currentImgData,currentImgType));
+        const data=parseAI(raw);
+        setScores(div,i,ex,data);
+        renderAI(airuDiv,data,true);
+        airuDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
+        div.querySelector(`#sc${i}`).scrollIntoView({behavior:'smooth',block:'nearest'});
+      }catch(e){
+        airuDiv.innerHTML=`<div class="ai-result"><div class="ai-err-box">⚠ ${esc(e.message)}</div></div>`;
+        airuDiv.hidden=false;
+      }finally{
+        sendBtn.classList.remove('btn-loading');sendBtn.disabled=false;
+      }
+    }else{
+      /* Manuell: Bewertungsbogen anzeigen */
+      sendNote.hidden=false;
+      const sc=div.querySelector(`#sc${i}`);
+      sc.scrollIntoView({behavior:'smooth',block:'start'});
+      sc.style.outline='2px solid var(--accent)';
+      sc.style.borderRadius='9px';
+      setTimeout(()=>{sc.style.outline='';},1800);
+    }
   });
 
-  /* ── Sample answer (only if ex.sample exists) ── */
+  /* Musterantwort */
   if(ex.sample){
     const stBtn=div.querySelector(`#st${i}`);
     const sBox=div.querySelector(`#sb${i}`);
@@ -604,7 +871,7 @@ EX.forEach((ex,i)=>{
     });
   }
 
-  /* ── Scoring calc ── */
+  /* Punkte-Berechnung */
   const stripe=div.querySelector('.stripe');
   const pill=div.querySelector(`#pill${i}`);
   const sht=div.querySelector(`#sht${i}`);
