@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A1 Lesen – Übungstest | Deutsch mit Hayford</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* === TOKENS === */
+:root {
+  --accent:     #1A5738;
+  --accent-lt:  #2E7D52;
+  --accent-dim: rgba(26,87,56,.1);
+  --bg:         #F7F5F0;
+  --surface:    #FFFFFF;
+  --surface2:   #F0EDE7;
+  --text:       #1C1C1A;
+  --muted:      #6B6762;
+  --border:     #D5D0C8;
+  --correct:    #1B5E30;
+  --cor-bg:     #EBF5EB;
+  --cor-bd:     #A5D6A7;
+  --wrong:      #B71C1C;
+  --wr-bg:      #FFEBEE;
+  --wr-bd:      #FFCDD2;
+  --shadow:     0 1px 4px rgba(0,0,0,.07);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:         #141412;
+    --surface:    #1E1E1B;
+    --surface2:   #252522;
+    --text:       #EDEDE9;
+    --muted:      #9E9A93;
+    --border:     #353530;
+    --accent-dim: rgba(46,125,82,.15);
+    --cor-bg:     #1A2E1A;
+    --cor-bd:     #3A6B3A;
+    --wr-bg:      #2E1A1A;
+    --wr-bd:      #6B3A3A;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:         #141412;
+  --surface:    #1E1E1B;
+  --surface2:   #252522;
+  --text:       #EDEDE9;
+  --muted:      #9E9A93;
+  --border:     #353530;
+  --accent-dim: rgba(46,125,82,.15);
+  --cor-bg:     #1A2E1A;
+  --cor-bd:     #3A6B3A;
+  --wr-bg:      #2E1A1A;
+  --wr-bd:      #6B3A3A;
+}
+
+/* === RESET === */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+h1,h2,h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+/* === HEADER === */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-mark {
+  width: 34px; height: 34px;
+  background: var(--accent);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-mark svg { width: 16px; height: 16px; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; fill: none; }
+.logo-name { font-family: 'Fraunces', Georgia, serif; font-size: .95rem; font-weight: 700; color: var(--text); display: block; line-height: 1.2; }
+.logo-sub  { font-size: .7rem; color: var(--muted); }
+.header-tag {
+  margin-left: auto;
+  font-size: .72rem; font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 3px 9px; border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* === PAGE === */
+.page { max-width: 720px; margin: 0 auto; padding: 24px 16px 72px; }
+
+/* === EXAM HEAD === */
+.kicker {
+  font-size: .74rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 6px;
+}
+.exam-title { font-size: 1.9rem; margin-bottom: 8px; }
+.exam-meta  { font-size: .84rem; color: var(--muted); line-height: 1.5; margin-bottom: 24px; }
+
+/* === SCORE BAR === */
+.score-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  box-shadow: var(--shadow);
+}
+.score-num {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.7rem; font-weight: 700;
+  color: var(--accent); line-height: 1;
+}
+.score-denom { font-size: .82rem; color: var(--muted); margin-top: 2px; }
+.chips { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; }
+.chip {
+  font-size: .74rem; font-weight: 600;
+  padding: 4px 9px; border-radius: 20px;
+  background: var(--surface2); color: var(--muted);
+  border: 1px solid var(--border);
+  transition: background .2s, color .2s, border-color .2s;
+}
+.chip.done { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+
+/* === TEIL SECTION === */
+.teil {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+}
+.teil-badge {
+  display: inline-block;
+  font-size: .7rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-dim);
+  padding: 3px 9px; border-radius: 20px; margin-bottom: 8px;
+}
+.teil-title { font-size: 1.1rem; margin-bottom: 5px; }
+.teil-instr { font-size: .84rem; color: var(--muted); line-height: 1.5; }
+
+/* === PASSAGE === */
+.passage {
+  margin: 14px 0 18px;
+  background: var(--surface2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 14px;
+  font-size: .88rem; line-height: 1.7;
+}
+.passage-cap {
+  font-size: .7rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 7px;
+}
+.passage-body { white-space: pre-line; }
+
+/* === EXERCISE LIST === */
+.ex-list { display: flex; flex-direction: column; gap: 12px; }
+
+/* === EXERCISE ITEM === */
+.ex-item {
+  border: 1.5px solid var(--border);
+  border-radius: 9px; overflow: hidden;
+  transition: border-color .2s;
+}
+.ex-item.answered.correct { border-color: var(--cor-bd); }
+.ex-item.answered.wrong   { border-color: var(--wr-bd);  }
+
+.ex-body { padding: 10px 12px 8px; }
+.ex-num {
+  font-size: .68rem; font-weight: 700;
+  color: var(--muted); letter-spacing: .05em; text-transform: uppercase;
+  display: block; margin-bottom: 6px;
+}
+.ex-sign {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: .84rem; line-height: 1.55; font-weight: 500;
+  margin-bottom: 8px;
+}
+.ex-stmt { font-size: .9rem; line-height: 1.4; }
+.ex-q    { font-size: .9rem; font-weight: 500; line-height: 1.4; margin-bottom: 2px; }
+
+/* === R/F BUTTONS === */
+.rf-row { display: flex; gap: 8px; padding: 0 12px 12px; }
+.rf-btn {
+  flex: 1; padding: 10px 6px;
+  border: 2px solid var(--border); border-radius: 7px;
+  background: var(--surface); color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 600;
+  cursor: pointer;
+  transition: border-color .15s, background .15s, color .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.rf-btn:hover    { border-color: var(--accent); background: var(--accent-dim); }
+.rf-btn.selected { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); }
+.rf-btn.correct  { border-color: var(--cor-bd); background: var(--cor-bg); color: var(--correct); }
+.rf-btn.wrong    { border-color: var(--wr-bd);  background: var(--wr-bg);  color: var(--wrong);   }
+.rf-btn:disabled { cursor: default; }
+
+/* === MC BUTTONS === */
+.mc-opts { display: flex; flex-direction: column; gap: 6px; padding: 6px 12px 12px; }
+.mc-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 10px;
+  border: 2px solid var(--border); border-radius: 7px;
+  background: var(--surface); color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 500;
+  cursor: pointer; text-align: left;
+  transition: border-color .15s, background .15s, color .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.mc-btn:hover    { border-color: var(--accent); background: var(--accent-dim); }
+.mc-btn.selected { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); }
+.mc-btn.correct  { border-color: var(--cor-bd); background: var(--cor-bg); color: var(--correct); }
+.mc-btn.wrong    { border-color: var(--wr-bd);  background: var(--wr-bg);  color: var(--wrong);   }
+.mc-btn:disabled { cursor: default; }
+.mc-letter {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700; flex-shrink: 0;
+  transition: background .15s, color .15s;
+}
+.mc-btn.selected .mc-letter { background: var(--accent); color: #fff; }
+.mc-btn.correct  .mc-letter { background: var(--correct); color: #fff; }
+.mc-btn.wrong    .mc-letter { background: var(--wrong);   color: #fff; }
+
+/* === FEEDBACK LINE === */
+.ex-fb { padding: 4px 12px 10px; font-size: .8rem; font-weight: 600; display: none; }
+.ex-item.answered .ex-fb           { display: block; }
+.ex-item.answered.correct .ex-fb   { color: var(--correct); }
+.ex-item.answered.wrong   .ex-fb   { color: var(--wrong); }
+
+/* === AUSWERTEN ROW === */
+.arow { display: flex; justify-content: flex-end; margin-top: 16px; }
+.btn-auswerten {
+  padding: 9px 20px;
+  border: none; border-radius: 7px;
+  background: var(--accent); color: #fff;
+  font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 600;
+  cursor: pointer; transition: opacity .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-auswerten:hover    { opacity: .87; }
+.btn-auswerten:disabled { opacity: .5; cursor: default; }
+.teil-result {
+  margin-top: 10px;
+  font-size: .84rem; font-weight: 600;
+  color: var(--accent); text-align: right;
+}
+
+/* === FINAL CARD === */
+.final-card {
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.final-lbl  { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 600; margin-bottom: 4px; }
+.final-num  { font-family: 'Fraunces', Georgia, serif; font-size: 3.2rem; font-weight: 700; color: var(--accent); line-height: 1; }
+.final-den  { font-size: 1rem; color: var(--muted); margin-bottom: 14px; }
+.final-bar  { width: 100%; max-width: 320px; margin: 0 auto 14px; height: 10px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+.final-fill { height: 100%; background: var(--accent); border-radius: 5px; width: 0; transition: width 1s ease; }
+.final-breakdown { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.fb-chip {
+  font-size: .76rem; font-weight: 600;
+  padding: 4px 10px; border-radius: 20px;
+  background: var(--accent-dim); color: var(--accent);
+  border: 1px solid var(--accent);
+}
+.final-msg  { font-size: .95rem; line-height: 1.5; margin-bottom: 20px; }
+.final-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.btn-retry {
+  padding: 9px 20px;
+  border: 2px solid var(--accent); border-radius: 7px;
+  background: transparent; color: var(--accent);
+  font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 600;
+  cursor: pointer; transition: background .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-retry:hover { background: var(--accent-dim); }
+.btn-gemini {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px;
+  border: none; border-radius: 7px;
+  background: #1565C0; color: #fff;
+  font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 600;
+  text-decoration: none; cursor: pointer;
+  transition: opacity .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-gemini:hover { opacity: .88; }
+
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+  .exam-title { font-size: 1.55rem; }
+  .rf-btn, .mc-btn { font-size: .83rem; }
+}
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-mark">
+    <svg viewBox="0 0 18 18"><path d="M3 9h12M9 3v12"/></svg>
+  </div>
+  <div>
+    <span class="logo-name">Deutsch mit Hayford</span>
+    <span class="logo-sub">Prüfungsvorbereitung</span>
+  </div>
+  <span class="header-tag">A1 Lesen</span>
+</header>
+
+<main class="page">
+
+  <div class="kicker">DTZ / telc A1</div>
+  <h1 class="exam-title">Lesen – Übungstest</h1>
+  <p class="exam-meta">4 Aufgaben &bull; 20 Fragen &bull; max. 20 Punkte<br>
+  Lesen Sie die Texte und beantworten Sie die Fragen.</p>
+
+  <!-- SCORE BAR -->
+  <div class="score-bar">
+    <div>
+      <div class="score-num" id="totalScore">0</div>
+      <div class="score-denom">von 20 Punkten</div>
+    </div>
+    <div class="chips">
+      <div class="chip" id="chip1">Teil 1</div>
+      <div class="chip" id="chip2">Teil 2</div>
+      <div class="chip" id="chip3">Teil 3</div>
+      <div class="chip" id="chip4">Teil 4</div>
+    </div>
+  </div>
+
+  <!-- TEIL 1 -->
+  <section class="teil">
+    <div class="teil-badge">Teil 1</div>
+    <h2 class="teil-title">Schilder und Aushänge</h2>
+    <p class="teil-instr">Lesen Sie die Schilder. Sind die Aussagen richtig oder falsch?</p>
+    <div class="ex-list" id="el1"></div>
+    <div class="arow"><button class="btn-auswerten" id="ab1">Auswerten</button></div>
+    <div class="teil-result" id="tr1" hidden></div>
+  </section>
+
+  <!-- TEIL 2 -->
+  <section class="teil">
+    <div class="teil-badge">Teil 2</div>
+    <h2 class="teil-title">Einen Text lesen</h2>
+    <p class="teil-instr">Lesen Sie den Text. Sind die Aussagen richtig oder falsch?</p>
+    <div class="passage">
+      <div class="passage-cap" id="pc2"></div>
+      <div class="passage-body" id="pb2"></div>
+    </div>
+    <div class="ex-list" id="el2"></div>
+    <div class="arow"><button class="btn-auswerten" id="ab2">Auswerten</button></div>
+    <div class="teil-result" id="tr2" hidden></div>
+  </section>
+
+  <!-- TEIL 3 -->
+  <section class="teil">
+    <div class="teil-badge">Teil 3</div>
+    <h2 class="teil-title">Eine Anzeige lesen</h2>
+    <p class="teil-instr">Lesen Sie die Anzeige und wählen Sie die richtige Antwort (a, b oder c).</p>
+    <div class="passage">
+      <div class="passage-cap" id="pc3"></div>
+      <div class="passage-body" id="pb3"></div>
+    </div>
+    <div class="ex-list" id="el3"></div>
+    <div class="arow"><button class="btn-auswerten" id="ab3">Auswerten</button></div>
+    <div class="teil-result" id="tr3" hidden></div>
+  </section>
+
+  <!-- TEIL 4 -->
+  <section class="teil">
+    <div class="teil-badge">Teil 4</div>
+    <h2 class="teil-title">Eine Geschichte lesen</h2>
+    <p class="teil-instr">Lesen Sie den Text und wählen Sie die richtige Antwort (a, b oder c).</p>
+    <div class="passage">
+      <div class="passage-cap" id="pc4"></div>
+      <div class="passage-body" id="pb4"></div>
+    </div>
+    <div class="ex-list" id="el4"></div>
+    <div class="arow"><button class="btn-auswerten" id="ab4">Auswerten</button></div>
+    <div class="teil-result" id="tr4" hidden></div>
+  </section>
+
+  <!-- FINAL -->
+  <div class="final-card" id="finalCard" hidden>
+    <div class="final-lbl">Gesamtergebnis</div>
+    <div class="final-num" id="fn">–</div>
+    <div class="final-den">von 20 Punkten</div>
+    <div class="final-bar"><div class="final-fill" id="ff"></div></div>
+    <div class="final-breakdown" id="fbd"></div>
+    <p class="final-msg" id="fm"></p>
+    <div class="final-btns">
+      <button class="btn-retry" onclick="location.reload()">↺ Neu starten</button>
+      <a class="btn-gemini" id="geminiLink" href="#" target="_blank" rel="noopener">🔗 Mit Gemini besprechen</a>
+    </div>
+  </div>
+
+</main>
+
+<script>
+/* ============================================================
+   EXAM DATA
+   ============================================================ */
+
+const TEILE = [
+
+  // TEIL 1 – Schilder (Richtig / Falsch)
+  {
+    type: 'rf',
+    items: [
+      {
+        sign: 'Kino Metropolis\nMontag: Ruhetag\nDi – So: 14:00 – 23:00 Uhr\nKinder unter 6 Jahren: Eintritt frei',
+        stmt: 'Das Kino ist am Montag geöffnet.',
+        ans: 'F'
+      },
+      {
+        sign: 'Schwimmbad Aqua Fun\nTäglich 8:00 – 20:00 Uhr\nKinder bis 12 Jahre: 3 €\nErwachsene: 6 €',
+        stmt: 'Das Schwimmbad ist am Wochenende geschlossen.',
+        ans: 'F'
+      },
+      {
+        sign: 'Café Sonnenschein\nHeute: Kaffee & Kuchen 4 €\nAchtung: Kein WLAN',
+        stmt: 'Im Café gibt es heute kein WLAN.',
+        ans: 'R'
+      },
+      {
+        sign: 'Zoo Berlin\nTäglich 9:00 – 18:00 Uhr\nHunde bitte draußen lassen!',
+        stmt: 'Man darf Hunde in den Zoo mitnehmen.',
+        ans: 'F'
+      },
+      {
+        sign: 'Restaurant Zur Sonne\nMittagsmenü: 12:00 – 14:30 Uhr\nTischreservierung: 0221 – 456 789',
+        stmt: 'Man kann einen Tisch telefonisch reservieren.',
+        ans: 'R'
+      }
+    ]
+  },
+
+  // TEIL 2 – Kurztext (Richtig / Falsch)
+  {
+    type: 'rf',
+    passageTitle: 'Warnung vor Unwetter!',
+    passage: 'Heute Abend gibt es in der Region starken Wind und Regen. Die Temperaturen fallen auf etwa 5 Grad Celsius. Bitte bleiben Sie zu Hause und fahren Sie nicht mit dem Auto. Die Straßen sind sehr gefährlich. Morgen wird das Wetter wieder besser.',
+    items: [
+      { stmt: 'Heute Abend ist das Wetter schlecht.',   ans: 'R' },
+      { stmt: 'Die Temperaturen steigen heute.',         ans: 'F' },
+      { stmt: 'Man soll heute zu Hause bleiben.',        ans: 'R' },
+      { stmt: 'Das Autofahren ist heute sicher.',        ans: 'F' },
+      { stmt: 'Morgen wird das Wetter besser.',          ans: 'R' }
+    ]
+  },
+
+  // TEIL 3 – Anzeige (Multiple Choice)
+  {
+    type: 'mc',
+    passageTitle: 'Einladung zum Schulfest!',
+    passage: `📅  Samstag, 15. Juni
+⏰  14:00 – 19:00 Uhr
+📍  Schulhof der Grundschule Mitte
+
+Programm:
+• Musik und Tanz
+• Spiele für alle
+• Essen und Trinken
+
+Für Kinder:
+• Bastelkurs (ab 14:30 Uhr)
+• Clown-Show um 15:00 Uhr
+
+💶  Eintritt: frei – Alle herzlich willkommen!`,
+    items: [
+      { q: 'Wann ist das Schulfest?',          opts: ['Am Freitag',   'Am Samstag',          'Am Sonntag'],           ans: 1 },
+      { q: 'Was kostet der Eintritt?',          opts: ['5 Euro',       '10 Euro',              'Nichts'],              ans: 2 },
+      { q: 'Wann beginnt die Clown-Show?',      opts: ['Um 14:00 Uhr', 'Um 15:00 Uhr',        'Um 19:00 Uhr'],        ans: 1 },
+      { q: 'Wo findet das Fest statt?',         opts: ['Im Park',      'Im Schulhof',          'Im Sportplatz'],       ans: 1 },
+      { q: 'Was gibt es für Kinder?',           opts: ['Einen Kinofilm','Schwimmen',            'Einen Bastelkurs'],   ans: 2 }
+    ]
+  },
+
+  // TEIL 4 – Geschichte (Multiple Choice)
+  {
+    type: 'mc',
+    passageTitle: 'Auf den Fahrplan achten',
+    passage: `Maria möchte ihre Freundin in Hamburg besuchen. Sie wohnt in München. Der Zug fährt um 8:30 Uhr ab. Aber Maria kommt um 8:45 Uhr am Bahnhof an – zu spät! Der Zug ist schon weg.
+
+Sie muss auf den nächsten Zug warten. Der nächste Zug fährt um 11:00 Uhr. Maria ruft ihre Freundin an und erklärt die Situation. Ihre Freundin sagt: „Kein Problem, ich warte auf dich!"
+
+Maria kauft sich ein Buch und einen Kaffee. Um 11:00 Uhr fährt der Zug ab. Maria freut sich sehr auf Hamburg und auf ihre Freundin.`,
+    items: [
+      { q: 'Wohin möchte Maria fahren?',              opts: ['Nach Berlin',             'Nach Hamburg',             'Nach Köln'],              ans: 1 },
+      { q: 'Wann kommt Maria am Bahnhof an?',         opts: ['Um 8:30 Uhr',             'Um 8:45 Uhr',              'Um 11:00 Uhr'],           ans: 1 },
+      { q: 'Warum verpasst Maria den Zug?',           opts: ['Der Zug hatte Verspätung', 'Der Bahnhof war zu',       'Sie kommt zu spät'],      ans: 2 },
+      { q: 'Wie reagiert Marias Freundin?',           opts: ['Sie ist böse',             'Sie ist verständnisvoll',  'Sie weint'],              ans: 1 },
+      { q: 'Was macht Maria während der Wartezeit?',  opts: ['Sie schläft',              'Sie kauft ein Buch & Kaffee','Sie geht spazieren'],   ans: 1 }
+    ]
+  }
+
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+
+const tScores = [null, null, null, null];
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+
+function renderRF(item, idx, listId) {
+  const id = listId + '_' + idx;
+  const signHtml = item.sign
+    ? '<div class="ex-sign">' + item.sign.replace(/\n/g, '<br>') + '</div>'
+    : '';
+  const div = document.createElement('div');
+  div.className = 'ex-item';
+  div.id = 'ei_' + id;
+  div.innerHTML =
+    '<div class="ex-body">' +
+      '<span class="ex-num">Aufgabe ' + (idx + 1) + '</span>' +
+      signHtml +
+      '<div class="ex-stmt">' + item.stmt + '</div>' +
+    '</div>' +
+    '<div class="rf-row">' +
+      '<button class="rf-btn" data-val="R">Richtig</button>' +
+      '<button class="rf-btn" data-val="F">Falsch</button>' +
+    '</div>' +
+    '<div class="ex-fb" id="fb_' + id + '"></div>';
+
+  div.querySelectorAll('.rf-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (div.classList.contains('answered')) return;
+      div.querySelectorAll('.rf-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+  return div;
+}
+
+function renderMC(item, idx, listId) {
+  const id = listId + '_' + idx;
+  const letters = ['a', 'b', 'c'];
+  const optsHtml = item.opts.map((o, j) =>
+    '<button class="mc-btn" data-val="' + j + '">' +
+      '<span class="mc-letter">' + letters[j] + '</span>' +
+      '<span>' + o + '</span>' +
+    '</button>'
+  ).join('');
+  const div = document.createElement('div');
+  div.className = 'ex-item';
+  div.id = 'ei_' + id;
+  div.innerHTML =
+    '<div class="ex-body">' +
+      '<span class="ex-num">Aufgabe ' + (idx + 1) + '</span>' +
+      '<div class="ex-q">' + item.q + '</div>' +
+    '</div>' +
+    '<div class="mc-opts">' + optsHtml + '</div>' +
+    '<div class="ex-fb" id="fb_' + id + '"></div>';
+
+  div.querySelectorAll('.mc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (div.classList.contains('answered')) return;
+      div.querySelectorAll('.mc-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+  return div;
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+
+function initTeil(tIdx) {
+  const t = TEILE[tIdx];
+  const n = tIdx + 1;
+  const listEl = document.getElementById('el' + n);
+
+  if (t.passageTitle) {
+    document.getElementById('pc' + n).textContent = t.passageTitle;
+    document.getElementById('pb' + n).textContent = t.passage;
+  }
+
+  t.items.forEach((item, idx) => {
+    listEl.appendChild(
+      t.type === 'rf' ? renderRF(item, idx, 'el' + n) : renderMC(item, idx, 'el' + n)
+    );
+  });
+
+  document.getElementById('ab' + n).addEventListener('click', () => evaluate(tIdx));
+}
+
+/* ============================================================
+   EVALUATE
+   ============================================================ */
+
+function evaluate(tIdx) {
+  const t = TEILE[tIdx];
+  const n = tIdx + 1;
+  let correct = 0;
+
+  t.items.forEach((item, idx) => {
+    const id = 'el' + n + '_' + idx;
+    const div = document.getElementById('ei_' + id);
+    const fb  = document.getElementById('fb_' + id);
+    div.classList.add('answered');
+
+    if (t.type === 'rf') {
+      const sel    = div.querySelector('.rf-btn.selected');
+      const chosen = sel ? sel.getAttribute('data-val') : null;
+      const ok     = chosen === item.ans;
+      if (ok) correct++;
+
+      div.querySelectorAll('.rf-btn').forEach(btn => {
+        btn.disabled = true;
+        if (btn.getAttribute('data-val') === item.ans) btn.classList.add('correct');
+        else if (btn.classList.contains('selected'))   btn.classList.add('wrong');
+      });
+
+      div.classList.add(ok ? 'correct' : 'wrong');
+      fb.textContent = ok
+        ? '✓ Richtig!'
+        : (chosen ? '✗ Falsch.' : 'Keine Antwort.') +
+          ' Richtige Antwort: ' + (item.ans === 'R' ? 'Richtig' : 'Falsch');
+
+    } else {
+      const sel    = div.querySelector('.mc-btn.selected');
+      const chosen = sel ? parseInt(sel.getAttribute('data-val')) : null;
+      const ok     = chosen === item.ans;
+      if (ok) correct++;
+
+      const letters = ['a', 'b', 'c'];
+      div.querySelectorAll('.mc-btn').forEach(btn => {
+        btn.disabled = true;
+        const v = parseInt(btn.getAttribute('data-val'));
+        if (v === item.ans)                           btn.classList.add('correct');
+        else if (btn.classList.contains('selected'))  btn.classList.add('wrong');
+      });
+
+      div.classList.add(ok ? 'correct' : 'wrong');
+      fb.textContent = ok
+        ? '✓ Richtig!'
+        : (chosen !== null ? '✗ Falsch.' : 'Keine Antwort.') +
+          ' Richtige Antwort: ' + letters[item.ans] + ' – ' + item.opts[item.ans];
+    }
+  });
+
+  tScores[tIdx] = correct;
+
+  const chip = document.getElementById('chip' + n);
+  chip.textContent = 'Teil ' + n + ': ' + correct + '/5';
+  chip.classList.add('done');
+
+  const total = tScores.reduce((s, v) => s + (v ?? 0), 0);
+  document.getElementById('totalScore').textContent = total;
+
+  const tr = document.getElementById('tr' + n);
+  tr.textContent = 'Teil ' + n + ': ' + correct + ' von 5 Punkten';
+  tr.hidden = false;
+
+  const ab = document.getElementById('ab' + n);
+  ab.disabled = true;
+  ab.textContent = 'Ausgewertet ✓';
+
+  if (tScores.every(s => s !== null)) showFinal();
+}
+
+/* ============================================================
+   FINAL
+   ============================================================ */
+
+function showFinal() {
+  const total = tScores.reduce((a, b) => a + b, 0);
+  const pct   = total / 20;
+
+  document.getElementById('fn').textContent      = total;
+  document.getElementById('ff').style.width      = Math.round(pct * 100) + '%';
+
+  const levels = [
+    [.9, 'Ausgezeichnet! Du bist bestens für die A1-Prüfung vorbereitet. '],
+    [.7, 'Gut gemacht! Noch ein paar Übungen und du bist voll startklar. '],
+    [.5, 'Auf dem richtigen Weg – übe weiter, du schaffst das!'],
+    [0,  'Nicht aufgeben! Mit regelmäßigem Üben wird es immer besser.']
+  ];
+  document.getElementById('fm').textContent = (levels.find(([t]) => pct >= t) || levels[levels.length - 1])[1];
+
+  const fbd    = document.getElementById('fbd');
+  const labels = ['Schilder', 'Kurztext', 'Anzeige', 'Geschichte'];
+  tScores.forEach((s, i) => {
+    const c = document.createElement('span');
+    c.className = 'fb-chip';
+    c.textContent = labels[i] + ': ' + s + '/5';
+    fbd.appendChild(c);
+  });
+
+  const summary =
+    'Ich habe den A1 Lesen Übungstest gemacht und ' + total + ' von 20 Punkten erreicht.\n\n' +
+    'Ergebnisse:\n' +
+    '- Teil 1 (Schilder lesen – Richtig/Falsch): ' + tScores[0] + '/5\n' +
+    '- Teil 2 (Kurztext – Richtig/Falsch): ' + tScores[1] + '/5\n' +
+    '- Teil 3 (Anzeige – Multiple Choice): ' + tScores[2] + '/5\n' +
+    '- Teil 4 (Geschichte – Multiple Choice): ' + tScores[3] + '/5\n\n' +
+    'Bitte erkläre mir, wie ich meine Leseverständnis-Fähigkeiten für die A1-Prüfung (DTZ/telc) verbessern kann, und gib mir konkrete Tipps für jede Aufgabenart.';
+  document.getElementById('geminiLink').href =
+    'https://gemini.google.com/app?q=' + encodeURIComponent(summary);
+
+  const card = document.getElementById('finalCard');
+  card.hidden = false;
+  setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+
+[0, 1, 2, 3].forEach(initTeil);
+</script>
+</body>
+</html>
